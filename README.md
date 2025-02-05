@@ -1,11 +1,7 @@
 # IT342-G3-WhiskerWatch 
 
-# Team Members :
-#                Anthony Decena
-#                Tyrone Beldad
-#                Rhandulf Saceda
-# Course:       
-#                BSIT-3- G3
+# Team Member 1: Anthony Decena
+# Course:        BSIT-3- G3
 #       
 #                I'm Anthony Decena, I live in Verano II Banawa Cebu City. 
 #                I'm 21 years old and my favorite animal is dog. My hobbies 
