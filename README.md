@@ -4,8 +4,15 @@ WhiskerWatch
 
 The Pet Adoption & Care Management System is a comprehensive platform designed to facilitate pet adoption and streamline pet care for owners. It connects potential adopters with animal shelters and pet owners while also providing essential tools to manage a pet’s health and well-being.
 
-
-
+# List of Features: 
+(Web)
+1. Pet Listing and Search Functionality
+2. Adoption Request & Application Management
+3. Admin Dashboard for Pet & User Management
+(Mobile)
+1. Mobile-Friendly Pet Browsing & Favorites List
+2. Push Notifications & Application Updates
+3. Lost & Found Pet Alerts
 
 LINKS:
 
