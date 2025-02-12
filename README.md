@@ -8,8 +8,10 @@
 #                
 #                I'm Rhandulf Saceda, I live in Minglanilla, cebu 
 #                21 years of age, my Hobbies are going to places where i can find peace.
+#                I love taking long rides and spend time with my love ones.
 #                my goal in life is very simple, all i want in life is to be able provide financially for my family
 #                my motto in life is "Don't stop until you are proud."
+#                
 
 
 
