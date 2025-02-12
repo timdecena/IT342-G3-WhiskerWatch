@@ -27,6 +27,24 @@
 #                be the noise.
 
 
+# IT342-G5-WhiskerWatch 
+
+# Team Member 2: Tyrone Beldad
+# Course:        BSIT-3- G5
+#       
+#                My name is Tyrone Beldad. I live in Mambaling, Cebu City.
+#                I am 21 years old. I study IT because I am passionate about this program.
+#                On my free time, I love to enjoy a cup of coffee and watch films.
+#                I also love cooking.
+
+#                My dream is to travel the world and find work that I 
+#                love doing. My motto in life is "If you want to win
+#                the lottery, you have to earn the money to buy a 
+#                ticket."
+
+
+
+
 # IT342-G3-WhiskerWatch
 
 WhiskerWatch
