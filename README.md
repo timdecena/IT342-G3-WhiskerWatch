@@ -1,7 +1,8 @@
 
+
 # IT342-G3-WhiskerWatch 
 
-# Team Member 3: Rhandulf Saceda
+# Team Member 1: Rhandulf Saceda
 # Course:        BSIT-3- G3
 #       
 #                
@@ -11,7 +12,7 @@
 
 # IT342-G3-WhiskerWatch 
 
-# Team Member 1: Anthony Decena
+# Team Member 2: Anthony Decena
 # Course:        BSIT-3- G3
 #       
 #                I LOVE BEBETIME
@@ -36,4 +37,13 @@ The Pet Adoption & Care Management System is a comprehensive platform designed t
 LINKS:
 
 Figma: https://www.figma.com/design/xPrRAHw5Ak9CxizdTy4Uq4/WhiskerWatch_UI
+
+
+IT342-G3-WhiskerWatch
+Team Member 3: Tyrone Clint P. Beldad
+Course: BSIT-3- G3
+
+My name is Tyrone. I live around Mambaling, Cebu City.
+I am 21 years old. I love watching films and enjoying a cup of coffee on my free time.
+My motto in life is "You have to make the money to buy the lottery ticket."
 
