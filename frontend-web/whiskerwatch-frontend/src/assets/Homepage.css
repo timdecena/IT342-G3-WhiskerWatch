@@ -1,0 +1,16 @@
+/* Homepage.css */
+.homepage-container {
+    composes: container;
+  }
+  
+  .homepage-container h1 {
+    color: #333;
+  }
+  
+  .homepage-container button {
+    background-color: #dc3545;
+  }
+  
+  .homepage-container button:hover {
+    background-color: #a71d2a;
+  }

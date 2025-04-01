@@ -1,0 +1,4 @@
+/* Register.css */
+.register-container {
+    composes: container;
+  }
