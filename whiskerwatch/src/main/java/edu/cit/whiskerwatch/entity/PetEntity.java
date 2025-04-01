@@ -17,7 +17,7 @@ public class PetEntity {
     private int age;
     private String status; // Available / Adopted
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = true)
     private UserEntity owner;
 

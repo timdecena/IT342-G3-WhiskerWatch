@@ -49,6 +49,9 @@ public class PetService {
     }
 
     public void deletePet(Long id) {
-        petRepository.deleteById(id);
+        petRepository.findById(id).ifPresent(pet -> {
+            pet.setOwner(null); // Remove the relationship
+            petRepository.deleteById(id);
+        });
     }
 }
