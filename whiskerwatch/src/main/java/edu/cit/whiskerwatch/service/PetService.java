@@ -50,8 +50,9 @@ public class PetService {
 
     public void deletePet(Long id) {
         petRepository.findById(id).ifPresent(pet -> {
-            pet.setOwner(null); // Remove the relationship
-            petRepository.deleteById(id);
+            pet.setOwner(null); // Remove relationship
+            petRepository.save(pet); // Ensure update is persisted
+            petRepository.delete(pet); // Now delete pet
         });
     }
 }
