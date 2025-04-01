@@ -20,6 +20,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    
+
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
