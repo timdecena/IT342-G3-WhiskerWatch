@@ -27,7 +27,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Disable CSRF for API calls
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/login", "/api/users/**").permitAll() // Allow login & user endpoints
-                .requestMatchers("/api/pets/**").permitAll() // Allow access to pets API
+                //.requestMatchers("/api/pets/**").permitAll() // Allow access to pets API
+                //.requestMatchers("/api/adoptions/**").permitAll() // Allow all adoption-related requests
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
