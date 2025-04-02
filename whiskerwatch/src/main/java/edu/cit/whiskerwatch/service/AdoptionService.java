@@ -1,26 +1,27 @@
 package edu.cit.whiskerwatch.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import edu.cit.whiskerwatch.entity.AdoptionEntity;
 import edu.cit.whiskerwatch.entity.PetEntity;
 import edu.cit.whiskerwatch.entity.UserEntity;
 import edu.cit.whiskerwatch.repository.AdoptionRepository;
 import edu.cit.whiskerwatch.repository.PetRepository;
 import edu.cit.whiskerwatch.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdoptionService {
     @Autowired
     private AdoptionRepository adoptionRepository;
-    
+
     @Autowired
     private PetRepository petRepository;
-    
+
     @Autowired
     private UserRepository userRepository;
 
@@ -33,6 +34,14 @@ public class AdoptionService {
     }
 
     public AdoptionEntity createAdoption(Long petId, Long adopterId) {
+        // Check if a pending request already exists
+        Optional<AdoptionEntity> existingRequest = 
+            adoptionRepository.findByPetIdAndAdopterIdAndStatus(petId, adopterId, "Pending");
+
+        if (existingRequest.isPresent()) {
+            throw new RuntimeException("You already have a pending adoption request for this pet.");
+        }
+
         PetEntity pet = petRepository.findById(petId).orElseThrow(() -> new RuntimeException("Pet not found"));
         UserEntity adopter = userRepository.findById(adopterId).orElseThrow(() -> new RuntimeException("Adopter not found"));
 
