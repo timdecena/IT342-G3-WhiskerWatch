@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Components/Login';
 import Register from './Components/Register';
 import Homepage from './Components/Homepage';
+import PostPets from './Components/PostPets';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={isAuthenticated ? <Navigate to="/homepage" /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/homepage" element={isAuthenticated ? <Homepage setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/" />} />
+        <Route path="/post-pets" element={<PostPets />} />
       </Routes>
     </BrowserRouter>
   );
