@@ -1,5 +1,7 @@
 package edu.cit.whiskerwatch.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,11 @@ public class UserController {
     public UserController(UserService userService){
         this.userService=userService;
     }
+
+    @GetMapping("/all")
+public ResponseEntity<List<UserEntity>> getAllUsers() {
+    return ResponseEntity.ok(userService.getAllUsers());
+}
  
     @GetMapping("/getUserById/{id}")
     public ResponseEntity<UserEntity> getUserById(@PathVariable Long id) {
