@@ -9,16 +9,35 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
 
   useEffect(() => {
-    setIsAuthenticated(!!localStorage.getItem('token'));
+    const handleAuthChange = () => {
+      setIsAuthenticated(!!localStorage.getItem('token'));
+    };
+
+    window.addEventListener('storage', handleAuthChange);
+    return () => {
+      window.removeEventListener('storage', handleAuthChange);
+    };
   }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={isAuthenticated ? <Navigate to="/homepage" /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
+        {/* Redirect to /homepage if authenticated, otherwise show login */}
+        <Route 
+          path="/" 
+          element={isAuthenticated ? <Navigate to="/homepage" /> : <Login setIsAuthenticated={setIsAuthenticated} />} 
+        />
         <Route path="/register" element={<Register />} />
-        <Route path="/homepage" element={isAuthenticated ? <Homepage setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/" />} />
-        <Route path="/post-pets" element={<PostPets />} />
+        
+        {/* Protected Routes (Require Authentication) */}
+        <Route 
+          path="/homepage" 
+          element={isAuthenticated ? <Homepage setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/" />} 
+        />
+        <Route 
+          path="/post-pets" 
+          element={isAuthenticated ? <PostPets /> : <Navigate to="/" />} 
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -9,29 +9,35 @@ body {
 
 .homepage {
   padding: 20px;
-  text-align: center;
+  background-color: #f4f5f7; /* Light gray background for contrast */
 }
 
-h1 {
+.homepage-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.welcome-text {
   color: #827397;
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-h2, h3 {
-  font-size: 1.8rem;
+.greeting {
+  font-size: 1.5rem;
   color: #827397;
   font-weight: 400;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 12px 24px;
   font-size: 1rem;
   color: white;
   background-color: #827397;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -40,6 +46,17 @@ button:hover {
 
 .logout-btn {
   margin-top: 20px;
+  font-weight: 600;
+}
+
+.pets-section {
+  margin-top: 40px;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: #827397;
+  margin-bottom: 20px;
 }
 
 .pet-grid {
@@ -50,16 +67,17 @@ button:hover {
 }
 
 .pet-card {
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
 }
 
 .pet-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .pet-image {
@@ -74,8 +92,9 @@ button:hover {
 }
 
 .pet-details h4 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #827397;
+  font-weight: 600;
 }
 
 .pet-details p {
@@ -107,7 +126,22 @@ button:hover {
   height: 50px;
 }
 
-h3 {
-  color: #827397;
-  margin-top: 40px;
+.post-pet-link {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.post-pet-btn {
+  padding: 12px 24px;
+  font-size: 1rem;
+  background-color: #827397;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.post-pet-btn:hover {
+  background-color: #6b5e7d;
 }
