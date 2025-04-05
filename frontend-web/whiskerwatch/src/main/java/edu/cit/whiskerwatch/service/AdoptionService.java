@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.cit.whiskerwatch.dto.AdoptionRequestDTO;
 import edu.cit.whiskerwatch.entity.AdoptionEntity;
 import edu.cit.whiskerwatch.entity.PetEntity;
 import edu.cit.whiskerwatch.entity.UserEntity;
@@ -33,8 +34,8 @@ public class AdoptionService {
         return adoptionRepository.findById(id);
     }
 
-    public AdoptionEntity createAdoption(Long petId, Long adopterId) {
-        // Check if a pending request already exists
+    public AdoptionEntity createAdoption(Long petId, Long adopterId, AdoptionRequestDTO form) {
+        // Check for existing pending adoption request
         Optional<AdoptionEntity> existingRequest =
                 adoptionRepository.findByPetIdAndAdopterIdAndStatus(petId, adopterId, "Pending");
     
@@ -42,18 +43,30 @@ public class AdoptionService {
             throw new RuntimeException("You already have a pending adoption request for this pet.");
         }
     
+        // Fetch pet and adopter entities
         PetEntity pet = petRepository.findById(petId)
-                .orElseThrow(() -> new RuntimeException("Pet not found"));
+                .orElseThrow(() -> new RuntimeException("Pet with ID " + petId + " not found."));
     
         UserEntity adopter = userRepository.findById(adopterId)
-                .orElseThrow(() -> new RuntimeException("Adopter not found"));
+                .orElseThrow(() -> new RuntimeException("User with ID " + adopterId + " not found."));
     
-        // 👇 Prevent users from adopting their own pet
+        // Prevent self-adoption
         if (pet.getOwner() != null && pet.getOwner().getId().equals(adopterId)) {
             throw new RuntimeException("You cannot adopt your own pet.");
         }
     
-        AdoptionEntity adoption = new AdoptionEntity(pet, adopter, LocalDateTime.now(), "Pending");
+        // Create adoption request
+        AdoptionEntity adoption = new AdoptionEntity();
+        adoption.setPet(pet);
+        adoption.setAdopter(adopter);
+        adoption.setAdoptionDate(LocalDateTime.now());
+        adoption.setStatus("Pending");
+    
+        // Set extra form details
+        adoption.setAdopterName(form.getAdopterName());
+        adoption.setAdopterContact(form.getAdopterContact());
+        adoption.setMessageToOwner(form.getMessageToOwner());
+    
         return adoptionRepository.save(adoption);
     }
 

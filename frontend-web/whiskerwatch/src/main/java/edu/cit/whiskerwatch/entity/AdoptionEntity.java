@@ -1,7 +1,15 @@
 package edu.cit.whiskerwatch.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "adoptions")
@@ -21,6 +29,13 @@ public class AdoptionEntity {
 
     private LocalDateTime adoptionDate;
     private String status; // Pending, Approved, Rejected
+
+
+    // 🆕 Additional form fields from the adopter
+    private String adopterName;
+    private String adopterContact;
+    private String messageToOwner;
+   
 
     // Constructors
     public AdoptionEntity() {}
@@ -47,4 +62,15 @@ public class AdoptionEntity {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getAdopterName() { return adopterName; }
+    public void setAdopterName(String adopterName) { this.adopterName = adopterName; }
+
+    public String getAdopterContact() { return adopterContact; }
+    public void setAdopterContact(String adopterContact) { this.adopterContact = adopterContact; }
+
+    public String getMessageToOwner() { return messageToOwner; }
+    public void setMessageToOwner(String messageToOwner) { this.messageToOwner = messageToOwner; }
+
+ 
 }
