@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "../assets/homepage.css";
+import bannerPets from "../assets/cat-hero1.png";
+
 
 function Homepage({ setIsAuthenticated }) {
   const navigate = useNavigate();
@@ -27,37 +29,43 @@ function Homepage({ setIsAuthenticated }) {
   return (
     <div className="homepage">
       <header className="homepage-header">
-        <h1 className="main-title">
-          Every Pet Deserves a Loving Home.
-          <br />
-          <span className="highlight-text">Adopt a Pet Today</span>
-        </h1>
+  <div className="header-content">
+    <div className="hero-text">
+      <h1 className="main-title">
+        Every Pet Deserves a Loving Home.
+        <br />
+        <span className="highlight-text">Adopt a Pet Today</span>
+      </h1>
+      <p className="subtext">
+        Browse our available animals and learn more about the adoption process.
+        Together, we can rescue, rehabilitate, and rehome pets in need.
+      </p>
+      <div className="search-container">
+        <select
+          className="category-dropdown"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="All">All Pets</option>
+          <option value="Dogs">Dogs</option>
+          <option value="Cats">Cats</option>
+        </select>
 
-        <p className="subtext">
-          Browse our available animals and learn more about the adoption process.
-          Together, we can rescue, rehabilitate, and rehome pets in need.
-        </p>
+        <input
+          type="text"
+          placeholder="Search pets..."
+          className="search-bar"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+    </div>
 
-        <div className="search-container">
-          <select
-            className="category-dropdown"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="All">All Pets</option>
-            <option value="Dogs">Dogs</option>
-            <option value="Cats">Cats</option>
-          </select>
-
-          <input
-            type="text"
-            placeholder="Search pets..."
-            className="search-bar"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </header>
+    <div className="hero-image">
+    <img src={bannerPets} alt="Adopt pets" className="hero-image" />
+    </div>
+  </div>
+</header>
 
       <main className="main-content">
         <section className="pets-section">
