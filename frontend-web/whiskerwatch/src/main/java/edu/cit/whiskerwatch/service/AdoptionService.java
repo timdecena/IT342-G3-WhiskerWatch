@@ -35,16 +35,24 @@ public class AdoptionService {
 
     public AdoptionEntity createAdoption(Long petId, Long adopterId) {
         // Check if a pending request already exists
-        Optional<AdoptionEntity> existingRequest = 
-            adoptionRepository.findByPetIdAndAdopterIdAndStatus(petId, adopterId, "Pending");
-
+        Optional<AdoptionEntity> existingRequest =
+                adoptionRepository.findByPetIdAndAdopterIdAndStatus(petId, adopterId, "Pending");
+    
         if (existingRequest.isPresent()) {
             throw new RuntimeException("You already have a pending adoption request for this pet.");
         }
-
-        PetEntity pet = petRepository.findById(petId).orElseThrow(() -> new RuntimeException("Pet not found"));
-        UserEntity adopter = userRepository.findById(adopterId).orElseThrow(() -> new RuntimeException("Adopter not found"));
-
+    
+        PetEntity pet = petRepository.findById(petId)
+                .orElseThrow(() -> new RuntimeException("Pet not found"));
+    
+        UserEntity adopter = userRepository.findById(adopterId)
+                .orElseThrow(() -> new RuntimeException("Adopter not found"));
+    
+        // 👇 Prevent users from adopting their own pet
+        if (pet.getOwner() != null && pet.getOwner().getId().equals(adopterId)) {
+            throw new RuntimeException("You cannot adopt your own pet.");
+        }
+    
         AdoptionEntity adoption = new AdoptionEntity(pet, adopter, LocalDateTime.now(), "Pending");
         return adoptionRepository.save(adoption);
     }
