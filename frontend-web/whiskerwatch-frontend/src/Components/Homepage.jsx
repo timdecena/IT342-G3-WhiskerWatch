@@ -57,7 +57,7 @@ function Homepage({ setIsAuthenticated }) {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <button className="search-btn">Search</button>
+          
         </div>
       </header>
 
