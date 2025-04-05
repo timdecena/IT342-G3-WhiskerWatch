@@ -56,8 +56,6 @@ function Homepage({ setIsAuthenticated }) {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-
-          
         </div>
       </header>
 
@@ -68,22 +66,29 @@ function Homepage({ setIsAuthenticated }) {
           <div className="pet-grid">
             {filteredPets.length > 0 ? (
               filteredPets.map((pet) => (
-                <div key={pet.id} className="pet-card">
-                  <div className="pet-image-container">
-                    <img
-                      src={pet.image || "/default-pet-image.jpg"}
-                      alt={pet.petName}
-                      className="pet-image"
-                    />
-                  </div>
+                <Link
+                  to={`/pets/${pet.id}`}
+                  key={pet.id}
+                  className="pet-card-link"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <div className="pet-card">
+                    <div className="pet-image-container">
+                      <img
+                        src={pet.image || "/default-pet-image.jpg"}
+                        alt={pet.petName}
+                        className="pet-image"
+                      />
+                    </div>
 
-                  <div className="pet-details">
-                    <h3>{pet.petName}</h3>
-                    <p>Breed: {pet.breed}</p>
-                    <p>Age: {pet.age} years</p>
-                    <p>Status: {pet.status}</p>
+                    <div className="pet-details">
+                      <h3>{pet.petName}</h3>
+                      <p>Breed: {pet.breed}</p>
+                      <p>Age: {pet.age} years</p>
+                      <p>Status: {pet.status}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))
             ) : (
               <p className="no-pets-message">
