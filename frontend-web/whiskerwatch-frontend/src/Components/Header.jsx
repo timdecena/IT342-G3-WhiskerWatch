@@ -19,7 +19,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
     <header className="header">
       <div className="container">
         <Link to="/homepage" className="logo">
-          Whisker<span style={{ color: "#1c1e21" }}>Watch</span>
+        <span style={{ color: "#8b5cf6" }}>WhiskerWatch</span>
         </Link>
 
         <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
