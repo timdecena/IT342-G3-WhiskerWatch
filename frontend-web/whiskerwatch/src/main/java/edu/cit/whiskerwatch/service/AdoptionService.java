@@ -70,11 +70,17 @@ public class AdoptionService {
         return adoptionRepository.save(adoption);
     }
 
-    public AdoptionEntity updateAdoptionStatus(Long id, String status) {
-        return adoptionRepository.findById(id).map(adoption -> {
-            adoption.setStatus(status);
-            return adoptionRepository.save(adoption);
-        }).orElseThrow(() -> new RuntimeException("Adoption request not found"));
+    public AdoptionEntity updateAdoptionStatus(Long id, Long userId, String status) {
+        AdoptionEntity adoption = adoptionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Adoption request not found"));
+    
+        // Check if the current user is the owner of the pet
+        if (!adoption.getPet().getOwner().getId().equals(userId)) {
+            throw new RuntimeException("You are not the owner of this pet and cannot update the adoption status.");
+        }
+    
+        adoption.setStatus(status);
+        return adoptionRepository.save(adoption);
     }
 
     public void deleteAdoption(Long id) {

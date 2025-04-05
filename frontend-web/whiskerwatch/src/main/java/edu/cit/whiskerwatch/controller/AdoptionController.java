@@ -44,10 +44,10 @@ public class AdoptionController {
     ) {
         return adoptionService.createAdoption(petId, adopterId, requestDTO);
     }
-    @PutMapping("/{id}/status")
-    public ResponseEntity<AdoptionEntity> updateAdoptionStatus(@PathVariable Long id, @RequestParam String status) {
-        return ResponseEntity.ok(adoptionService.updateAdoptionStatus(id, status));
-    }
+    @PutMapping("/update-status/{adoptionId}/{userId}")
+public AdoptionEntity updateStatus(@PathVariable Long adoptionId, @PathVariable Long userId, @RequestParam String status) {
+    return adoptionService.updateAdoptionStatus(adoptionId, userId, status);
+}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAdoption(@PathVariable Long id) {
