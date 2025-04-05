@@ -28,18 +28,20 @@ public class AuthController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-        Optional<UserEntity> userOpt = userRepository.findByEmail(request.getEmail());
+public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+    Optional<UserEntity> userOpt = userRepository.findByEmail(request.getEmail());
 
-        if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
-            UserEntity user = userOpt.get();
-            String token = jwtUtil.generateToken(user.getEmail());
+    if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
+        UserEntity user = userOpt.get();
+        
+        // Pass the user ID (Long) instead of the email (String) to generate the token
+        String token = jwtUtil.generateToken(user.getId());  // Pass user.getId() which is Long
 
-            AuthResponse response = new AuthResponse(user.getEmail(), user.getId(), token, user.getFirstName(),
-            user.getLastName());
-            return ResponseEntity.ok(response);
-        }
-
-        return ResponseEntity.status(401).body(null);
+        AuthResponse response = new AuthResponse(user.getEmail(), user.getId(), token, user.getFirstName(),
+        user.getLastName());
+        return ResponseEntity.ok(response);
     }
+
+    return ResponseEntity.status(401).body(null);
+}
 }

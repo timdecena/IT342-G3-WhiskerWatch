@@ -17,20 +17,20 @@ public class JwtUtil {
 
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    public String generateToken(String email) {
+    public String generateToken(Long userId) {  // Change from email to userId
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(String.valueOf(userId))  // Store the user ID (as a string) in the 'sub' claim
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String extractEmail(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build()
+    public Long extractUserId(String token) {
+        return Long.parseLong(Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token)
                 .getBody()
-                .getSubject();
+                .getSubject());  // The 'sub' claim now contains the user ID (as a string)
     }
 
     public boolean validateToken(String token) {

@@ -34,29 +34,30 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         String header = request.getHeader("Authorization");
-
+    
         if (header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
         }
-
+    
         String token = header.substring(7);
         try {
-            String email = jwtUtil.extractEmail(token);
-            Optional<UserEntity> userOpt = userRepository.findByEmail(email);
-
+            Long userId = jwtUtil.extractUserId(token);  // Extract the user ID (not email) from the token
+            Optional<UserEntity> userOpt = userRepository.findById(userId);  // Find the user by ID
+    
             if (userOpt.isPresent() && jwtUtil.validateToken(token)) {
                 UserDetails userDetails = new User(userOpt.get().getEmail(), "", Collections.emptyList());
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, Collections.emptyList());
-
+    
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         } catch (ExpiredJwtException | SignatureException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-
+    
         chain.doFilter(request, response);
     }
+    
 }

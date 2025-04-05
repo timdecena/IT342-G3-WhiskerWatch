@@ -7,7 +7,24 @@ function AdoptionForm() {
   const { petId } = useParams();
   const navigate = useNavigate();
 
-  const adopterId = 1; // Temporary: Replace with real user session
+  // Get the token from localStorage and decode it to extract the user info (adopter)
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("You must be logged in to adopt a pet.");
+    navigate("/login");
+    return;
+  }
+
+  // Decode the JWT token to get adopter's info (adopter ID should be a number)
+  const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT
+  const adopterId = decodedToken.sub; // Assuming 'sub' contains the user ID (Long)
+  
+  if (!adopterId) {
+    alert("User ID is missing in the token.");
+    navigate("/login");
+    return;
+  }
 
   const [form, setForm] = useState({
     adopterName: "",
@@ -18,6 +35,7 @@ function AdoptionForm() {
   const [pet, setPet] = useState(null); // New state to hold pet details
 
   useEffect(() => {
+    // Fetch pet details by petId
     axios.get(`http://localhost:8080/api/pets/${petId}`)
       .then(res => setPet(res.data))
       .catch(err => console.error("Failed to fetch pet:", err));
@@ -31,17 +49,21 @@ function AdoptionForm() {
     e.preventDefault();
 
     try {
-      await axios.post(
+      const response = await axios.post(
         `http://localhost:8080/api/adoptions/request/${petId}/${adopterId}`,
-        form
+        form, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
       );
       alert("Adoption request submitted successfully!");
-      navigate("/");
+      navigate("/"); // Navigate back to homepage or adoption confirmation page
     } catch (err) {
-      alert(
-        err.response?.data?.message || "Error submitting adoption request"
-      );
-      console.error(err);
+      // Improved error handling
+      const errorMessage = err.response?.data?.message || "Error submitting adoption request";
+      alert(errorMessage);
+      console.error("Error details:", err.response?.data || err);
     }
   };
 
