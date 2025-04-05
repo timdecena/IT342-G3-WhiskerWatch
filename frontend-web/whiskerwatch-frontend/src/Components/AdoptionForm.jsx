@@ -1,19 +1,27 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import "../assets/AdoptionForm.css";
 
 function AdoptionForm() {
   const { petId } = useParams();
   const navigate = useNavigate();
 
-  // Temporary: Replace with real user session
-  const adopterId = 1;
+  const adopterId = 1; // Temporary: Replace with real user session
 
   const [form, setForm] = useState({
     adopterName: "",
     adopterContact: "",
     messageToOwner: "",
   });
+
+  const [pet, setPet] = useState(null); // New state to hold pet details
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/pets/${petId}`)
+      .then(res => setPet(res.data))
+      .catch(err => console.error("Failed to fetch pet:", err));
+  }, [petId]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,7 +36,7 @@ function AdoptionForm() {
         form
       );
       alert("Adoption request submitted successfully!");
-      navigate("/"); // Redirect back to homepage or confirmation page
+      navigate("/");
     } catch (err) {
       alert(
         err.response?.data?.message || "Error submitting adoption request"
@@ -39,7 +47,10 @@ function AdoptionForm() {
 
   return (
     <div className="adoption-form-container">
-      <h2>Adopt This Pet</h2>
+      <h2>
+        {pet ? `You are adopting ${pet.petName}` : "Loading pet info..."}
+      </h2>
+
       <form onSubmit={handleSubmit}>
         <label>
           Your Full Name:
