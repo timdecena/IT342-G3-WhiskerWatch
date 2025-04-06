@@ -44,6 +44,7 @@
   position: relative;
 }
 
+/* Requests dropdown content with scroll */
 .requests-dropdown-content {
   position: absolute;
   top: 40px; /* Position the dropdown below the button */
@@ -53,7 +54,10 @@
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
   width: 250px;
   z-index: 100;
+  max-height: 300px; /* Set a max height */
+  overflow-y: auto; /* Enable scrolling if the content overflows */
 }
+
 
 .request-item {
   display: flex;
