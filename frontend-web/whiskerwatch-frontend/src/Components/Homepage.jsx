@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "../assets/homepage.css";
@@ -9,6 +9,7 @@ function Homepage({ setIsAuthenticated }) {
   const [pets, setPets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("All");
+  const petsSectionRef = useRef(null); // Create a reference for the pets section
 
   useEffect(() => {
     axios
@@ -19,20 +20,27 @@ function Homepage({ setIsAuthenticated }) {
 
   // Function to normalize species for comparison
   const normalizeSpecies = (species) => {
-    // Remove the "s" at the end of plural species names (e.g., "Dogs" -> "Dog")
     return species ? species.toLowerCase().replace(/s$/, "") : "";
   };
 
   const filteredPets = pets.filter((pet) => {
     const petName = pet.petName || "";
     const petSpecies = normalizeSpecies(pet.species);
-    const selectedCategory = normalizeSpecies(category); // Normalize category as well
+    const selectedCategory = normalizeSpecies(category);
 
     return (
       (selectedCategory === "all" || petSpecies === selectedCategory) &&
       petName.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+    if (e.target.value !== "All") {
+      // Scroll to the "Available Pets" section when a category is selected
+      petsSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="homepage">
@@ -52,7 +60,7 @@ function Homepage({ setIsAuthenticated }) {
               <select
                 className="category-dropdown"
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={handleCategoryChange} // Use handleCategoryChange
               >
                 <option value="All">All Pets</option>
                 <option value="Dogs">Dogs</option>
@@ -78,7 +86,7 @@ function Homepage({ setIsAuthenticated }) {
       </header>
 
       <main className="main-content">
-        <section className="pets-section">
+        <section className="pets-section" ref={petsSectionRef}> {/* Add ref here */}
           <h2 className="section-title">Available Pets</h2>
 
           <div className="pet-grid">
