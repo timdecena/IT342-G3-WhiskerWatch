@@ -7,6 +7,7 @@ import PostPets from './Components/PostPets';
 import Header from './Components/Header'; // Ensure Header is imported if not already
 import PetDetails from "./Components/PetDetails";
 import AdoptionForm from "./Components/AdoptionForm";
+import AdoptionRequestDetail from "./Components/AdoptionRequestDetail";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -51,6 +52,7 @@ function App() {
 
         <Route path="/pets/:id" element={<PetDetails />} />
         <Route path="/adopt/:petId" element={<AdoptionForm />} />
+        <Route path="/adoption-request/:requestId" element={<AdoptionRequestDetail />} />
       </Routes>
 
     </BrowserRouter>
