@@ -18,7 +18,6 @@ function Homepage({ setIsAuthenticated }) {
       .catch((error) => console.error("Error fetching pets:", error));
   }, []);
 
-  // Function to normalize species for comparison
   const normalizeSpecies = (species) => {
     return species ? species.toLowerCase().replace(/s$/, "") : "";
   };
@@ -37,7 +36,6 @@ function Homepage({ setIsAuthenticated }) {
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
     if (e.target.value !== "All") {
-      // Scroll to the "Available Pets" section when a category is selected
       petsSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -60,24 +58,27 @@ function Homepage({ setIsAuthenticated }) {
               <select
                 className="category-dropdown"
                 value={category}
-                onChange={handleCategoryChange} // Use handleCategoryChange
+                onChange={handleCategoryChange}
               >
                 <option value="All">All Pets</option>
                 <option value="Dogs">Dogs</option>
                 <option value="Cats">Cats</option>
+                
               </select>
-              <Link to="/post-pets" className="post-pet-btn">
-                List a Pet for Adoption
-              </Link>
+              <Link to="/post-pets" className="post-pet-btn1">
+          List a Pet for Adoption
+        </Link>
               <input
                 type="text"
-                placeholder="Search pets..."
+                placeholder="  Search pets..."
                 className="search-bar"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
+
           </div>
+          
 
           <div className="hero-image">
             <img src={bannerPets} alt="Adopt pets" className="hero-image" />
@@ -86,7 +87,7 @@ function Homepage({ setIsAuthenticated }) {
       </header>
 
       <main className="main-content">
-        <section className="pets-section" ref={petsSectionRef}> {/* Add ref here */}
+        <section className="pets-section" ref={petsSectionRef}>
           <h2 className="section-title">Available Pets</h2>
 
           <div className="pet-grid">

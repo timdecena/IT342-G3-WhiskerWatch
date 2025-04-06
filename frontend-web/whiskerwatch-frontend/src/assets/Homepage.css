@@ -81,13 +81,22 @@ body, html {
   flex-wrap: wrap;
 }
 
-.category-dropdown,
-.search-bar {
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border-radius: 8px;
+.category-dropdown {
+  padding: 0.5rem 0.75rem;  /* Smaller padding */
+  font-size: 0.9rem;  /* Smaller font size */
+  border-radius: 6px;  /* Slightly smaller border radius */
   border: 1px solid #d1d5db;
-  width: 200px;
+  width: 150px;  /* Smaller width */
+  height: 50px;
+  margin-top: 0.3rem;  /* Adds space above the dropdown */
+}
+
+.search-bar {
+  padding: 0.75rem 1rem;  /* Slightly larger padding */
+  font-size: 1rem;  /* Keep the original font size */
+  border-radius: 8px;  /* Default border radius */
+  border: 1px solid #d1d5db;
+  width: 300px;  /* Larger width */
 }
 
 /* Main Section */
@@ -101,6 +110,7 @@ body, html {
   font-size: 2.5rem;
   margin-bottom: 2rem;
   text-align: center;
+  margin-top: 0rem;  /* Move it closer to the top */
 }
 
 /* Pet Cards */
@@ -192,4 +202,15 @@ body, html {
   .hero-image {
     margin-top: 2rem;
   }
+}
+
+.post-pet-btn1 {
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  background-color: #8b5cf6;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  margin-top: 0rem; /* Add margin-top to move it down */
 }
