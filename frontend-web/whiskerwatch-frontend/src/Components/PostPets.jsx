@@ -36,26 +36,33 @@ function PostPets() {
     e.preventDefault();
     setIsLoading(true);
     setMessage('');
-
+  
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      setMessage('User ID not found. Please log in again.');
+      setIsLoading(false);
+      return;
+    }
+  
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/pets/add/${formData.ownerId}`,
+        `http://localhost:8080/api/pets/add/${userId}`,
         formData,
         {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           },
         }
       );
-      
+  
       setMessage('Pet added successfully!');
       setFormData({
         petName: '',
         species: '',
         breed: '',
         age: '',
-        status: '',
-        ownerId: ''
+        status: ''
       });
     } catch (error) {
       setMessage(error.response?.data?.message || 'Failed to add pet. Please try again.');
@@ -65,30 +72,89 @@ function PostPets() {
   };
 
   return (
- 
+    <div className="post-pets-wrapper">
       <div className="post-pets-container">
         <h2>Add a New Pet</h2>
-        <form onSubmit={handleSubmit} className="post-pet-form">
-          {Object.entries(formData).map(([key, value]) => (
-            <div 
-              key={key} 
-              className={`form-group ${focusedField === key ? 'focused' : ''}`}
-            >
-              <label>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
+        <form onSubmit={handleSubmit} className="post-pet-form-horizontal">
+
+          <div className="form-row">
+            <div className={`form-group ${focusedField === 'petName' ? 'focused' : ''}`}>
+              <label>Pet Name</label>
               <input
-                type={key === 'age' || key === 'ownerId' ? 'number' : 'text'}
-                name={key}
-                value={value}
+                type="text"
+                name="petName"
+                value={formData.petName}
                 onChange={handleChange}
-                onFocus={() => handleFocus(key)}
+                onFocus={() => handleFocus('petName')}
                 onBlur={handleBlur}
                 required
               />
             </div>
-          ))}
 
-          <button 
-            type="submit" 
+            <div className={`form-group ${focusedField === 'species' ? 'focused' : ''}`}>
+              <label>Species</label>
+              <select
+                name="species"
+                value={formData.species}
+                onChange={handleChange}
+                onFocus={() => handleFocus('species')}
+                onBlur={handleBlur}
+                required
+              >
+                <option value="">Select species</option>
+                <option value="Dog">Dog</option>
+                <option value="Cat">Cat</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className={`form-group ${focusedField === 'breed' ? 'focused' : ''}`}>
+              <label>Breed</label>
+              <input
+                type="text"
+                name="breed"
+                value={formData.breed}
+                onChange={handleChange}
+                onFocus={() => handleFocus('breed')}
+                onBlur={handleBlur}
+                required
+              />
+            </div>
+
+            <div className={`form-group ${focusedField === 'age' ? 'focused' : ''}`}>
+              <label>Age</label>
+              <input
+                type="number"
+                name="age"
+                value={formData.age}
+                onChange={handleChange}
+                onFocus={() => handleFocus('age')}
+                onBlur={handleBlur}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className={`form-group ${focusedField === 'status' ? 'focused' : ''}`}>
+              <label>Status</label>
+              <input
+                type="text"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                onFocus={() => handleFocus('status')}
+                onBlur={handleBlur}
+                required
+              />
+            </div>
+
+
+          </div>
+
+          <button
+            type="submit"
             className={`submit-btn ${isLoading ? 'loading' : ''}`}
             disabled={isLoading}
           >
@@ -102,7 +168,7 @@ function PostPets() {
           </p>
         )}
       </div>
-
+    </div>
   );
 }
 
