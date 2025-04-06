@@ -12,21 +12,29 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
 
   const userId = localStorage.getItem("userId");
 
+  // State to track rejected and approved requests (i.e. requests that are removed)
+  const [removedRequests, setRemovedRequests] = useState([]);
+
   useEffect(() => {
     if (isAuthenticated && userId) {
       fetchAdoptionRequests();
     }
-  }, [isAuthenticated, userId]);
+  }, [isAuthenticated, userId, removedRequests]); // Run the fetchAdoptionRequests when removedRequests changes
 
+  // Fetch adoption requests from API
   const fetchAdoptionRequests = async () => {
     try {
       setLoadingRequests(true);
-      const response = await fetch(`http://localhost:8080/api/adoptions`);
+      const response = await fetch("http://localhost:8080/api/adoptions");
       if (!response.ok) throw new Error("Failed to fetch requests");
 
       const data = await response.json();
       const userRequests = data.filter(request => request.pet?.owner?.id === parseInt(userId));
-      setAdoptionRequests(userRequests);
+
+      // Filter out requests that are approved, rejected, or hidden (removed)
+      const visibleRequests = userRequests.filter(request => !removedRequests.includes(request.id));
+
+      setAdoptionRequests(visibleRequests);
     } catch (error) {
       console.error("Error fetching requests:", error);
     } finally {
@@ -34,15 +42,26 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
     }
   };
 
+  // Handle logout action
   const handleLogout = () => {
     localStorage.clear();
     setIsAuthenticated(false);
     navigate("/");
   };
 
+  // Toggle the requests dropdown
   const toggleRequests = () => {
     setRequestsOpen(!requestsOpen);
     if (!requestsOpen) fetchAdoptionRequests();
+  };
+
+  // Handle removing a request (either rejected or accepted)
+  const handleRemoveRequest = (requestId) => {
+    // Add to removedRequests state
+    setRemovedRequests([...removedRequests, requestId]);
+
+    // Remove it from adoptionRequests to prevent showing again
+    setAdoptionRequests(adoptionRequests.filter(request => request.id !== requestId));
   };
 
   return (
@@ -93,9 +112,19 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
                         className={`request-item ${request.status.toLowerCase()}`}
                       >
                         <strong>{request.pet?.petName || "Unknown Pet"}</strong>
-                        <span style={{ marginLeft: '8px' }}>Status: {request.status}</span>  {/* Added margin */}
+                        <span style={{ marginLeft: '8px' }}>Status: {request.status}</span>
                         {request.status === "Pending" && (
                           <span className="pending-badge">New</span>
+                        )}
+
+                        {/* Remove button for approved or rejected requests */}
+                        {(request.status === "Approved" || request.status === "Rejected") && (
+                          <button 
+                            className="remove-btn" 
+                            onClick={() => handleRemoveRequest(request.id)}
+                          >
+                            <FiX />
+                          </button>
                         )}
 
                         <div className="request-actions">
