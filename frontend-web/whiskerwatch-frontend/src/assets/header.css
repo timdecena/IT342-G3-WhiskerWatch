@@ -105,6 +105,8 @@
       gap: 0;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
       display: none;
+      white-space: nowrap;
+      word-break: normal;
     }
   
     .nav-links.open {
