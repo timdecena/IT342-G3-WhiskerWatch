@@ -1,120 +1,108 @@
-import Layout from "../Components/Layout";  // Assuming Layout is already imported
+import Layout from "../Components/Layout";
 import { useState } from 'react';
 import axios from 'axios';
 import '../assets/PostPets.css';
 
 function PostPets() {
-  const [petName, setPetName] = useState('');
-  const [species, setSpecies] = useState('');
-  const [breed, setBreed] = useState('');
-  const [age, setAge] = useState('');
-  const [status, setStatus] = useState('');
-  const [ownerId, setOwnerId] = useState('');
+  const [formData, setFormData] = useState({
+    petName: '',
+    species: '',
+    breed: '',
+    age: '',
+    status: '',
+    ownerId: ''
+  });
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [focusedField, setFocusedField] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFocus = (fieldName) => {
+    setFocusedField(fieldName);
+  };
+
+  const handleBlur = () => {
+    setFocusedField(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Prepare the data to send as a plain JSON object
-    const petData = {
-      petName: petName,
-      species: species,
-      breed: breed,
-      age: age,
-      status: status,
-      ownerId: ownerId
-    };
+    setIsLoading(true);
+    setMessage('');
 
     try {
-      // Make the API request to your controller
       const response = await axios.post(
-        `http://localhost:8080/api/pets/add/${ownerId}`,
-        petData,  // Send data as JSON
+        `http://localhost:8080/api/pets/add/${formData.ownerId}`,
+        formData,
         {
           headers: {
-            'Content-Type': 'application/json', // Correct content type for JSON
+            'Content-Type': 'application/json',
           },
         }
       );
+      
       setMessage('Pet added successfully!');
-      console.log(response.data);
+      setFormData({
+        petName: '',
+        species: '',
+        breed: '',
+        age: '',
+        status: '',
+        ownerId: ''
+      });
     } catch (error) {
-      setMessage('Failed to add pet. Please try again.');
-      console.error('Error details:', error.response || error);
+      setMessage(error.response?.data?.message || 'Failed to add pet. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <Layout>
+ 
       <div className="post-pets-container">
         <h2>Add a New Pet</h2>
         <form onSubmit={handleSubmit} className="post-pet-form">
-          <div className="form-group">
-            <label>Pet Name</label>
-            <input
-              type="text"
-              value={petName}
-              onChange={(e) => setPetName(e.target.value)}
-              required
-            />
-          </div>
+          {Object.entries(formData).map(([key, value]) => (
+            <div 
+              key={key} 
+              className={`form-group ${focusedField === key ? 'focused' : ''}`}
+            >
+              <label>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
+              <input
+                type={key === 'age' || key === 'ownerId' ? 'number' : 'text'}
+                name={key}
+                value={value}
+                onChange={handleChange}
+                onFocus={() => handleFocus(key)}
+                onBlur={handleBlur}
+                required
+              />
+            </div>
+          ))}
 
-          <div className="form-group">
-            <label>Species</label>
-            <input
-              type="text"
-              value={species}
-              onChange={(e) => setSpecies(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Breed</label>
-            <input
-              type="text"
-              value={breed}
-              onChange={(e) => setBreed(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Age</label>
-            <input
-              type="number"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Status</label>
-            <input
-              type="text"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Owner ID</label>
-            <input
-              type="number"
-              value={ownerId}
-              onChange={(e) => setOwnerId(e.target.value)}
-              required
-            />
-          </div>
-
-          <button type="submit" className="submit-btn">Add Pet</button>
+          <button 
+            type="submit" 
+            className={`submit-btn ${isLoading ? 'loading' : ''}`}
+            disabled={isLoading}
+          >
+            {isLoading ? '' : 'Add Pet'}
+          </button>
         </form>
 
-        {message && <p className="status-message">{message}</p>}
+        {message && (
+          <p className={`status-message ${message.includes('success') ? 'success' : 'error'}`}>
+            {message}
+          </p>
+        )}
       </div>
-    </Layout>
+
   );
 }
 

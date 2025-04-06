@@ -50,7 +50,9 @@ function Homepage({ setIsAuthenticated }) {
           <option value="Dogs">Dogs</option>
           <option value="Cats">Cats</option>
         </select>
-
+        <Link to="/post-pets" className="post-pet-btn">
+          List a Pet for Adoption
+        </Link>
         <input
           type="text"
           placeholder="Search pets..."
@@ -59,6 +61,7 @@ function Homepage({ setIsAuthenticated }) {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+      
     </div>
 
     <div className="hero-image">
@@ -109,7 +112,7 @@ function Homepage({ setIsAuthenticated }) {
 
       <div className="post-pet-link">
         <Link to="/post-pets" className="post-pet-btn">
-          Post a Pet
+          List a Pet for Adoption
         </Link>
       </div>
     </div>
