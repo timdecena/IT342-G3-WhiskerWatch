@@ -94,7 +94,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
                         className={`request-item ${request.status.toLowerCase()}`}
                       >
                         <strong>{request.pet?.petName || "Unknown Pet"}</strong>
-                        <span>Status: {request.status}</span>
+                        <span style={{ marginLeft: '8px' }}>Status: {request.status}</span>  {/* Added margin */}
                         {request.status === "Pending" && (
                           <span className="pending-badge">New</span>
                         )}
