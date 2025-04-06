@@ -12,7 +12,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
 
   const userId = localStorage.getItem("userId");
 
-  // State to track rejected and approved requests (i.e. requests that are removed)
+  // State to track rejected and approved requests (i.e., requests that are removed)
   const [removedRequests, setRemovedRequests] = useState([]);
 
   useEffect(() => {
@@ -57,11 +57,21 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
 
   // Handle removing a request (either rejected or accepted)
   const handleRemoveRequest = (requestId) => {
-    // Add to removedRequests state
     setRemovedRequests([...removedRequests, requestId]);
-
-    // Remove it from adoptionRequests to prevent showing again
     setAdoptionRequests(adoptionRequests.filter(request => request.id !== requestId));
+  };
+
+  // Clear old notifications (rejected/approved requests)
+  const handleClearOldNotifications = () => {
+    const oldRequests = adoptionRequests.filter(
+      request => request.status === "Approved" || request.status === "Rejected"
+    );
+    
+    const oldRequestIds = oldRequests.map(request => request.id);
+    setRemovedRequests([...removedRequests, ...oldRequestIds]);
+
+    // Remove old requests from the list
+    setAdoptionRequests(adoptionRequests.filter(request => !oldRequestIds.includes(request.id)));
   };
 
   return (
@@ -101,6 +111,15 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
 
               {requestsOpen && (
                 <div className="requests-dropdown-content">
+                  {/* Clear Old Notifications Button */}
+                  <button 
+                    className="clear-notifications-btn"
+                    onClick={handleClearOldNotifications}
+                    disabled={loadingRequests}
+                  >
+                    Clear Old Notifications
+                  </button>
+
                   {loadingRequests ? (
                     <div className="request-item">Loading...</div>
                   ) : adoptionRequests.length === 0 ? (
