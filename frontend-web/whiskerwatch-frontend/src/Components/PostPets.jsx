@@ -137,18 +137,23 @@ function PostPets() {
           </div>
 
           <div className="form-row">
-            <div className={`form-group ${focusedField === 'status' ? 'focused' : ''}`}>
-              <label>Status</label>
-              <input
-                type="text"
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                onFocus={() => handleFocus('status')}
-                onBlur={handleBlur}
-                required
-              />
-            </div>
+          <div className={`form-group ${focusedField === 'status' ? 'focused' : ''}`}>
+  <label>Status</label>
+  <select
+    name="status"
+    value={formData.status}
+    onChange={handleChange}
+    onFocus={() => handleFocus('status')}
+    onBlur={handleBlur}
+    required
+  >
+    <option value="">Select status</option>
+    <option value="Active">Active</option>
+    <option value="Injured">Injured</option>
+    <option value="Disabled">Disabled</option>
+    <option value="Chronic Condition">Chronic Condition</option>
+  </select>
+</div>
 
 
           </div>
