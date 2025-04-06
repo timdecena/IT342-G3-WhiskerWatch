@@ -4,7 +4,6 @@ import axios from "axios";
 import "../assets/homepage.css";
 import bannerPets from "../assets/cat-hero1.png";
 
-
 function Homepage({ setIsAuthenticated }) {
   const navigate = useNavigate();
   const [pets, setPets] = useState([]);
@@ -18,10 +17,19 @@ function Homepage({ setIsAuthenticated }) {
       .catch((error) => console.error("Error fetching pets:", error));
   }, []);
 
+  // Function to normalize species for comparison
+  const normalizeSpecies = (species) => {
+    // Remove the "s" at the end of plural species names (e.g., "Dogs" -> "Dog")
+    return species ? species.toLowerCase().replace(/s$/, "") : "";
+  };
+
   const filteredPets = pets.filter((pet) => {
     const petName = pet.petName || "";
+    const petSpecies = normalizeSpecies(pet.species);
+    const selectedCategory = normalizeSpecies(category); // Normalize category as well
+
     return (
-      (category === "All" || pet.species === category) &&
+      (selectedCategory === "all" || petSpecies === selectedCategory) &&
       petName.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
@@ -29,46 +37,45 @@ function Homepage({ setIsAuthenticated }) {
   return (
     <div className="homepage">
       <header className="homepage-header">
-  <div className="header-content">
-    <div className="hero-text">
-      <h1 className="main-title">
-        Every Pet Deserves a Loving Home.
-        <br />
-        <span className="highlight-text">Adopt a Pet Today</span>
-      </h1>
-      <p className="subtext">
-        Browse our available animals and learn more about the adoption process.
-        Together, we can rescue, rehabilitate, and rehome pets in need.
-      </p>
-      <div className="search-container">
-        <select
-          className="category-dropdown"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="All">All Pets</option>
-          <option value="Dogs">Dogs</option>
-          <option value="Cats">Cats</option>
-        </select>
-        <Link to="/post-pets" className="post-pet-btn">
-          List a Pet for Adoption
-        </Link>
-        <input
-          type="text"
-          placeholder="Search pets..."
-          className="search-bar"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      
-    </div>
+        <div className="header-content">
+          <div className="hero-text">
+            <h1 className="main-title">
+              Every Pet Deserves a Loving Home.
+              <br />
+              <span className="highlight-text">Adopt a Pet Today</span>
+            </h1>
+            <p className="subtext">
+              Browse our available animals and learn more about the adoption process.
+              Together, we can rescue, rehabilitate, and rehome pets in need.
+            </p>
+            <div className="search-container">
+              <select
+                className="category-dropdown"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="All">All Pets</option>
+                <option value="Dogs">Dogs</option>
+                <option value="Cats">Cats</option>
+              </select>
+              <Link to="/post-pets" className="post-pet-btn">
+                List a Pet for Adoption
+              </Link>
+              <input
+                type="text"
+                placeholder="Search pets..."
+                className="search-bar"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
 
-    <div className="hero-image">
-    <img src={bannerPets} alt="Adopt pets" className="hero-image" />
-    </div>
-  </div>
-</header>
+          <div className="hero-image">
+            <img src={bannerPets} alt="Adopt pets" className="hero-image" />
+          </div>
+        </div>
+      </header>
 
       <main className="main-content">
         <section className="pets-section">
