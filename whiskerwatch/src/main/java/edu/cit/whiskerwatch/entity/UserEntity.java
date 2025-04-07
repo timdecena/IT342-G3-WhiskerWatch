@@ -1,7 +1,6 @@
 package edu.cit.whiskerwatch.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
