@@ -26,9 +26,19 @@ public class AdoptionController {
         return adoption.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/request/{petId}/{adopterId}")
-    public AdoptionEntity requestAdoption(@PathVariable Long petId, @PathVariable Long adopterId) {
-        return adoptionService.createAdoption(petId, adopterId);
+    @PostMapping("/request/{petId}")
+    public ResponseEntity<?> requestAdoption(@PathVariable Long petId, HttpServletRequest request){
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")){
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+        String token = authHeader.substring(7);
+        String email = jwtUtil.extractEmail(token);
+        UserEntity adopter = userRepository.findByEmail(email)
+            .orElseThrow(() -> RuntimeException("User not found"));
+
+            AdoptionEntity adoption = adoptionService.createAdoption(petId, adopter.getId());
+            return ResponseEntity.ok(adoption);
     }
 
     @PutMapping("/{id}/status")

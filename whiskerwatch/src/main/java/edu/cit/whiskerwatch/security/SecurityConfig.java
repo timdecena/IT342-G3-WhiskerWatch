@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,23 +22,27 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
-            .csrf(csrf -> csrf.disable()) // Disable CSRF for API calls
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login", "/api/users/**").permitAll() // Allow login & user endpoints
-                .requestMatchers("/api/pets/**").permitAll() // Allow access to pets API
-                .requestMatchers("/api/adoptions/**").permitAll() // Allow all adoption-related requests
-                .requestMatchers("/api/favorites/**").permitAll()
-                .requestMatchers("/lostpets/**").permitAll() //
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            // Public GET endpoints
+            .requestMatchers(HttpMethod.GET, "/api/pets/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/lostpets/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/favorites/**").permitAll()
 
-        return http.build();
-    }
+            // Auth endpoints
+            .requestMatchers("/api/auth/login", "/api/users/**").permitAll()
+
+            // All other requests must be authenticated
+            .anyRequest().authenticated()
+        )
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
+}
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
