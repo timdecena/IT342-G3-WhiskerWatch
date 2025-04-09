@@ -1,4 +1,10 @@
+Latest Branch is "decena-lostAndFoundEndpoint"
 
+Clone the repository and Select new terminal. Cd to frontend-web/whiskerwatch-frontend.
+type npm i and npm run dev.
+
+Navigate to whiskerwatch folder and run the backend.
+Create a new schema named "whiskerwatch" using mysqlworkbench. See application properties for database connection details.
 
 WhiskerWatch
 
