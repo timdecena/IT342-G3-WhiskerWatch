@@ -1,5 +1,6 @@
 package edu.cit.whiskerwatch.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class LostPetEntity {
     private UserEntity owner;
 
     @OneToMany(mappedBy = "lostPet", cascade = CascadeType.ALL)
+    @JsonIgnore  // Prevent circular reference by ignoring this field during serialization
     private List<LostPetCommentEntity> comments = new ArrayList<>();
 
     // Getters and Setters
