@@ -12,5 +12,5 @@ interface ApiService {
     fun login(@Body request: AuthRequest): Call<AuthResponse>
 
     @POST("/api/users/createUser")
-    fun register(@Body user: UserEntity): Call<UserEntity>
+    fun register(@Body user: UserEntity): Call<UserEntity>  // Removed the Authorization header
 }

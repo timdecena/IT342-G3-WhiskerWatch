@@ -85,18 +85,22 @@ fun RegisterScreen(navController: NavController) {
                     .enqueue(object : Callback<UserEntity> {
                         override fun onResponse(call: Call<UserEntity>, response: Response<UserEntity>) {
                             if (response.isSuccessful) {
+                                Toast.makeText(context, "Registered successfully!", Toast.LENGTH_SHORT).show()
                                 navController.navigate("login")
                             } else {
-                                Toast.makeText(context, "Registration failed", Toast.LENGTH_SHORT).show()
+                                val errorMsg = response.errorBody()?.string() ?: "Registration failed"
+                                Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
                             }
                         }
 
                         override fun onFailure(call: Call<UserEntity>, t: Throwable) {
-                            Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
                         }
                     })
             },
-            modifier = Modifier.fillMaxWidth().height(48.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
         ) {
             Text("Register")
         }
