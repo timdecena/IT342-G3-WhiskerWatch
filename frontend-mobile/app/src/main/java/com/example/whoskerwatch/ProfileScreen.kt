@@ -1,13 +1,14 @@
 package com.example.whoskerwatch
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,6 +21,8 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController) {
+    var showLogoutDialog by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -43,7 +46,6 @@ fun ProfileScreen(navController: NavController) {
                 // Content Preferences Section
                 item {
                     SectionHeader("CONTENT")
-
                     SettingItem("Popular")
                     SettingItem("Treading")
                     SettingItem("Today")
@@ -70,9 +72,52 @@ fun ProfileScreen(navController: NavController) {
                             .padding(vertical = 16.dp)
                     )
                 }
+
+                // Logout Section
+                item {
+                    SectionHeader("ACCOUNT")
+                    LogoutButton(
+                        onLogout = { showLogoutDialog = true },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp)
+                    )
+                }
             }
         }
     )
+
+    if (showLogoutDialog) {
+        AlertDialog(
+            onDismissRequest = { showLogoutDialog = false },
+            title = { Text("Logout") },
+            text = { Text("Are you sure you want to logout?") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        // Call your repository's logout function here
+                        // authRepository.logout()
+
+                        // Navigate to login screen and clear back stack
+                        navController.navigate("login") {
+                            popUpTo(navController.graph.startDestinationId) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                ) {
+                    Text("Logout", color = MaterialTheme.colorScheme.primary)
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showLogoutDialog = false }
+                ) {
+                    Text("Cancel", color = MaterialTheme.colorScheme.primary)
+                }
+            }
+        )
+    }
 }
 
 @Composable
@@ -180,6 +225,37 @@ fun SwitchSettingItem(
             Switch(
                 checked = checked,
                 onCheckedChange = { /* Handle toggle */ }
+            )
+        }
+    }
+}
+
+@Composable
+fun LogoutButton(
+    onLogout: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier.clickable { onLogout() },
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Logout",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onErrorContainer
+            )
+            Icon(
+                imageVector = Icons.Default.ArrowForward,
+                contentDescription = "Logout",
+                tint = MaterialTheme.colorScheme.onErrorContainer
             )
         }
     }
