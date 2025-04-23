@@ -24,7 +24,7 @@ function Homepage({ setIsAuthenticated }) {
 
   const filteredPets = pets.filter((pet) => {
     const petName = pet.petName || "";
-    const petSpecies = normalizeSpecies(pet.species);
+    const petSpecies = normalizeSpecies(pet.type);
     const selectedCategory = normalizeSpecies(category);
 
     return (

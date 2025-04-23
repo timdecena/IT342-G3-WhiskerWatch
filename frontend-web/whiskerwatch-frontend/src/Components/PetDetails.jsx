@@ -39,11 +39,13 @@ function PetDetails() {
       <div className="pet-details-container">
         <div className="pet-details-card">
           <div className="pet-image-container">
-            <img
-              src={pet.image ? `http://localhost:8080/files/${pet.image}` : "/default-pet.jpg"}
-              alt={pet.petName}
-              className="pet-image"
-            />
+          <img
+  src={pet.image ? `http://localhost:8080/files/${pet.image}` : "/default-pet.jpg"}
+  alt={pet.petName || 'Pet Image'}
+  className="pet-image"
+/>
+
+<h1 className="pet-name">{pet.petName || pet.name}</h1>
           </div>
           <div className="pet-info-container">
             <h1 className="pet-name">{pet.petName}</h1>

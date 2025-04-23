@@ -49,8 +49,8 @@ function PostPets() {
 
     const petFormData = new FormData();
     const petData = {
-      name: formData.petName,
-      type: formData.species,
+      petName: formData.petName,
+      species: formData.species,
       breed: formData.breed,
       age: formData.age,
       status: formData.status,
