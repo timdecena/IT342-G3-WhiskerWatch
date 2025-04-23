@@ -100,7 +100,7 @@ function Homepage({ setIsAuthenticated }) {
                   <div className="pet-image-container">
                       <img
                         // Dynamically setting the image URL
-                        src={`http://localhost:8080/uploads/${pet.image}`}
+                        src={`http://localhost:8080/files/${pet.image}`}
                         alt={pet.petName}
                         className="pet-image"
                       />

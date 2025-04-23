@@ -30,6 +30,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/login", "/api/users/createUser").permitAll() // Allow login & user registration
                 .requestMatchers("/uploads/**").permitAll() // Allow access to static files
+                .requestMatchers("/files/**").permitAll() // Allow access to static files
                 .requestMatchers("/api/pets/**").permitAll() // Allow access to pets API
                 .requestMatchers("/api/adoptions/**").permitAll() // Allow all adoption-related requests
                 .requestMatchers("/api/favorites/**").permitAll() // Allow favorites-related requests
