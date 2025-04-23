@@ -20,6 +20,8 @@ public class SecurityConfig {
         this.jwtFilter = jwtFilter;
     }
 
+    
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -27,9 +29,11 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Disable CSRF for API calls
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/login", "/api/users/createUser").permitAll() // Allow login & user registration
+                .requestMatchers("/uploads/**").permitAll() // Allow access to static files
                 .requestMatchers("/api/pets/**").permitAll() // Allow access to pets API
                 .requestMatchers("/api/adoptions/**").permitAll() // Allow all adoption-related requests
                 .requestMatchers("/api/favorites/**").permitAll() // Allow favorites-related requests
+                
                 .anyRequest().authenticated() // Ensure other endpoints require authentication
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

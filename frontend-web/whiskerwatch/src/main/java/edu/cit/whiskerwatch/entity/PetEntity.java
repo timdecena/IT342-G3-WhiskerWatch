@@ -1,6 +1,15 @@
 package edu.cit.whiskerwatch.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pets")
@@ -11,13 +20,14 @@ public class PetEntity {
     private Long id;
 
     private String petName;
-    private String type;  // Type of animal (dog, cat, etc.)
+    private String type;
     private String species;
     private String breed;
     private int age;
-    private String status; // Available / Adopted
-    
-    private String image; // Add an image field
+    private String status;
+
+    @Column(name = "image")
+    private String image; // Change from byte[] to String
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = true)
@@ -33,7 +43,7 @@ public class PetEntity {
         this.breed = breed;
         this.age = age;
         this.status = status;
-        this.image = image;
+        this.image = image; // Change to accept a String (filename)
         this.owner = owner;
     }
 
@@ -94,20 +104,19 @@ public class PetEntity {
         this.status = status;
     }
 
+    public String getImage() {
+        return image; // Return the image filename as a String
+    }
+
+    public void setImage(String image) {
+        this.image = image; // Set the image filename
+    }
+
     public UserEntity getOwner() {
         return owner;
     }
 
     public void setOwner(UserEntity owner) {
         this.owner = owner;
-    }
-
-    // Getter and Setter for image
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 }

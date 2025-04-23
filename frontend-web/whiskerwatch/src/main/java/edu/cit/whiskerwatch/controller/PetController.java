@@ -1,13 +1,24 @@
 package edu.cit.whiskerwatch.controller;
 
-import edu.cit.whiskerwatch.entity.PetEntity;
-import edu.cit.whiskerwatch.service.PetService;
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Optional;
+import edu.cit.whiskerwatch.entity.PetEntity;
+import edu.cit.whiskerwatch.service.PetService;
+
 
 @RestController
 @RequestMapping("/api/pets")
@@ -33,8 +44,10 @@ public class PetController {
     }
 
     @PostMapping("/add/{ownerId}")
-    public PetEntity addPet(@RequestBody PetEntity pet, @PathVariable Long ownerId) {
-        return petService.addPet(pet, ownerId);
+    public PetEntity addPet(@RequestPart("pet") PetEntity pet,
+                            @RequestPart("image") MultipartFile image,
+                            @PathVariable Long ownerId) throws IOException {
+        return petService.addPet(pet, ownerId, image);
     }
 
     @PutMapping("/{id}")

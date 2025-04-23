@@ -97,10 +97,10 @@ function Homepage({ setIsAuthenticated }) {
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className="pet-card">
-                    <div className="pet-image-container">
+                  <div className="pet-image-container">
                       <img
                         // Dynamically setting the image URL
-                        src={`http://localhost:8080/files/${pet.imageUrl}`} 
+                        src={`http://localhost:8080/uploads/${pet.image}`}
                         alt={pet.petName}
                         className="pet-image"
                       />

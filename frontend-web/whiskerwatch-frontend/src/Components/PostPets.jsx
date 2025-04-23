@@ -39,18 +39,24 @@ function PostPets() {
     setMessage('');
 
     const userId = localStorage.getItem('userId');
-    if (!userId) {
-      setMessage('User ID not found. Please log in again.');
+    const token = localStorage.getItem('token');
+
+    if (!userId || !token) {
+      setMessage('User ID or token not found. Please log in again.');
       setIsLoading(false);
       return;
     }
 
     const petFormData = new FormData();
-    petFormData.append('petName', formData.petName);
-    petFormData.append('species', formData.species);
-    petFormData.append('breed', formData.breed);
-    petFormData.append('age', formData.age);
-    petFormData.append('status', formData.status);
+    const petData = {
+      name: formData.petName,
+      type: formData.species,
+      breed: formData.breed,
+      age: formData.age,
+      status: formData.status,
+    };
+
+    petFormData.append('pet', new Blob([JSON.stringify(petData)], { type: 'application/json' }));
     petFormData.append('image', formData.image);
 
     try {
@@ -59,7 +65,8 @@ function PostPets() {
         petFormData,
         {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
@@ -85,31 +92,14 @@ function PostPets() {
       <div className="post-pets-container">
         <h2>Add a New Pet</h2>
         <form onSubmit={handleSubmit} className="post-pet-form-horizontal" encType="multipart/form-data">
-
           <div className="form-row">
             <div className={`form-group ${focusedField === 'petName' ? 'focused' : ''}`}>
               <label>Pet Name</label>
-              <input
-                type="text"
-                name="petName"
-                value={formData.petName}
-                onChange={handleChange}
-                onFocus={() => handleFocus('petName')}
-                onBlur={handleBlur}
-                required
-              />
+              <input type="text" name="petName" value={formData.petName} onChange={handleChange} onFocus={() => handleFocus('petName')} onBlur={handleBlur} required />
             </div>
-
             <div className={`form-group ${focusedField === 'species' ? 'focused' : ''}`}>
               <label>Species</label>
-              <select
-                name="species"
-                value={formData.species}
-                onChange={handleChange}
-                onFocus={() => handleFocus('species')}
-                onBlur={handleBlur}
-                required
-              >
+              <select name="species" value={formData.species} onChange={handleChange} onFocus={() => handleFocus('species')} onBlur={handleBlur} required>
                 <option value="">Select species</option>
                 <option value="Dog">Dog</option>
                 <option value="Cat">Cat</option>
@@ -120,42 +110,18 @@ function PostPets() {
           <div className="form-row">
             <div className={`form-group ${focusedField === 'breed' ? 'focused' : ''}`}>
               <label>Breed</label>
-              <input
-                type="text"
-                name="breed"
-                value={formData.breed}
-                onChange={handleChange}
-                onFocus={() => handleFocus('breed')}
-                onBlur={handleBlur}
-                required
-              />
+              <input type="text" name="breed" value={formData.breed} onChange={handleChange} onFocus={() => handleFocus('breed')} onBlur={handleBlur} required />
             </div>
-
             <div className={`form-group ${focusedField === 'age' ? 'focused' : ''}`}>
               <label>Age</label>
-              <input
-                type="number"
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-                onFocus={() => handleFocus('age')}
-                onBlur={handleBlur}
-                required
-              />
+              <input type="number" name="age" value={formData.age} onChange={handleChange} onFocus={() => handleFocus('age')} onBlur={handleBlur} required />
             </div>
           </div>
 
           <div className="form-row">
             <div className={`form-group ${focusedField === 'status' ? 'focused' : ''}`}>
               <label>Status</label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                onFocus={() => handleFocus('status')}
-                onBlur={handleBlur}
-                required
-              >
+              <select name="status" value={formData.status} onChange={handleChange} onFocus={() => handleFocus('status')} onBlur={handleBlur} required>
                 <option value="">Select status</option>
                 <option value="Active">Active</option>
                 <option value="Injured">Injured</option>
@@ -168,21 +134,11 @@ function PostPets() {
           <div className="form-row">
             <div className="form-group">
               <label>Pet Image</label>
-              <input
-                type="file"
-                name="image"
-                onChange={handleFileChange}
-                accept="image/*"
-                required
-              />
+              <input type="file" name="image" onChange={handleFileChange} accept="image/*" required />
             </div>
           </div>
 
-          <button
-            type="submit"
-            className={`submit-btn ${isLoading ? 'loading' : ''}`}
-            disabled={isLoading}
-          >
+          <button type="submit" className={`submit-btn ${isLoading ? 'loading' : ''}`} disabled={isLoading}>
             {isLoading ? '' : 'Add Pet'}
           </button>
         </form>
