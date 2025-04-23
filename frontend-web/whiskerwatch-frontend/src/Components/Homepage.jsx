@@ -63,11 +63,10 @@ function Homepage({ setIsAuthenticated }) {
                 <option value="All">All Pets</option>
                 <option value="Dogs">Dogs</option>
                 <option value="Cats">Cats</option>
-                
               </select>
               <Link to="/post-pets" className="post-pet-btn1">
-          List a Pet for Adoption
-        </Link>
+                List a Pet for Adoption
+              </Link>
               <input
                 type="text"
                 placeholder="  Search pets..."
@@ -76,9 +75,7 @@ function Homepage({ setIsAuthenticated }) {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-
           </div>
-          
 
           <div className="hero-image">
             <img src={bannerPets} alt="Adopt pets" className="hero-image" />
@@ -102,7 +99,8 @@ function Homepage({ setIsAuthenticated }) {
                   <div className="pet-card">
                     <div className="pet-image-container">
                       <img
-                        src={pet.image || "/default-pet-image.jpg"}
+                        // Dynamically setting the image URL
+                        src={`http://localhost:8080/files/${pet.imageUrl}`} 
                         alt={pet.petName}
                         className="pet-image"
                       />

@@ -16,6 +16,7 @@ public class PetEntity {
     private String breed;
     private int age;
     private String status; // Available / Adopted
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = true)
@@ -24,7 +25,7 @@ public class PetEntity {
     // Constructors
     public PetEntity() {}
 
-    public PetEntity(String petName, String type, String species, String breed, int age, String status, UserEntity owner) {
+    public PetEntity(String petName, String type, String species, String breed, int age, String status, UserEntity owner, String imageUrl) {
         this.petName = petName;
         this.type = type;
         this.species = species;
@@ -32,9 +33,12 @@ public class PetEntity {
         this.age = age;
         this.status = status;
         this.owner = owner;
+        this.imageUrl = imageUrl;
     }
 
     // Getters and Setters
+
+
     public Long getId() {
         return id;
     }
@@ -97,5 +101,13 @@ public class PetEntity {
 
     public void setOwner(UserEntity owner) {
         this.owner = owner;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

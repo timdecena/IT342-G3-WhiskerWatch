@@ -10,7 +10,7 @@ function PostPets() {
     breed: '',
     age: '',
     status: '',
-    ownerId: ''
+    image: null,
   });
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -18,10 +18,11 @@ function PostPets() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e) => {
+    setFormData(prev => ({ ...prev, image: e.target.files[0] }));
   };
 
   const handleFocus = (fieldName) => {
@@ -36,33 +37,41 @@ function PostPets() {
     e.preventDefault();
     setIsLoading(true);
     setMessage('');
-  
+
     const userId = localStorage.getItem('userId');
     if (!userId) {
       setMessage('User ID not found. Please log in again.');
       setIsLoading(false);
       return;
     }
-  
+
+    const petFormData = new FormData();
+    petFormData.append('petName', formData.petName);
+    petFormData.append('species', formData.species);
+    petFormData.append('breed', formData.breed);
+    petFormData.append('age', formData.age);
+    petFormData.append('status', formData.status);
+    petFormData.append('image', formData.image);
+
     try {
       const response = await axios.post(
         `http://localhost:8080/api/pets/add/${userId}`,
-        formData,
+        petFormData,
         {
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
-  
+
       setMessage('Pet added successfully!');
       setFormData({
         petName: '',
         species: '',
         breed: '',
         age: '',
-        status: ''
+        status: '',
+        image: null,
       });
     } catch (error) {
       setMessage(error.response?.data?.message || 'Failed to add pet. Please try again.');
@@ -75,7 +84,7 @@ function PostPets() {
     <div className="post-pets-wrapper">
       <div className="post-pets-container">
         <h2>Add a New Pet</h2>
-        <form onSubmit={handleSubmit} className="post-pet-form-horizontal">
+        <form onSubmit={handleSubmit} className="post-pet-form-horizontal" encType="multipart/form-data">
 
           <div className="form-row">
             <div className={`form-group ${focusedField === 'petName' ? 'focused' : ''}`}>
@@ -137,25 +146,36 @@ function PostPets() {
           </div>
 
           <div className="form-row">
-          <div className={`form-group ${focusedField === 'status' ? 'focused' : ''}`}>
-  <label>Status</label>
-  <select
-    name="status"
-    value={formData.status}
-    onChange={handleChange}
-    onFocus={() => handleFocus('status')}
-    onBlur={handleBlur}
-    required
-  >
-    <option value="">Select status</option>
-    <option value="Active">Active</option>
-    <option value="Injured">Injured</option>
-    <option value="Disabled">Disabled</option>
-    <option value="Chronic Condition">Chronic Condition</option>
-  </select>
-</div>
+            <div className={`form-group ${focusedField === 'status' ? 'focused' : ''}`}>
+              <label>Status</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                onFocus={() => handleFocus('status')}
+                onBlur={handleBlur}
+                required
+              >
+                <option value="">Select status</option>
+                <option value="Active">Active</option>
+                <option value="Injured">Injured</option>
+                <option value="Disabled">Disabled</option>
+                <option value="Chronic Condition">Chronic Condition</option>
+              </select>
+            </div>
+          </div>
 
-
+          <div className="form-row">
+            <div className="form-group">
+              <label>Pet Image</label>
+              <input
+                type="file"
+                name="image"
+                onChange={handleFileChange}
+                accept="image/*"
+                required
+              />
+            </div>
           </div>
 
           <button
