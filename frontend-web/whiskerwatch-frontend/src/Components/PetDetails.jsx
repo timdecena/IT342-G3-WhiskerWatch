@@ -40,7 +40,7 @@ function PetDetails() {
         <div className="pet-details-card">
           <div className="pet-image-container">
             <img
-              src={pet.image || "/default-pet.jpg"}
+              src={pet.image ? `http://localhost:8080/files/${pet.image}` : "/default-pet.jpg"}
               alt={pet.petName}
               className="pet-image"
             />
