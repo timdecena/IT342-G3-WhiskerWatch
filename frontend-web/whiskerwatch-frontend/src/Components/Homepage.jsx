@@ -111,6 +111,7 @@ function Homepage({ setIsAuthenticated }) {
                       <p>Breed: {pet.breed}</p>
                       <p>Age: {pet.age} years</p>
                       <p>Status: {pet.status}</p>
+                      <p>Species: {pet.species}</p>
                     </div>
                   </div>
                 </Link>
