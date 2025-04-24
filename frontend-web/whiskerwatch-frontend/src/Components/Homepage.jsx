@@ -24,9 +24,9 @@ function Homepage({ setIsAuthenticated }) {
 
   const filteredPets = pets.filter((pet) => {
     const petName = pet.petName || "";
-    const petSpecies = normalizeSpecies(pet.type);
+    const petSpecies = normalizeSpecies(pet.species); // <- FIXED
     const selectedCategory = normalizeSpecies(category);
-
+  
     return (
       (selectedCategory === "all" || petSpecies === selectedCategory) &&
       petName.toLowerCase().includes(searchTerm.toLowerCase())
