@@ -13,6 +13,7 @@ body, html {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* Header */
@@ -21,9 +22,8 @@ body, html {
   display: flex;
   justify-content: center;
   background-color: #f1f5f9;
-  padding: 4rem 2rem;
+  padding: 4rem 1rem; /* Fixed excessive padding */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  padding: 30rem 1.25rem 1.25rem 1.25rem;
 }
 
 .header-content {
@@ -32,7 +32,7 @@ body, html {
   align-items: center;
   max-width: 1400px;
   width: 100%;
-  gap: 4rem;
+  gap: 10rem;
 }
 
 /* Hero Text */
