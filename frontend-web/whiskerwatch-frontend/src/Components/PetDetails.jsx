@@ -72,6 +72,11 @@ function PetDetails() {
                   {pet.status}
                 </span>
               </div>
+              <div className="detail-item">
+                <span className="detail-icon">📍</span>
+                <span className="detail-label">Location:</span>
+                <span className="detail-value">{pet.location}</span>
+              </div>
             </div>
             <button className="adopt-button" onClick={() => navigate(`/adopt/${id}`)}>
               Submit Adoption Form

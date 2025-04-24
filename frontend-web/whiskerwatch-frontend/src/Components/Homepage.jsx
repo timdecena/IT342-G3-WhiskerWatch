@@ -9,7 +9,7 @@ function Homepage({ setIsAuthenticated }) {
   const [pets, setPets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("All");
-  const petsSectionRef = useRef(null); // Create a reference for the pets section
+  const petsSectionRef = useRef(null);
 
   useEffect(() => {
     axios
@@ -24,9 +24,9 @@ function Homepage({ setIsAuthenticated }) {
 
   const filteredPets = pets.filter((pet) => {
     const petName = pet.petName || "";
-    const petSpecies = normalizeSpecies(pet.species); // <- FIXED
+    const petSpecies = normalizeSpecies(pet.species);
     const selectedCategory = normalizeSpecies(category);
-  
+
     return (
       (selectedCategory === "all" || petSpecies === selectedCategory) &&
       petName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -64,16 +64,16 @@ function Homepage({ setIsAuthenticated }) {
                 <option value="Dogs">Dogs</option>
                 <option value="Cats">Cats</option>
               </select>
-              <Link to="/post-pets" className="post-pet-btn1">
-                List a Pet for Adoption
-              </Link>
               <input
                 type="text"
-                placeholder="  Search pets..."
+                placeholder="Search pets..."
                 className="search-bar"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              <Link to="/post-pets" className="post-pet-btn1">
+                List a Pet for Adoption
+              </Link>
             </div>
           </div>
 
@@ -94,32 +94,28 @@ function Homepage({ setIsAuthenticated }) {
                   to={`/pets/${pet.id}`}
                   key={pet.id}
                   className="pet-card-link"
-                  style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className="pet-card">
-                  <div className="pet-image-container">
+                    <div className="pet-image-container">
                       <img
-                        // Dynamically setting the image URL
                         src={`http://localhost:8080/files/${pet.image}`}
                         alt={pet.petName}
                         className="pet-image"
                       />
                     </div>
-
                     <div className="pet-details">
                       <h3>{pet.petName}</h3>
-                      <p>Breed: {pet.breed}</p>
-                      <p>Age: {pet.age} years</p>
-                      <p>Status: {pet.status}</p>
-                      <p>Species: {pet.species}</p>
+                      <p><strong>Breed:</strong> {pet.breed}</p>
+                      <p><strong>Age:</strong> {pet.age} years</p>
+                      <p><strong>Status:</strong> {pet.status}</p>
+                      <p><strong>Species:</strong> {pet.species}</p>
+                      <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
                     </div>
                   </div>
                 </Link>
               ))
             ) : (
-              <p className="no-pets-message">
-                No pets available matching your criteria.
-              </p>
+              <p className="no-pets-message">No pets available matching your criteria.</p>
             )}
           </div>
         </section>

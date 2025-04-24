@@ -28,15 +28,23 @@ public class PetEntity {
 
     @Column(name = "image")
     private String image; // Change from byte[] to String
+    @Column
+    private String country;
+    @Column
+    private String barangay;
+    @Column
+    private String city;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = true)
     private UserEntity owner;
 
     // Constructors
-    public PetEntity() {}
+    public PetEntity() {
+    }
 
-    public PetEntity(String petName, String type, String species, String breed, int age, String status, String image, UserEntity owner) {
+    public PetEntity(String petName, String type, String species, String breed, int age, String status, String image,
+            UserEntity owner) {
         this.petName = petName;
         this.type = type;
         this.species = species;
@@ -118,5 +126,28 @@ public class PetEntity {
 
     public void setOwner(UserEntity owner) {
         this.owner = owner;
+    }
+
+    public String getBarangay() {
+        return barangay;
+    }
+
+    public void setBarangay(String barangay) {
+        this.barangay = barangay;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+    public String getCountry() {
+        return country;
+    }
+    
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

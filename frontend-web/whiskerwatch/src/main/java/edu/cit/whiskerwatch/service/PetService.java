@@ -61,27 +61,31 @@ public class PetService {
         } else {
             throw new RuntimeException("Owner not found with ID: " + ownerId);
         }
-
+    
         // Process the image if it's not empty
         if (image != null && !image.isEmpty()) {
             try {
                 // Generate a unique filename for the image
                 String filename = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-
+    
                 // Define the path where the image will be saved
                 Path imagePath = Paths.get("uploads/" + filename);
-
+    
                 // Copy the image data to the file system
                 Files.copy(image.getInputStream(), imagePath);
-
+    
                 // Save the filename (not the file itself) to the database
-                pet.setImage(filename);  // Save the filename in the database
-
+                pet.setImage(filename); 
             } catch (IOException e) {
                 throw new RuntimeException("Failed to process image file", e);
             }
         }
-
+    
+        // Ensure location fields are set (already in pet from frontend or set here)
+        if (pet.getCountry() == null || pet.getCity() == null || pet.getBarangay() == null) {
+            throw new RuntimeException("Location information is incomplete.");
+        }
+    
         // Save the pet entity to the repository
         return petRepository.save(pet);
     }
@@ -98,9 +102,9 @@ public class PetService {
             return petRepository.save(pet);
         }).orElseThrow(() -> new RuntimeException("Pet not found"));
     }
-
-    // Delete a pet by its ID
-    public void deletePet(Long id) {
+ 
+    // Delete a pet by its ID 
+    public void deletePet(Long id) { 
         petRepository.findById(id).ifPresent(pet -> {
             pet.setOwner(null);  // Disassociate owner before deletion
             petRepository.save(pet);  // Save the updated pet (owner disassociated)

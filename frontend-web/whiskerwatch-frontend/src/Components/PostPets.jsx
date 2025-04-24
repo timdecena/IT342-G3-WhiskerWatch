@@ -5,12 +5,16 @@ import '../assets/PostPets.css';
 
 function PostPets() {
   const [formData, setFormData] = useState({
-    petName: '',
-    species: '',
-    breed: '',
-    age: '',
-    status: '',
-    image: null,
+    petName: "",
+    type: "",
+    species: "",
+    breed: "",
+    age: "",
+    status: "",
+    country: "",
+    city: "",
+    barangay: "",
+    image: null
   });
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -54,6 +58,9 @@ function PostPets() {
       breed: formData.breed,
       age: formData.age,
       status: formData.status,
+      country: formData.country,
+      city: formData.city,
+      barangay: formData.barangay,
     };
 
     petFormData.append('pet', new Blob([JSON.stringify(petData)], { type: 'application/json' }));
@@ -73,12 +80,16 @@ function PostPets() {
 
       setMessage('Pet added successfully!');
       setFormData({
-        petName: '',
-        species: '',
-        breed: '',
-        age: '',
-        status: '',
-        image: null,
+        petName: "",
+        type: "",
+        species: "",
+        breed: "",
+        age: "",
+        status: "",
+        country: "",
+        city: "",
+        barangay: "",
+        image: null
       });
     } catch (error) {
       setMessage(error.response?.data?.message || 'Failed to add pet. Please try again.');
@@ -128,6 +139,45 @@ function PostPets() {
                 <option value="Disabled">Disabled</option>
                 <option value="Chronic Condition">Chronic Condition</option>
               </select>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className={`form-group ${focusedField === 'country' ? 'focused' : ''}`}>
+              <label>Country</label>
+              <input
+                type="text"
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                onFocus={() => handleFocus('country')}
+                onBlur={handleBlur}
+                required
+              />
+            </div>
+            <div className={`form-group ${focusedField === 'city' ? 'focused' : ''}`}>
+              <label>City</label>
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                onFocus={() => handleFocus('city')}
+                onBlur={handleBlur}
+                required
+              />
+            </div>
+            <div className={`form-group ${focusedField === 'barangay' ? 'focused' : ''}`}>
+              <label>Barangay</label>
+              <input
+                type="text"
+                name="barangay"
+                value={formData.barangay}
+                onChange={handleChange}
+                onFocus={() => handleFocus('barangay')}
+                onBlur={handleBlur}
+                required
+              />
             </div>
           </div>
 
