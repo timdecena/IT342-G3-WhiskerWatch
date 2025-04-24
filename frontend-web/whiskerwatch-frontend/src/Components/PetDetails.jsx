@@ -75,15 +75,34 @@ function PetDetails() {
               <div className="detail-item">
                 <span className="detail-icon">📍</span>
                 <span className="detail-label">Location:</span>
-                <span className="detail-value">{pet.location}</span>
+                <div className="detail-value location-details">
+                  {pet.barangay && <span>{pet.barangay}, </span>}
+                  {pet.city && <span>{pet.city}, </span>}
+                  {pet.country && <span>{pet.country}</span>}
+                </div>
               </div>
             </div>
+
+            {pet.latitude && pet.longitude && isLoaded && (
+              <div className="map-container">
+                <h3 className="map-title">Exact Location</h3>
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  center={{ lat: pet.latitude, lng: pet.longitude }}
+                  zoom={14}
+                >
+                  <Marker position={{ lat: pet.latitude, lng: pet.longitude }} />
+                </GoogleMap>
+              </div>
+            )}
+
             <button className="adopt-button" onClick={() => navigate(`/adopt/${id}`)}>
               Submit Adoption Form
             </button>
           </div>
         </div>
       </div>
+
 
       {/* FAQ Section */}
       <div className="faq-section">
