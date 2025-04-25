@@ -197,7 +197,7 @@ function EditPet() {
 
       setMessage('Pet updated successfully!');
       setTimeout(() => {
-        navigate('/your-pets');
+        navigate('/yourpets');
       }, 1500);
     } catch (error) {
       console.error('Update error:', error);
