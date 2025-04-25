@@ -34,16 +34,12 @@ const YourPets = () => {
   const normalizeSpecies = (species) =>
     species ? species.toLowerCase().replace(/s$/, "") : "";
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this listing?");
     if (confirmed) {
-      try {
-        await axios.put(`http://localhost:8080/api/pets/${id}/soft-delete`);
-        // Remove from UI immediately
-        setPets((prevPets) => prevPets.filter((pet) => pet.id !== id));
-      } catch (error) {
-        console.error("Failed to delete pet:", error);
-      }
+      const updatedDeleted = [...deletedPetIds, id];
+      setDeletedPetIds(updatedDeleted);
+      localStorage.setItem("deletedPetIds", JSON.stringify(updatedDeleted));
     }
   };
 
