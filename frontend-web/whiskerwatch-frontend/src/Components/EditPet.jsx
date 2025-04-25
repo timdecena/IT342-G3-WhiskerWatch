@@ -64,17 +64,16 @@ function EditPet() {
           breed: pet.breed,
           age: pet.age,
           status: pet.status,
-          country: pet.country,
-          city: pet.city,
-          barangay: pet.barangay,
+          country: pet.country || '',
+          city: pet.city || '',
+          barangay: pet.barangay || '',
           image: null
         });
 
         if (pet.image) {
-          setCurrentImage(`http://localhost:8080/files/${pet.image}`);
+          setCurrentImage(`http://localhost:8080/uploads/${pet.image}`);
         }
 
-        // Set marker position if we have location data
         if (pet.latitude && pet.longitude) {
           setMarkerPosition({
             lat: pet.latitude,
@@ -145,17 +144,16 @@ function EditPet() {
     setIsLoading(true);
     setMessage('');
 
-    const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
 
-    if (!userId || !token) {
-      setMessage('User ID or token not found. Please log in again.');
+    if (!token) {
+      setMessage('Please log in again.');
       setIsLoading(false);
       return;
     }
 
     try {
-      // First update the pet data
+      // First update the pet data including location
       const petData = {
         petName: formData.petName,
         species: formData.species,
@@ -202,6 +200,7 @@ function EditPet() {
         navigate('/your-pets');
       }, 1500);
     } catch (error) {
+      console.error('Update error:', error);
       setMessage(error.response?.data?.message || 'Failed to update pet. Please try again.');
     } finally {
       setIsLoading(false);
@@ -352,12 +351,6 @@ function EditPet() {
               </button>
             </div>
           </form>
-
-          {message && (
-            <p className={`status-message ${message.includes('success') ? 'success' : 'error'}`}>
-              {message}
-            </p>
-          )}
         </div>
       </div>
     </Layout>
@@ -365,3 +358,4 @@ function EditPet() {
 }
 
 export default EditPet;
+

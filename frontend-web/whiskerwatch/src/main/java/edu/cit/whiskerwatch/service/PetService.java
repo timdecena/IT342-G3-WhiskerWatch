@@ -99,6 +99,11 @@ public class PetService {
             pet.setBreed(updatedPet.getBreed());
             pet.setAge(updatedPet.getAge());
             pet.setStatus(updatedPet.getStatus());
+            pet.setCountry(updatedPet.getCountry());
+            pet.setCity(updatedPet.getCity());
+            pet.setBarangay(updatedPet.getBarangay());
+            pet.setLatitude(updatedPet.getLatitude());
+            pet.setLongitude(updatedPet.getLongitude());
             return petRepository.save(pet);
         }).orElseThrow(() -> new RuntimeException("Pet not found"));
     }
