@@ -5,6 +5,9 @@ body, html {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f9fafb;
   color: #1f2937;
+  width: 100%; /* Ensure full width is used */
+  max-width: 100%; /* Avoid content being cut off */
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* Homepage Wrapper */
@@ -12,7 +15,8 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 90%; /* 90% of viewport width */
+  margin: 0 auto; /* Center the homepage */
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
@@ -22,7 +26,7 @@ body, html {
   display: flex;
   justify-content: center;
   background-color: #f1f5f9;
-  padding: 4rem 1rem; /* Fixed excessive padding */
+  padding: 4rem 2rem; /* Reduce side padding */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -30,19 +34,23 @@ body, html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1000px;
+  max-width: 100%; /* Allow content to use the full width */
   width: 100%;
-  gap: 10rem;
+  gap: 4rem; /* Reduced gap to make it more compact */
+  flex-wrap: wrap;
+  justify-content: center; /* Align content more centrally */
 }
 
 /* Hero Text */
 .hero-text {
   flex: 1;
-  padding-top: 60rem;
+  padding-top: 30rem; /* Increased padding-top to push it further down */
+  padding-left: 2rem; /* Add left padding for alignment */
+  padding-right: 2rem; /* Add right padding for alignment */
 }
 
 .main-title {
-  font-size: 3rem;
+  font-size: 3.5rem; /* Increase the size slightly for more impact */
   font-weight: 800;
   margin-bottom: 1rem;
   line-height: 1.2;
@@ -65,7 +73,7 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 30rem;
+  padding-top: 16rem;
 }
 
 .hero-image img {
@@ -77,40 +85,32 @@ body, html {
 /* Search Bar */
 .search-container {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem; /* More gap between elements */
   flex-wrap: wrap;
 }
 
 .category-dropdown {
-  padding: 0.5rem 0.75rem;  /* Smaller padding */
-  font-size: 0.9rem;  /* Smaller font size */
-  border-radius: 6px;  /* Slightly smaller border radius */
+  padding: 0.75rem 1rem; /* Adjust padding for larger space */
+  font-size: 1rem; /* Make font size consistent */
+  border-radius: 8px; /* Consistent border radius */
   border: 1px solid #d1d5db;
-  width: 150px;  /* Smaller width */
+  width: 180px; /* Larger width */
   height: 50px;
-  margin-top: 0.3rem;  /* Adds space above the dropdown */
 }
 
 .search-bar {
-  padding: 0.75rem 1rem;  /* Slightly larger padding */
-  font-size: 1rem;  /* Keep the original font size */
-  border-radius: 8px;  /* Default border radius */
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
   border: 1px solid #d1d5db;
-  width: 300px;  /* Larger width */
+  width: 350px; /* Wider search bar */
 }
 
 /* Main Section */
 .main-content {
-  max-width: 1400px;
+  max-width: 1200px; /* Increase max width */
   width: 100%;
-  padding: 3rem 2rem;
-}
-
-.section-title {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  margin-top: 0rem;  /* Move it closer to the top */
+  padding: 4rem 3rem; /* Add more padding for larger content area */
 }
 
 /* Pet Cards */
@@ -171,7 +171,7 @@ body, html {
 }
 
 .post-pet-btn {
-  padding: 0.9rem 2rem;
+  padding: 1rem 2rem; /* Slightly larger padding */
   font-size: 1rem;
   background-color: #8b5cf6;
   color: white;
@@ -200,17 +200,21 @@ body, html {
   }
 
   .hero-image {
-    margin-top: 2rem;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5rem; /* Increased padding-top to move the image down */
   }
 }
 
 .post-pet-btn1 {
-  padding: 0.9rem 2rem;
+  padding: 1rem 2rem;
   font-size: 1rem;
   background-color: #8b5cf6;
   color: white;
   border-radius: 8px;
   text-decoration: none;
   transition: background-color 0.2s ease;
-  margin-top: 0rem; /* Add margin-top to move it down */
+  margin-top: 0rem;
 }
