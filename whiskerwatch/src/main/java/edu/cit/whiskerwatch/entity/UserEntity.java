@@ -64,5 +64,12 @@ public class UserEntity {
     public boolean checkPassword(String rawPassword) {
         return passwordEncoder.matches(rawPassword, this.password);
     }
+    public List<PetEntity> getPets() {
+        return pets;
+    }
+    
+    public void setPets(List<PetEntity> pets) {
+        this.pets = pets;
+    }
 
 }

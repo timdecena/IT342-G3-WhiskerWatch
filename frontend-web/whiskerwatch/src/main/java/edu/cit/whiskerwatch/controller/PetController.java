@@ -5,13 +5,16 @@ import edu.cit.whiskerwatch.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pets")
 public class PetController {
+
     @Autowired
     private PetService petService;
 
@@ -33,8 +36,48 @@ public class PetController {
     }
 
     @PostMapping("/add/{ownerId}")
-    public PetEntity addPet(@RequestBody PetEntity pet, @PathVariable Long ownerId) {
-        return petService.addPet(pet, ownerId);
+    public ResponseEntity<Map<String, Object>> addPet(@RequestBody PetEntity pet, @PathVariable Long ownerId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            PetEntity savedPet = petService.addPet(pet, ownerId);
+            response.put("success", true);
+            response.put("message", "Pet saved successfully");
+            response.put("pet", savedPet);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Failed to save pet: " + e.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+    @PostMapping("/add-with-image/{ownerId}")
+    public ResponseEntity<Map<String, Object>> addPetWithImage(
+            @RequestParam("petName") String petName,
+            @RequestParam("type") String type,
+            @RequestParam("species") String species,
+            @RequestParam("breed") String breed,
+            @RequestParam("age") int age,
+            @RequestParam("status") String status,
+            @RequestParam("image") MultipartFile imageFile,
+            @PathVariable Long ownerId) {
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        try {
+            PetEntity savedPet = petService.addPetWithImage(
+                    petName, type, species, breed, age, status, imageFile, ownerId);
+            
+            response.put("success", true);
+            response.put("message", "Pet saved successfully");
+            response.put("pet", savedPet);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Failed to save pet: " + e.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
     }
 
     @PutMapping("/{id}")
@@ -47,11 +90,4 @@ public class PetController {
         petService.deletePet(id);
         return ResponseEntity.noContent().build();
     }
-
-@DeleteMapping("/deleteAll")
-public ResponseEntity<Void> deleteAllPets() {
-    petService.deleteAllPets();
-    return ResponseEntity.noContent().build();
-}
-
 }
