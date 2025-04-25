@@ -8,6 +8,9 @@ const YourPets = () => {
   const [pets, setPets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("All");
+  const [deletedPetIds, setDeletedPetIds] = useState(
+    JSON.parse(localStorage.getItem("deletedPetIds") || "[]")
+  );
 
   useEffect(() => {
     const fetchUserPets = async () => {
@@ -31,27 +34,38 @@ const YourPets = () => {
   const normalizeSpecies = (species) =>
     species ? species.toLowerCase().replace(/s$/, "") : "";
 
-  const filteredPets = pets.filter((pet) => {
-    const petName = pet.petName || "";
-    const petSpecies = normalizeSpecies(pet.species);
-    const selectedCategory = normalizeSpecies(category);
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this listing?");
+    if (confirmed) {
+      try {
+        await axios.put(`http://localhost:8080/api/pets/${id}/soft-delete`);
+        // Remove from UI immediately
+        setPets((prevPets) => prevPets.filter((pet) => pet.id !== id));
+      } catch (error) {
+        console.error("Failed to delete pet:", error);
+      }
+    }
+  };
 
-    return (
-      (selectedCategory === "all" || petSpecies === selectedCategory) &&
-      petName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+  const filteredPets = pets
+    .filter((pet) => !deletedPetIds.includes(pet.id))
+    .filter((pet) => {
+      const petName = pet.petName || "";
+      const petSpecies = normalizeSpecies(pet.species);
+      const selectedCategory = normalizeSpecies(category);
+
+      return (
+        (selectedCategory === "all" || petSpecies === selectedCategory) &&
+        petName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
 
   return (
     <div className="your-pets-page">
       <h2 className="section-title">Your Pet Listings</h2>
 
       <div className="search-container">
-        <select
-          className="category-dropdown"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
+        <select className="category-dropdown" value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="All">All Pets</option>
           <option value="Dogs">Dogs</option>
           <option value="Cats">Cats</option>
@@ -91,6 +105,7 @@ const YourPets = () => {
               </div>
               <div className="pet-actions">
                 <Link to={`/edit-pet/${pet.id}`} className="edit-btn">Edit</Link>
+                <button onClick={() => handleDelete(pet.id)} className="delete-btn">Delete</button>
               </div>
             </div>
           ))
@@ -101,5 +116,6 @@ const YourPets = () => {
     </div>
   );
 };
+
 
 export default YourPets;

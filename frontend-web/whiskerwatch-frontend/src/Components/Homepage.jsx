@@ -12,11 +12,21 @@ function Homepage({ setIsAuthenticated }) {
   const petsSectionRef = useRef(null);
 
   useEffect(() => {
+    const deletedPetIds = JSON.parse(localStorage.getItem("deletedPetIds") || "[]");
+  
     axios
       .get("http://localhost:8080/api/pets")
-      .then((response) => setPets(response.data))
+      .then((response) => {
+        const visiblePets = response.data
+          .filter((pet) => !pet.isDeleted) // backend soft-delete support
+          .filter((pet) => !deletedPetIds.includes(pet.id)); // exclude locally deleted
+  
+        setPets(visiblePets);
+      })
       .catch((error) => console.error("Error fetching pets:", error));
   }, []);
+  
+  
 
   const normalizeSpecies = (species) => {
     return species ? species.toLowerCase().replace(/s$/, "") : "";
