@@ -10,6 +10,8 @@ import AdoptionForm from "./Components/AdoptionForm";
 import AdoptionRequestDetail from "./Components/AdoptionRequestDetail";
 import About from './Components/about'; // Import the About page component
 import Contact from './Components/contact'; // Import the About page component
+import YourPets from './Components/YourPets';
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -57,6 +59,8 @@ function App() {
         <Route path="/adoption-request/:requestId" element={<AdoptionRequestDetail />} />
         <Route path="/about" element={<About />} /> {/* The About Page Route */}
         <Route path="/contact" element={<Contact />} /> {/* The contact Page Route */}
+        <Route path="/yourpets" element={isAuthenticated ? <YourPets /> : <Navigate to="/" replace />} 
+        />
       </Routes>
 
     </BrowserRouter>
