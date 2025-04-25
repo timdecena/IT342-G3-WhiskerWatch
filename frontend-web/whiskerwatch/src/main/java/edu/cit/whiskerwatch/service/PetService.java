@@ -126,4 +126,18 @@ public class PetService {
     public List<PetEntity> getUnownedPets() {
         return petRepository.findByOwnerIsNull();
     }
+
+    public PetEntity updatePetImage(Long id, MultipartFile image) throws IOException {
+        PetEntity pet = petRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Pet not found"));
+        
+        if (image != null && !image.isEmpty()) {
+            String filename = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+            Path imagePath = Paths.get("uploads/" + filename);
+            Files.copy(image.getInputStream(), imagePath);
+            pet.setImage(filename);
+        }
+        
+        return petRepository.save(pet);
+    }
 }

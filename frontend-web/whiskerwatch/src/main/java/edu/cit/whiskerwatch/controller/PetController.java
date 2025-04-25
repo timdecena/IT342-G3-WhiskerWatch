@@ -67,4 +67,11 @@ public ResponseEntity<Void> deleteAllPets() {
     return ResponseEntity.noContent().build();
 }
 
+@PostMapping("/{id}/image")
+public ResponseEntity<PetEntity> updatePetImage(
+    @PathVariable Long id,
+    @RequestPart("image") MultipartFile image) throws IOException {
+    return ResponseEntity.ok(petService.updatePetImage(id, image));
+}
+
 }
