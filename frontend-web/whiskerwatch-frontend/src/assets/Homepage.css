@@ -1,16 +1,216 @@
-/* Homepage.css */
-.homepage-container {
-    composes: container;
+/* Reset & Base */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+/* Homepage Wrapper */
+.homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Header */
+.homepage-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #f1f5f9;
+  padding: 4rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 30rem 1.25rem 1.25rem 1.25rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  width: 100%;
+  gap: 4rem;
+}
+
+/* Hero Text */
+.hero-text {
+  flex: 1;
+  padding-top: 60rem;
+}
+
+.main-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.highlight-text {
+  color: #8b5cf6;
+  font-weight: 700;
+}
+
+.subtext {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #4b5563;
+}
+
+/* Hero Image */
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30rem;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+}
+
+/* Search Bar */
+.search-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.category-dropdown {
+  padding: 0.5rem 0.75rem;  /* Smaller padding */
+  font-size: 0.9rem;  /* Smaller font size */
+  border-radius: 6px;  /* Slightly smaller border radius */
+  border: 1px solid #d1d5db;
+  width: 150px;  /* Smaller width */
+  height: 50px;
+  margin-top: 0.3rem;  /* Adds space above the dropdown */
+}
+
+.search-bar {
+  padding: 0.75rem 1rem;  /* Slightly larger padding */
+  font-size: 1rem;  /* Keep the original font size */
+  border-radius: 8px;  /* Default border radius */
+  border: 1px solid #d1d5db;
+  width: 300px;  /* Larger width */
+}
+
+/* Main Section */
+.main-content {
+  max-width: 1400px;
+  width: 100%;
+  padding: 3rem 2rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  margin-top: 0rem;  /* Move it closer to the top */
+}
+
+/* Pet Cards */
+.pet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.pet-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.pet-card {
+  background-color: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.pet-card:hover {
+  transform: translateY(-5px);
+}
+
+.pet-image-container {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background-color: #f3f4f6;
+}
+
+.pet-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pet-details {
+  padding: 1rem;
+}
+
+.pet-details h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+}
+
+.pet-details p {
+  margin: 0.3rem 0;
+  color: #6b7280;
+}
+
+/* Post Pet Button */
+.post-pet-link {
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.post-pet-btn {
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  background-color: #8b5cf6;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.post-pet-btn:hover {
+  background-color: #7c3aed;
+}
+
+/* No pets message */
+.no-pets-message {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
   }
-  
-  .homepage-container h1 {
-    color: #333;
+
+  .hero-image {
+    margin-top: 2rem;
   }
-  
-  .homepage-container button {
-    background-color: #dc3545;
-  }
-  
-  .homepage-container button:hover {
-    background-color: #a71d2a;
-  }
+}
+
+.post-pet-btn1 {
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  background-color: #8b5cf6;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  margin-top: 0rem; /* Add margin-top to move it down */
+}

@@ -12,20 +12,17 @@ public class UserEntity {
     private Long id;
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
     @Column(nullable = false)
     private String firstName;
-
     @Column(nullable = false)
     private String lastName;
-
     @Column(unique = true, nullable = false)
     private String email;
-
     @Column(nullable = false)
     private String password;
 
-
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<PetEntity> pets;
 
     // Getters and Setters
     public Long getId() {

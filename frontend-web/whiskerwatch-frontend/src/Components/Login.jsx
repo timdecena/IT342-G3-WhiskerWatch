@@ -18,14 +18,16 @@ function Login({ setIsAuthenticated }) {
       const data = await response.json();
       console.log("API Response:", data);  // Debugging API response
   
-      if (data.firstName && data.lastName) { // Ensure values exist
+      // Check if the response contains necessary fields
+      if (data.firstName && data.lastName && data.userId) { 
         localStorage.setItem('firstName', data.firstName);
         localStorage.setItem('lastName', data.lastName);
+        localStorage.setItem('userId', data.userId);  // Store userId in localStorage
+        localStorage.setItem('token', data.token); // Store token in localStorage
       } else {
-        console.error("Missing firstName or lastName in response.");
+        console.error("Missing firstName, lastName, or userId in response.");
       }
   
-      localStorage.setItem('token', data.token);
       setIsAuthenticated(true);
       navigate('/homepage');
     } else {
@@ -36,8 +38,18 @@ function Login({ setIsAuthenticated }) {
   return (
     <div>
       <h1>Login</h1>
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <input 
+        type="email" 
+        placeholder="Email" 
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)} 
+      />
+      <input 
+        type="password" 
+        placeholder="Password" 
+        value={password} 
+        onChange={(e) => setPassword(e.target.value)} 
+      />
       <button onClick={handleLogin}>Sign In</button>
       <p>Don't have an account? <a href="/register">Sign up</a></p>
     </div>
