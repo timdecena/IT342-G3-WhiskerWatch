@@ -66,7 +66,7 @@ function Homepage({ setIsAuthenticated }) {
               </select>
               <input
                 type="text"
-                placeholder="Search pets..."
+                placeholder="  Search pets..."
                 className="search-bar"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}

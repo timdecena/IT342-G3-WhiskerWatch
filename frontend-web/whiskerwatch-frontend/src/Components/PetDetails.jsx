@@ -45,7 +45,7 @@ function PetDetails() {
   className="pet-image"
 />
 
-<h1 className="pet-name">{pet.petName || pet.name}</h1>
+<h1 className="pet-name"></h1>
           </div>
           <div className="pet-info-container">
             <h1 className="pet-name">{pet.petName}</h1>

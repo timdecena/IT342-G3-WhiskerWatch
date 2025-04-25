@@ -30,7 +30,7 @@ body {
   width: 95%;
   max-width: 1600px;
   margin-bottom: 30px;
-  margin-top: 100px;
+  margin-top: 200px;
 }
 
 .pet-details-card {
@@ -214,4 +214,8 @@ body {
   .pet-details-grid {
     grid-template-columns: 1fr;
   }
+
+  
+
+  
 }
