@@ -40,6 +40,19 @@ function Homepage({ setIsAuthenticated }) {
     }
   };
 
+  const userId = localStorage.getItem("userId");
+
+  // Filter pets created by this user
+  const yourPets = filteredPets.filter(
+    (pet) => pet.owner && pet.owner.id == userId
+  );
+  const otherPets = filteredPets.filter(
+    (pet) => !pet.owner || pet.owner.id != userId
+  );
+
+  // Combine them, yours first
+  const sortedPets = [...yourPets, ...otherPets];
+
   return (
     <div className="homepage">
       <header className="homepage-header">
@@ -51,8 +64,9 @@ function Homepage({ setIsAuthenticated }) {
               <span className="highlight-text">Adopt a Pet Today</span>
             </h1>
             <p className="subtext">
-              Browse our available animals and learn more about the adoption process.
-              Together, we can rescue, rehabilitate, and rehome pets in need.
+              Browse our available animals and learn more about the adoption
+              process. Together, we can rescue, rehabilitate, and rehome pets in
+              need.
             </p>
             <div className="search-container">
               <select
@@ -88,14 +102,12 @@ function Homepage({ setIsAuthenticated }) {
           <h2 className="section-title">Available Pets</h2>
 
           <div className="pet-grid">
-            {filteredPets.length > 0 ? (
-              filteredPets.map((pet) => (
-                <Link
-                  to={`/pets/${pet.id}`}
-                  key={pet.id}
-                  className="pet-card-link"
-                >
-                  <div className="pet-card">
+            {sortedPets.length > 0 ? (
+              sortedPets.map((pet) => {
+                const isYours = pet.owner && pet.owner.id == userId;
+
+                const PetCardContent = (
+                  <div className={`pet-card ${isYours ? "your-pet" : ""}`}>
                     <div className="pet-image-container">
                       <img
                         src={`http://localhost:8080/files/${pet.image}`}
@@ -104,18 +116,53 @@ function Homepage({ setIsAuthenticated }) {
                       />
                     </div>
                     <div className="pet-details">
-                      <h3>{pet.petName}</h3>
-                      <p><strong>Breed:</strong> {pet.breed}</p>
-                      <p><strong>Age:</strong> {pet.age} years</p>
-                      <p><strong>Status:</strong> {pet.status}</p>
-                      <p><strong>Species:</strong> {pet.species}</p>
-                      <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
+                      <h3>
+                        {pet.petName}{" "}
+                        {isYours && (
+                          <span className="yours-label">Yours</span>
+                        )}
+                      </h3>
+                      <p>
+                        <strong>Breed:</strong> {pet.breed}
+                      </p>
+                      <p>
+                        <strong>Age:</strong> {pet.age} years
+                      </p>
+                      <p>
+                        <strong>Status:</strong> {pet.status}
+                      </p>
+                      <p>
+                        <strong>Species:</strong> {pet.species}
+                      </p>
+                      <p>
+                        <strong>Location:</strong>{" "}
+                        {pet.location ||
+                          `${pet.country || ""}, ${pet.city || ""}, ${
+                            pet.barangay || ""
+                          }`}
+                      </p>
                     </div>
                   </div>
-                </Link>
-              ))
+                );
+
+                return isYours ? (
+                  <div key={pet.id} className="pet-card-wrapper not-clickable">
+                    {PetCardContent}
+                  </div>
+                ) : (
+                  <Link
+                    to={`/pets/${pet.id}`}
+                    key={pet.id}
+                    className="pet-card-link"
+                  >
+                    {PetCardContent}
+                  </Link>
+                );
+              })
             ) : (
-              <p className="no-pets-message">No pets available matching your criteria.</p>
+              <p className="no-pets-message">
+                No pets available matching your criteria.
+              </p>
             )}
           </div>
         </section>

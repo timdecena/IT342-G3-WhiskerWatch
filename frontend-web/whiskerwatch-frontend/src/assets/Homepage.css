@@ -16,6 +16,20 @@ body, html {
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
+.your-pet {
+  border: 2px solid #34d399; /* Tailwind green-400 */
+  background-color: #ecfdf5; /* Tailwind green-50 */
+}
+
+.yours-label {
+  background-color: #34d399;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 6px;
+}
+
 /* Header */
 .homepage-header {
   width: 100%;
