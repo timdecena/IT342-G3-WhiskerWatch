@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import "../assets/homepage.css";
+import styles from "../assets/Homepage.module.css"; 
 import bannerPets from "../assets/cat-hero1.png";
 
 function Homepage({ setIsAuthenticated }) {

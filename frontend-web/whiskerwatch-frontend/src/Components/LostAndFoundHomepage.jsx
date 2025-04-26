@@ -1,9 +1,8 @@
-// src/pages/LostAndFoundHomepage.jsx
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import "../assets/Homepage.css"; // ✅ Reusing your existing style
-import bannerPets from "../assets/cat-hero1.png"; // ✅ Your banner image
+import styles from "../assets/LostAndFoundHomepage.module.css";
+import bannerPets from "../assets/cat-hero1.png";
 
 function LostAndFoundHomepage() {
   const navigate = useNavigate();
@@ -63,19 +62,19 @@ function LostAndFoundHomepage() {
   };
 
   return (
-    <div className="homepage">
-      <header className="homepage-header">
-        <div className="header-content">
-          <div className="hero-text">
-            <h1 className="main-title">
-              Lost & Found <span className="highlight-text">Pets</span>
+    <div className={styles.homepage}>
+      <header className={styles["homepage-header"]}>
+        <div className={styles["header-content"]}>
+          <div className={styles["hero-text"]}>
+            <h1 className={styles["main-title"]}>
+              Lost & Found <span className={styles["highlight-text"]}>Pets</span>
             </h1>
-            <p className="subtext">
+            <p className={styles["subtext"]}>
               Help reunite lost pets with their owners or give a new life to found friends.
             </p>
-            <div className="search-container">
+            <div className={styles["search-container"]}>
               <select
-                className="category-dropdown"
+                className={styles["category-dropdown"]}
                 value={category}
                 onChange={handleCategoryChange}
               >
@@ -85,48 +84,48 @@ function LostAndFoundHomepage() {
               </select>
               <input
                 type="text"
-                placeholder="  Search pets..."
-                className="search-bar"
+                placeholder="Search pets..."
+                className={styles["search-bar"]}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Link to="/post-lost-pet" className="post-pet-btn1">
+              <Link to="/post-lost-pet" className={styles["post-pet-btn1"]}>
                 Report a Lost or Found Pet
               </Link>
             </div>
           </div>
 
-          <div className="hero-image">
-            <img src={bannerPets} alt="Lost and Found Pets" className="hero-image" />
+          <div className={styles["hero-image"]}>
+            <img src={bannerPets} alt="Lost and Found Pets" className={styles["hero-image"]} />
           </div>
         </div>
       </header>
 
-      <main className="main-content">
-        <section className="pets-section" ref={petsSectionRef}>
-          <h2 className="section-title">Lost Pets</h2>
+      <main className={styles["main-content"]}>
+        <section className={styles["pets-section"]} ref={petsSectionRef}>
+          <h2 className={styles["section-title"]}>Lost Pets</h2>
 
-          <div className="pet-grid">
+          <div className={styles["pet-grid"]}>
             {filteredLostPets.length > 0 ? (
               filteredLostPets.map((pet) => (
                 <Link
                   to={`/lost-and-found/${pet.id}`}
                   key={pet.id}
-                  className="pet-card-link"
+                  className={styles["pet-card-link"]}
                 >
-                  <div className="pet-card">
-                    <div className="pet-image-container">
+                  <div className={styles["pet-card"]}>
+                    <div className={styles["pet-image-container"]}>
                       {pet.image ? (
                         <img
                           src={`http://localhost:8080/files/${pet.image}`}
                           alt={pet.petName}
-                          className="pet-image"
+                          className={styles["pet-image"]}
                         />
                       ) : (
-                        <div className="pet-image">No Image</div>
+                        <div className={styles["pet-image"]}>No Image</div>
                       )}
                     </div>
-                    <div className="pet-details">
+                    <div className={styles["pet-details"]}>
                       <h3>{pet.petName}</h3>
                       <p><strong>Species:</strong> {pet.species || "Unknown"}</p>
                       <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
@@ -135,33 +134,33 @@ function LostAndFoundHomepage() {
                 </Link>
               ))
             ) : (
-              <p className="no-pets-message">No lost pets found.</p>
+              <p className={styles["no-pets-message"]}>No lost pets found.</p>
             )}
           </div>
 
-          <h2 className="section-title" style={{ marginTop: "5rem" }}>Found Pets</h2>
+          <h2 className={styles["section-title"]} style={{ marginTop: "5rem" }}>Found Pets</h2>
 
-          <div className="pet-grid">
+          <div className={styles["pet-grid"]}>
             {filteredFoundPets.length > 0 ? (
               filteredFoundPets.map((pet) => (
                 <Link
                   to={`/lost-and-found/${pet.id}`}
                   key={pet.id}
-                  className="pet-card-link"
+                  className={styles["pet-card-link"]}
                 >
-                  <div className="pet-card">
-                    <div className="pet-image-container">
+                  <div className={styles["pet-card"]}>
+                    <div className={styles["pet-image-container"]}>
                       {pet.image ? (
                         <img
                           src={`http://localhost:8080/files/${pet.image}`}
                           alt={pet.petName}
-                          className="pet-image"
+                          className={styles["pet-image"]}
                         />
                       ) : (
-                        <div className="pet-image">No Image</div>
+                        <div className={styles["pet-image"]}>No Image</div>
                       )}
                     </div>
-                    <div className="pet-details">
+                    <div className={styles["pet-details"]}>
                       <h3>{pet.petName}</h3>
                       <p><strong>Species:</strong> {pet.species || "Unknown"}</p>
                       <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
@@ -170,14 +169,14 @@ function LostAndFoundHomepage() {
                 </Link>
               ))
             ) : (
-              <p className="no-pets-message">No found pets listed yet.</p>
+              <p className={styles["no-pets-message"]}>No found pets listed yet.</p>
             )}
           </div>
         </section>
       </main>
 
-      <div className="post-pet-link">
-        <Link to="/post-lost-pet" className="post-pet-btn1">
+      <div className={styles["post-pet-link"]}>
+        <Link to="/post-lost-pet" className={styles["post-pet-btn1"]}>
           Report a Lost or Found Pet
         </Link>
       </div>
