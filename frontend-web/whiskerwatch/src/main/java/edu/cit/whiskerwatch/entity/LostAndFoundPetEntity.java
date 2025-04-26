@@ -14,6 +14,7 @@ public class LostAndFoundPetEntity {
     private String description;
     private String status; // e.g., "Lost", "Found"
     private String image;
+    private String species; // 🔥 ADD THIS LINE!
 
     private String country;
     private String city;
@@ -117,5 +118,13 @@ public class LostAndFoundPetEntity {
 
     public void setReporter(UserEntity reporter) {
         this.reporter = reporter;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
     }
 }

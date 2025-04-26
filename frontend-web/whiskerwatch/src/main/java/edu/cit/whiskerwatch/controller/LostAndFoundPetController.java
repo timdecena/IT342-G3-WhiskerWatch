@@ -1,5 +1,6 @@
 package edu.cit.whiskerwatch.controller;
 
+import edu.cit.whiskerwatch.dto.LostAndFoundPetDTO;
 import edu.cit.whiskerwatch.entity.LostAndFoundPetEntity;
 import edu.cit.whiskerwatch.service.LostAndFoundPetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +35,15 @@ public class LostAndFoundPetController {
         return service.getByReporter(reporterId);
     }
 
+    // LostAndFoundPetController.java
     @PostMapping("/add/{reporterId}")
     public LostAndFoundPetEntity add(
-            @PathVariable Long reporterId,
-            @RequestPart("pet") LostAndFoundPetEntity pet,
-            @RequestPart("image") MultipartFile image) throws IOException {
-        return service.add(reporterId, pet, image);
+        @PathVariable Long reporterId,
+        @RequestPart("pet") LostAndFoundPetDTO petDTO,
+        @RequestPart("image") MultipartFile image) throws IOException {
+    return service.add(reporterId, petDTO, image);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<LostAndFoundPetEntity> update(@PathVariable Long id, @RequestBody LostAndFoundPetEntity pet) {
