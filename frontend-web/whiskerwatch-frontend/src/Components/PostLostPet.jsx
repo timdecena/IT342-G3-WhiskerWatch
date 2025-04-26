@@ -172,16 +172,18 @@ const PostLostPet = () => {
               />
             </div>
             <div className={`form-group ${focusedField === 'species' ? 'focused' : ''}`}>
-              <label>Species</label>
-              <input
-                type="text"
-                name="species"
-                value={formData.species}
-                onChange={handleChange}
-                onFocus={() => handleFocus('species')}
-                onBlur={handleBlur}
-                required
-              />
+                <label>Species</label>
+                  <select
+                   name="species"
+                    value={formData.species}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus('species')}
+                    onBlur={handleBlur}
+                    required>    
+                <option value="">Select species</option>
+                <option value="Dog">Dog</option>
+                <option value="Cat">Cat</option>
+              </select>
             </div>
           </div>
 
