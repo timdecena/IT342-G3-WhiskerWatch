@@ -156,7 +156,7 @@ const PostLostPet = () => {
   return (
     <div className="post-pets-wrapper">
       <div className="post-pets-container">
-        <h2>Post Lost/Found Pet</h2>
+        <h2>Lost & Found Pet</h2>
         <form onSubmit={handleSubmit} className="post-pet-form-horizontal" encType="multipart/form-data">
           <div className="form-row">
             <div className={`form-group ${focusedField === 'petName' ? 'focused' : ''}`}>
