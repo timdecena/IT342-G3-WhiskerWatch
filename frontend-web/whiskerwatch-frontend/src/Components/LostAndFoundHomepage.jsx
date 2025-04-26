@@ -84,7 +84,7 @@ function LostAndFoundHomepage() {
               </select>
               <input
                 type="text"
-                placeholder="Search pets..."
+                placeholder="&nbsp; Search pets..."
                 className={styles["search-bar"]}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
