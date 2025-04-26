@@ -1,8 +1,6 @@
 package edu.cit.whiskerwatch.entity;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "favorite_pets")

@@ -17,6 +17,10 @@ public class PetEntity {
     private int age;
     private String status; // Available / Adopted
 
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] image;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = true)
     private UserEntity owner;
@@ -89,6 +93,14 @@ public class PetEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public UserEntity getOwner() {
