@@ -38,15 +38,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 400px; /* 🛠 fix the container height */
+  overflow: hidden; /* 🛠 prevent overflow */
 }
 
+
 .petImage {
-  width: 100%;
-  max-height: 480px;
-  object-fit: cover;
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🛠 force it to fill nicely without distorting */
   border-radius: 16px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
+
 
 .petInfoContainer {
   flex: 1;
