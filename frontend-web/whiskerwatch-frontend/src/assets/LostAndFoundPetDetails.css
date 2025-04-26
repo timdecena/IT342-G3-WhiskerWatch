@@ -41,6 +41,7 @@
     box-shadow: var(--shadow-card);
     overflow: hidden;
     border: 1px solid var(--border-color);
+    margin-top: 350px; /* Adjust the value to move it down further */
   }
   
   .pet-image-container {
