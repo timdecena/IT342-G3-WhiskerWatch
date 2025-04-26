@@ -108,7 +108,7 @@ function Homepage({ setIsAuthenticated }) {
 
                 return isOwner ? (
                   <div key={pet.id} className="pet-card your-pet-card">
-  <p className="your-pet-label">Your Pet</p>
+  <p className="your-pet-label">&nbsp; &nbsp; Your Pet</p>
   <div className="pet-image-container">
     <img
       src={`http://localhost:8080/files/${pet.image}`}
