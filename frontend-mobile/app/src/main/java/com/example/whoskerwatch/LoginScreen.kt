@@ -1,5 +1,6 @@
 package com.example.whoskerwatch.ui
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -33,7 +34,7 @@ fun LoginScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "WHOSKERWATCH",
+            text = "WHISKERWATCH",
             style = MaterialTheme.typography.displayMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 40.dp)
@@ -69,7 +70,17 @@ fun LoginScreen(navController: NavController) {
                             response: Response<AuthResponse>
                         ) {
                             if (response.isSuccessful) {
-                                navController.navigate("home")
+                                val ownerId = response.body()?.userId
+                                if (ownerId != null) {
+                                    context.getSharedPreferences("WhoskerWatchPrefs", Context.MODE_PRIVATE)
+                                        .edit()
+                                        .putLong("ownerId", ownerId) // ✅ correct key name
+                                        .apply()
+                                    Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                                    navController.navigate("home")
+                                } else {
+                                    Toast.makeText(context, "User ID not found", Toast.LENGTH_SHORT).show()
+                                }
                             } else {
                                 Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                             }
@@ -80,7 +91,9 @@ fun LoginScreen(navController: NavController) {
                         }
                     })
             },
-            modifier = Modifier.fillMaxWidth().height(48.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
         ) {
             Text("Sign In")
         }
