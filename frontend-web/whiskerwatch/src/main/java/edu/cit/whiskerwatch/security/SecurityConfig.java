@@ -34,6 +34,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/adoptions/**").permitAll() // Allow all adoption-related requests
                         .requestMatchers("/api/favorites/**").permitAll() // Allow favorites-related requests
                         .requestMatchers("/api/lost-and-found/**").permitAll() // correct with hyphens
+                        .requestMatchers("/api/users/getUserById/**").permitAll()
+                        .requestMatchers("/api/messages/**").authenticated()
 
                         .anyRequest().authenticated() // Ensure other endpoints require authentication
                 )

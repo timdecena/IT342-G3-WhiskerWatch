@@ -91,6 +91,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
 
         <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
           <Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="/messages" onClick={() => setMenuOpen(false)}>Messages</Link>
           <Link to="/lost-and-found" onClick={() => setMenuOpen(false)}>Lost and Found</Link>
           <Link to="/yourpets" onClick={() => setMenuOpen(false)}>Your Listings</Link>
           <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>

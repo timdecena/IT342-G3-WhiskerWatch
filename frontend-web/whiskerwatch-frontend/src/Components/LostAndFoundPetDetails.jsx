@@ -116,11 +116,11 @@ function LostAndFoundPetDetails() {
 
             {pet.reporter?.id && (
               <button
-                className="contact-button"
-                onClick={() => navigate(`/contact-reporter/${pet.reporter.id}`)}
-              >
-                Contact Reporter
-              </button>
+              className="contact-button"
+              onClick={() => navigate(`/messages/${pet.reporter.id}`)}
+          >
+              Message Reporter
+          </button>
             )}
           </div>
         </div>
