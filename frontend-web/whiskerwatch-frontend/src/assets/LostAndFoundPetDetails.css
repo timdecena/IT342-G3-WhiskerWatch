@@ -64,6 +64,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 20px; /* Adjust this value to move it down */
+  margin-left: 20px;
+  border-radius: 1rem;
 }
 
 .pet-image {
