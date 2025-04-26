@@ -91,6 +91,9 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
           <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
           <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
 
+          {/* New Lost and Found Link */}
+          <Link to="/lost-and-found" onClick={() => setMenuOpen(false)}>Lost and Found</Link>
+
           {isAuthenticated && (
             <div className="requests-dropdown">
               <button 

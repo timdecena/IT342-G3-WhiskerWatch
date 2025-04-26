@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/pets/**").permitAll() // Allow access to pets API
                         .requestMatchers("/api/adoptions/**").permitAll() // Allow all adoption-related requests
                         .requestMatchers("/api/favorites/**").permitAll() // Allow favorites-related requests
+                        .requestMatchers("/api/lost-and-found/**").permitAll() // correct with hyphens
 
                         .anyRequest().authenticated() // Ensure other endpoints require authentication
                 )
