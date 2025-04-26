@@ -117,14 +117,14 @@ const PostLostPet = () => {
       longitude: markerPosition.lng
     };
 
-    lostPetFormData.append('lostPet', new Blob([JSON.stringify(lostPetData)], { type: 'application/json' }));
+    lostPetFormData.append('pet', new Blob([JSON.stringify(lostPetData)], { type: 'application/json' }));
     if (formData.image) {
       lostPetFormData.append('image', formData.image);
     }
 
     try {
       await axios.post(
-        `http://localhost:8080/api/lostfoundpets/add/${userId}`,
+        `http://localhost:8080/api/lost-and-found/add/${userId}`, // ✅ CORRECT PATH      
         lostPetFormData,
         {
           headers: {
