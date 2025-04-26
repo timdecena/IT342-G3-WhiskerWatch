@@ -39,6 +39,7 @@ body, html {
     background-color: #f1f5f9;
     padding: 4rem 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 50rem 2rem 4rem 2rem;
   }
   
   .header-content {
@@ -252,7 +253,7 @@ body, html {
     }
   
     .hero-image {
-      padding-top: 2rem;
+      padding-top: 5rem;
       padding-right: 0;
     }
   
