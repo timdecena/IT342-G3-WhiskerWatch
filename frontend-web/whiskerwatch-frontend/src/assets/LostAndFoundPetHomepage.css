@@ -1,0 +1,233 @@
+/* Reset & Base */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+    width: 100%; /* Ensure full width is used */
+    max-width: 100%; /* Avoid content being cut off */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+  
+  /* Homepage Wrapper */
+  .homepage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%; /* 90% of viewport width */
+    margin: 0 auto; /* Center the homepage */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+  
+  .your-pet-label {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .your-pet-card {
+    border: 2px solid green;
+    border-radius: 8px;
+  }
+  
+  /* Header */
+  .homepage-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #f1f5f9;
+    padding: 4rem 2rem; /* Reduce side padding */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%; /* Allow content to use the full width */
+    width: 100%;
+    gap: 4rem; /* Reduced gap to make it more compact */
+    flex-wrap: wrap;
+    justify-content: center; /* Align content more centrally */
+  }
+  
+  /* Hero Text */
+  .hero-text {
+    flex: 1;
+    padding-top: 79rem; /* Increased padding-top to push it further down */
+    padding-left: 2rem; /* Add left padding for alignment */
+    padding-right: 2rem; /* Add right padding for alignment */
+  }
+  
+  .main-title {
+    font-size: 3.5rem; /* Increase the size slightly for more impact */
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  
+  .highlight-text {
+    color: #8b5cf6;
+    font-weight: 700;
+  }
+  
+  .subtext {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #4b5563;
+  }
+  
+  /* Hero Image */
+  .hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 44rem;
+    padding-right: 1rem;
+  }
+  
+  .hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
+  }
+  
+  /* Search Bar */
+  .search-container {
+    display: flex;
+    gap: 1.5rem; /* More gap between elements */
+    flex-wrap: wrap;
+  }
+  
+  .category-dropdown {
+    padding: 0.75rem 1rem; /* Adjust padding for larger space */
+    font-size: 1rem; /* Make font size consistent */
+    border-radius: 8px; /* Consistent border radius */
+    border: 1px solid #d1d5db;
+    width: 180px; /* Larger width */
+    height: 50px;
+  }
+  
+  .search-bar {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    width: 350px; /* Wider search bar */
+  }
+  
+  /* Main Section */
+  .main-content {
+    max-width: 1200px; /* Increase max width */
+    width: 100%;
+    padding: 4rem 3rem; /* Add more padding for larger content area */
+  }
+  
+  /* Pet Cards */
+  .pet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .pet-card-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .pet-card {
+    background-color: white;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  
+  .pet-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .pet-image-container {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    background-color: #f3f4f6;
+  }
+  
+  .pet-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .pet-details {
+    padding: 1rem;
+  }
+  
+  .pet-details h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.4rem;
+  }
+  
+  .pet-details p {
+    margin: 0.3rem 0;
+    color: #6b7280;
+  }
+  
+  /* Post Pet Button */
+  .post-pet-link {
+    margin: 3rem 0;
+    text-align: center;
+  }
+  
+  .post-pet-btn {
+    padding: 1rem 2rem; /* Slightly larger padding */
+    font-size: 1rem;
+    background-color: #8b5cf6;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  
+  .post-pet-btn:hover {
+    background-color: #7c3aed;
+  }
+  
+  /* No pets message */
+  .no-pets-message {
+    text-align: center;
+    color: #6b7280;
+    margin-top: 2rem;
+    font-size: 1.1rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .header-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .hero-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 100rem; /* Increased padding-top to move the image down */
+    }
+  }
+  
+  .post-pet-btn1 {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    background-color: #8b5cf6;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    margin-top: 0rem;
+  }
+  

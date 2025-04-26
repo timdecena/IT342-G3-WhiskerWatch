@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import "../assets/homepage.css"; // ✅ Reusing your existing style
+import "../assets/LostAndFoundPetHomepage.css"; // ✅ Reusing your existing style
 import bannerPets from "../assets/cat-hero1.png"; // ✅ Your banner image
 
 function LostAndFoundHomepage() {
