@@ -67,19 +67,21 @@ function LostAndFoundPetDetails() {
               <div className="detail-item">
                 <span className="detail-icon">🔍</span>
                 <span className="detail-label">Status:</span>
-                <span className={`detail-value status-${pet.status.toLowerCase()}`}>
+                <span className={`detail-value status-${pet.status?.toLowerCase()}`}>
                   {pet.status}
                 </span>
               </div>
               <div className="detail-item">
                 <span className="detail-icon">🐾</span>
                 <span className="detail-label">Species:</span>
-                <span className="detail-value">{pet.species}</span>
+                <span className="detail-value">{pet.species || "Unknown"}</span>
               </div>
               <div className="detail-item">
                 <span className="detail-icon">📅</span>
                 <span className="detail-label">Reported:</span>
-                <span className="detail-value">{new Date(pet.createdAt).toLocaleDateString()}</span>
+                <span className="detail-value">
+                  {pet.reportedDate ? new Date(pet.reportedDate).toLocaleDateString() : "Unknown"}
+                </span>
               </div>
               <div className="detail-item">
                 <span className="detail-icon">📍</span>
@@ -112,12 +114,14 @@ function LostAndFoundPetDetails() {
               </div>
             )}
 
-            <button
-              className="contact-button"
-              onClick={() => navigate(`/contact-reporter/${pet.reporter.id}`)}
-            >
-              Contact Reporter
-            </button>
+            {pet.reporter?.id && (
+              <button
+                className="contact-button"
+                onClick={() => navigate(`/contact-reporter/${pet.reporter.id}`)}
+              >
+                Contact Reporter
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -129,7 +133,7 @@ function LostAndFoundPetDetails() {
             {pet.status === "LOST" ? "Have you seen this pet?" : "Is this your pet?"}
           </h3>
           <p className="faq-answer">
-            {pet.status === "LOST" 
+            {pet.status === "LOST"
               ? "If you've seen this pet, please contact the reporter with any information that might help reunite them."
               : "If this pet belongs to you, please contact the reporter to arrange for reunion."}
           </p>
@@ -137,7 +141,7 @@ function LostAndFoundPetDetails() {
         <div className="faq-item">
           <h3 className="faq-question">How can I help?</h3>
           <p className="faq-answer">
-            Share this post on social media to increase visibility. The more people who see this, 
+            Share this post on social media to increase visibility. The more people who see this,
             the better chance of {pet.status === "LOST" ? "finding" : "reuniting"} this pet.
           </p>
         </div>

@@ -1,6 +1,7 @@
 package edu.cit.whiskerwatch.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime; // ⚡ Add this
 
 @Entity
 @Table(name = "lost_and_found_pets")
@@ -12,9 +13,9 @@ public class LostAndFoundPetEntity {
 
     private String petName;
     private String description;
-    private String status; // e.g., "Lost", "Found"
+    private String status;
     private String image;
-    private String species; // 🔥 ADD THIS LINE!
+    private String species;
 
     private String country;
     private String city;
@@ -27,104 +28,48 @@ public class LostAndFoundPetEntity {
     @JoinColumn(name = "reporter_id")
     private UserEntity reporter;
 
-    // Getters and setters...
+    private LocalDateTime reportedDate; // 🛠️ NEW FIELD
 
-    public LostAndFoundPetEntity() {
-    }
+    // Constructors
+    public LostAndFoundPetEntity() {}
 
-    public Long getId() {
-        return id;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getPetName() { return petName; }
+    public void setPetName(String petName) { this.petName = petName; }
 
-    public String getPetName() {
-        return petName;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setPetName(String petName) {
-        this.petName = petName;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getImage() { return image; }
+    public void setImage(String image) { this.image = image; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getSpecies() { return species; }
+    public void setSpecies(String species) { this.species = species; }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getCountry() { return country; }
+    public void setCountry(String country) { this.country = country; }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
 
-    public String getImage() {
-        return image;
-    }
+    public String getBarangay() { return barangay; }
+    public void setBarangay(String barangay) { this.barangay = barangay; }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+    public Double getLatitude() { return latitude; }
+    public void setLatitude(Double latitude) { this.latitude = latitude; }
 
-    public String getCountry() {
-        return country;
-    }
+    public Double getLongitude() { return longitude; }
+    public void setLongitude(Double longitude) { this.longitude = longitude; }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+    public UserEntity getReporter() { return reporter; }
+    public void setReporter(UserEntity reporter) { this.reporter = reporter; }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getBarangay() {
-        return barangay;
-    }
-
-    public void setBarangay(String barangay) {
-        this.barangay = barangay;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public UserEntity getReporter() {
-        return reporter;
-    }
-
-    public void setReporter(UserEntity reporter) {
-        this.reporter = reporter;
-    }
-
-    public String getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(String species) {
-        this.species = species;
-    }
+    public LocalDateTime getReportedDate() { return reportedDate; }
+    public void setReportedDate(LocalDateTime reportedDate) { this.reportedDate = reportedDate; }
 }

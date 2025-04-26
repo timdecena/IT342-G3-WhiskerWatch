@@ -8,7 +8,7 @@ import edu.cit.whiskerwatch.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.time.LocalDateTime;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
@@ -71,6 +71,9 @@ public class LostAndFoundPetService {
     }
 
     pet.setReporter(reporter);
+
+    pet.setReportedDate(LocalDateTime.now());
+    
     return lostAndFoundPetRepository.save(pet);
 }
 
