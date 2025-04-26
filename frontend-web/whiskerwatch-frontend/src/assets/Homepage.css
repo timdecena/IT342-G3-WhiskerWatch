@@ -20,6 +20,17 @@ body, html {
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
+.your-pet-label {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.your-pet-card {
+  border: 2px solid green;
+  border-radius: 8px;
+}
+
 /* Header */
 .homepage-header {
   width: 100%;
