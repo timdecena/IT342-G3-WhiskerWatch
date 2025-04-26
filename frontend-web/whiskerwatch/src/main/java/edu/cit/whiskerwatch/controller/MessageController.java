@@ -38,23 +38,28 @@ public ResponseEntity<List<Message>> getConversation(
     return ResponseEntity.ok(messages);
 }
 
-    @PostMapping("/send/{recipientId}")
-    public ResponseEntity<Message> sendMessage(
-            @AuthenticationPrincipal UserEntity sender,
-            @PathVariable Long recipientId,
-            @RequestBody String content) {
-        
-        UserEntity recipient = userRepository.findById(recipientId)
-                .orElseThrow(() -> new RuntimeException("Recipient not found"));
-        
-        Message message = new Message();
-        message.setSender(sender);
-        message.setRecipient(recipient);
-        message.setContent(content);
-        
-        Message savedMessage = messageRepository.save(message);
-        return ResponseEntity.ok(savedMessage);
+@PostMapping("/send/{recipientId}")
+public ResponseEntity<?> sendMessage(
+        @AuthenticationPrincipal UserEntity sender,
+        @PathVariable Long recipientId,
+        @RequestBody String content) {
+    
+    // Check if sender is trying to message themselves
+    if (sender.getId().equals(recipientId)) {
+        return ResponseEntity.badRequest().body("You cannot send a message to yourself");
     }
+    
+    UserEntity recipient = userRepository.findById(recipientId)
+            .orElseThrow(() -> new RuntimeException("Recipient not found"));
+    
+    Message message = new Message();
+    message.setSender(sender);
+    message.setRecipient(recipient);
+    message.setContent(content);
+    
+    Message savedMessage = messageRepository.save(message);
+    return ResponseEntity.ok(savedMessage);
+}
 
     @PutMapping("/{messageId}/read")
     public ResponseEntity<Void> markAsRead(@PathVariable Long messageId) {

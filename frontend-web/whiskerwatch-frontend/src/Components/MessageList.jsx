@@ -82,12 +82,16 @@ function MessageList() {
                     
                     return (
                         <div key={userId} className="message-conversation">
-                            <h3 onClick={() => handleConversationClick(otherUser.id)} className="conversation-header">
+                            <h3 
+                                onClick={() => handleConversationClick(otherUser.id)} 
+                                className="conversation-header"
+                            >
                                 {otherUser.firstName} {otherUser.lastName}
                             </h3>
                             <ul className="message-list">
                                 <li 
                                     className={`message-item ${!latestMessage.read ? 'unread' : ''}`}
+                                    onClick={() => handleConversationClick(otherUser.id)}  // Ensure clicking the message also navigates
                                 >
                                     <div className="message-header">
                                         <span className="sender-name">

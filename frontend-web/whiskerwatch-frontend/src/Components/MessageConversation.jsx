@@ -9,6 +9,7 @@ function MessageConversation() {
     const [newMessage, setNewMessage] = useState('');
     const [loading, setLoading] = useState(true);
     const [otherUser, setOtherUser] = useState(null);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -51,11 +52,19 @@ function MessageConversation() {
                 setLoading(false);
             }
         };
-        console.log("TOKEN BEING USED: ", localStorage.getItem('token'));
+
         fetchConversation();
     }, [userId]);
 
     const handleSendMessage = async () => {
+        const currentUserId = localStorage.getItem('userId');  // Get current user's ID
+
+        // Prevent sending message to self
+        if (currentUserId === userId) {
+            setError("You cannot send a message to yourself.");
+            return;
+        }
+
         if (!newMessage.trim()) return;
 
         try {
@@ -72,8 +81,10 @@ function MessageConversation() {
 
             setMessages([...messages, response.data]);
             setNewMessage('');
+            setError(null);  // Clear any previous error message
         } catch (error) {
             console.error('Error sending message:', error);
+            setError("Failed to send message.");
         }
     };
 
@@ -107,6 +118,8 @@ function MessageConversation() {
                     </div>
                 ))}
             </div>
+
+            {error && <div className="error-message">{error}</div>}
 
             <div className="message-input">
                 <textarea
