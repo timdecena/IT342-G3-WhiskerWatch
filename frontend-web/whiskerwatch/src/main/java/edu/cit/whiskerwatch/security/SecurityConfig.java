@@ -1,7 +1,6 @@
 package edu.cit.whiskerwatch.security;
 
 import java.util.List;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,17 +22,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
-            .csrf(csrf -> csrf.disable()) // Disable CSRF for API calls
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login", "/api/users/createUser").permitAll() // Allow login & user registration
-                .requestMatchers("/api/pets/**").permitAll() // Allow access to pets API
-                .requestMatchers("/api/adoptions/**").permitAll() // Allow all adoption-related requests
-                .requestMatchers("/api/favorites/**").permitAll() // Allow favorites-related requests
-                .anyRequest().authenticated() // Ensure other endpoints require authentication
+                // Public endpoints
+                .requestMatchers("/api/auth/login", "/api/users/createUser").permitAll()
+                .requestMatchers("/api/pets/**").permitAll()
+                .requestMatchers("/api/adoptions/**").permitAll()
+                .requestMatchers("/api/favorites/**").permitAll()
+
+                // Everything else must be authenticated
+                .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter for secured requests
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -42,15 +44,14 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
-            "http://localhost:5173",  // For frontend (if you're running a local React app)
-            "http://localhost:3000",  // For frontend (if you're running a local React app)
-            "http://10.0.2.2:8080"   // Add Android emulator access
+            "http://localhost:5173",
+            "http://localhost:3000",
+            "http://10.0.2.2:8080"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setExposedHeaders(List.of("Authorization"));
-        configuration.setAllowCredentials(true); // Allow credentials like JWT tokens
-        
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
