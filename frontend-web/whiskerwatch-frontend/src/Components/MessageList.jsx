@@ -46,6 +46,19 @@ function MessageList() {
         navigate(`/messages/${otherUserId}`);
     };
 
+    // Group messages by the other user
+    const groupedMessages = messages.reduce((groups, message) => {
+        const otherUser = message.sender.id.toString() === localStorage.getItem('userId') 
+            ? message.recipient 
+            : message.sender;
+
+        if (!groups[otherUser.id]) {
+            groups[otherUser.id] = [];
+        }
+        groups[otherUser.id].push(message);
+        return groups;
+    }, {});
+
     if (loading) {
         return <div className="message-loading">Loading messages...</div>;
     }
@@ -57,41 +70,46 @@ function MessageList() {
     return (
         <div className="message-list-container">
             <h2>Your Messages</h2>
-            {messages.length === 0 ? (
+            {Object.keys(groupedMessages).length === 0 ? (
                 <p className="no-messages">No messages yet. Start a conversation!</p>
             ) : (
-                <ul className="message-list">
-                    {messages.map((message) => {
-                        const otherUser = message.sender.id.toString() === localStorage.getItem('userId') 
-                            ? message.recipient 
-                            : message.sender;
-                            
-                        return (
-                            <li 
-                                key={message.id} 
-                                className={`message-item ${!message.read ? 'unread' : ''}`}
-                                onClick={() => handleConversationClick(otherUser.id)}
-                            >
-                                <div className="message-header">
-                                    <span className="sender-name">
-                                        {message.sender.id.toString() === localStorage.getItem('userId') 
-                                            ? `To: ${otherUser.firstName} ${otherUser.lastName}`
-                                            : `From: ${otherUser.firstName} ${otherUser.lastName}`
-                                        }
-                                    </span>
-                                    <span className="message-time">
-                                        {new Date(message.createdAt).toLocaleString()}
-                                    </span>
-                                </div>
-                                <p className="message-preview">
-                                    {message.content.length > 50 
-                                        ? `${message.content.substring(0, 50)}...` 
-                                        : message.content}
-                                </p>
-                            </li>
-                        );
-                    })}
-                </ul>
+                Object.keys(groupedMessages).map((userId) => {
+                    const userMessages = groupedMessages[userId];
+                    const latestMessage = userMessages[userMessages.length - 1];
+                    const otherUser = latestMessage.sender.id.toString() === localStorage.getItem('userId') 
+                        ? latestMessage.recipient 
+                        : latestMessage.sender;
+                    
+                    return (
+                        <div key={userId} className="message-conversation">
+                            <h3 onClick={() => handleConversationClick(otherUser.id)} className="conversation-header">
+                                {otherUser.firstName} {otherUser.lastName}
+                            </h3>
+                            <ul className="message-list">
+                                <li 
+                                    className={`message-item ${!latestMessage.read ? 'unread' : ''}`}
+                                >
+                                    <div className="message-header">
+                                        <span className="sender-name">
+                                            {latestMessage.sender.id.toString() === localStorage.getItem('userId') 
+                                                ? `To: ${otherUser.firstName} ${otherUser.lastName}`
+                                                : `From: ${otherUser.firstName} ${otherUser.lastName}`
+                                            }
+                                        </span>
+                                        <span className="message-time">
+                                            {new Date(latestMessage.createdAt).toLocaleString()}
+                                        </span>
+                                    </div>
+                                    <p className="message-preview">
+                                        {latestMessage.content.length > 50 
+                                            ? `${latestMessage.content.substring(0, 50)}...` 
+                                            : latestMessage.content}
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    );
+                })
             )}
         </div>
     );
