@@ -90,12 +90,25 @@ function PetDetails() {
                 </div>
               </div>
 
-              <button
-                className={styles.adoptButton}
-                onClick={() => navigate(`/adopt/${id}`)}
-              >
-                Submit Adoption Form
-              </button>
+              <div className={styles.buttonGroup}>
+  <button
+    className={styles.adoptButton}
+    onClick={() => navigate(`/adopt/${id}`)}
+  >
+    Submit Adoption Form
+  </button>
+
+  {pet.owner?.id && (
+    <button
+      className={styles.messageButton}
+      onClick={() => navigate(`/messages/${pet.owner.id}`)}
+    >
+      Message Owner
+    </button>
+  )}
+</div>
+
+              
             </div>
           </div>
 
