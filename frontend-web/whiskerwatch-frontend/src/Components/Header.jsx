@@ -44,10 +44,14 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
 
   // Handle logout action
   const handleLogout = () => {
-    localStorage.clear();
-    setIsAuthenticated(false);
-    navigate("/");
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      localStorage.clear();
+      setIsAuthenticated(false);
+      navigate("/");
+    }
   };
+  
 
   // Toggle the requests dropdown
   const toggleRequests = () => {

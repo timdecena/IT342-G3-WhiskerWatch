@@ -1,222 +1,299 @@
 :root {
-    --primary-color: #8b5cf6;
-    --primary-dark: #7c3aed;
-    --text-color: #333;
-    --border-color: #e4e4e7;
-    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
-    --shadow-modal: 0 6px 18px rgba(0, 0, 0, 0.06);
-    --spacing-xs: 12px;
-    --spacing-sm: 24px;
-    --spacing-lg: 48px;
-    --transition-smooth: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  body {
-    font-family: "Segoe UI", Roboto, sans-serif;
-    background-color: #f9f9f9;
-    color: var(--text-color);
-  }
-  
-  .page-wrapper {
-    width: 100%;
-    background-color: #f9f9f9;
-    padding: 64px 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .pet-details-container {
-    width: 95%;
-    max-width: 1600px;
-    margin-bottom: 30px;
-    margin-top: 120px;
-  }
-  
+  --primary-color: #8b5cf6;
+  --primary-dark: #7c3aed;
+  --text-color: #1f2937;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --bg-color: #f9fafb;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --section-spacing: 4rem;
+  --transition: all 0.2s ease;
+  --max-content-width: 1200px; /* Reduced from 1600px for better content density */
+}
+
+/* Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+/* Layout System */
+.page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 5rem 1rem 3rem; /* Reduced side padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Card Container - Wider content area */
+.pet-details-container {
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin: 0 auto 2rem;
+  padding: 0 0.5rem; /* Small side padding */
+}
+
+/* Main Card - Full width within container */
+.pet-details-card {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr; /* Slightly larger image area */
+  gap: 2rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  width: 100%; /* Full width of container */
+  margin-top: 300px; /* Increase this value drastically */
+}
+
+/* Image Section - More prominent */
+.pet-image-container {
+  padding: 2rem;
+  background-color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pet-image {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+/* Info Section - Compact but spacious */
+.pet-info-container {
+  padding: 2.5rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.pet-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+/* Details Grid - Tight but readable */
+.pet-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.detail-icon {
+  font-size: 1.1rem;
+  color: var(--primary-dark);
+  flex-shrink: 0;
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 0.125rem;
+}
+
+.detail-value {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.status-lost {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.status-found {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+/* Full-width items */
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.description-text {
+  color: var(--text-color);
+  line-height: 1.6;
+  white-space: pre-line;
+  font-size: 0.9375rem;
+}
+
+/* Map Container - Wider and more prominent */
+.map-container {
+  margin: 1.5rem 0;
+}
+
+.map-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.map-container .map-wrapper {
+  width: 100%;
+  height: 280px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Action Button */
+.action-button {
+  align-self: flex-start;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+}
+
+/* FAQ Section - Wider and integrated */
+.faq-section {
+  width: 100%;
+  max-width: var(--max-content-width);
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+  margin-top: 1.5rem;
+}
+
+.faq-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.faq-item {
+  margin-bottom: 1.25rem;
+}
+
+.faq-question {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.faq-answer {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.9375rem;
+}
+
+/* Loading States */
+.skeleton-wrapper {
+  width: 100%;
+  max-width: var(--max-content-width);
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skeleton-card {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 0.75rem;
+}
+
+@keyframes shimmer {
+  0% { background-position: -400% 0; }
+  100% { background-position: 400% 0; }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
   .pet-details-card {
-    display: flex;
-    width: 100%;
-    background: white;
-    border-radius: 24px;
-    box-shadow: var(--shadow-card);
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    margin-top: 350px; /* Adjust the value to move it down further */
+    grid-template-columns: 1fr;
+    gap: 0;
   }
-  
-  .pet-image-container {
-    flex: 1.2;
-    background-color: #f5f3f7;
-    padding: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .pet-image {
-    width: 100%;
-    max-height: 480px;
-    object-fit: cover;
-    border-radius: 16px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  }
-  
+
   .pet-info-container {
-    flex: 1;
-    padding: 40px 48px;
-    display: flex;
-    flex-direction: column;
+    padding: 2rem;
   }
-  
-  .pet-name {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 32px;
-    border-bottom: 2px solid #f0e9f5;
-    padding-bottom: 12px;
+
+  .pet-image-container {
+    padding: 2rem;
   }
-  
+}
+
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 4.5rem 0.75rem 2rem;
+  }
+
   .pet-details-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    margin-bottom: 32px;
+    grid-template-columns: 1fr;
   }
-  
-  .detail-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 1.1rem;
-  }
-  
-  .detail-item.full-width {
-    grid-column: span 2;
-  }
-  
-  .detail-icon {
-    font-size: 1.2rem;
-  }
-  
-  .detail-label {
-    font-weight: 600;
-    color: var(--primary-dark);
-  }
-  
-  .detail-value {
-    font-weight: 600;
-  }
-  
-  .status-lost {
-    color: #e74c3c;
-  }
-  
-  .status-found {
-    color: #2ecc71;
-  }
-  
-  .contact-button {
-    background: linear-gradient(5deg, var(--primary-color), var(--primary-dark));
-    color: white;
-    padding: 12px 24px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(130, 115, 151, 0.2);
-    transition: var(--transition-smooth);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    margin-top: auto;
-    width: fit-content;
-  }
-  
-  .contact-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(130, 115, 151, 0.3);
-  }
-  
-  .contact-button:active {
-    transform: scale(0.98);
-  }
-  
+
   .faq-section {
-    width: 95%;
-    max-width: 1600px;
-    background: white;
-    padding: 48px;
-    border-radius: 24px;
-    box-shadow: var(--shadow-card);
-    border: 1px solid var(--border-color);
-    margin-top: 0;
+    padding: 1.5rem;
   }
-  
-  .faq-heading {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 32px;
-    border-bottom: 1px solid #e4e4e7;
-    padding-bottom: 12px;
+
+  .pet-name {
+    font-size: 1.75rem;
   }
-  
-  .faq-item {
-    margin-bottom: 24px;
+
+  .map-container .map-wrapper {
+    height: 220px;
   }
-  
-  .faq-question {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
-  }
-  
-  .faq-answer {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.6;
-  }
-  
-  .skeleton-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-  }
-  
-  .skeleton-card {
-    width: 90%;
-    height: 360px;
-    background: linear-gradient(90deg, #f5f3f7 25%, #e4e4e7 50%, #f5f3f7 75%);
-    background-size: 400% 100%;
-    animation: shimmer 1.2s ease-in-out infinite;
-    border-radius: 16px;
-  }
-  
-  @keyframes shimmer {
-    0% { background-position: -400% 0; }
-    100% { background-position: 400% 0; }
-  }
-  
-  @media (max-width: 768px) {
-    .pet-details-card {
-      flex-direction: column;
-      margin-top: 2rem;
-    }
-  
-    .faq-section {
-      padding: 32px 24px;
-    }
-  
-    .pet-info-container {
-      padding: 24px;
-    }
-  
-    .pet-details-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    .detail-item.full-width {
-      grid-column: span 1;
-    }
-  }
+}
