@@ -13,6 +13,7 @@ import Contact from './Components/Contact'; // Import the Contact page component
 import YourPets from './Components/YourPets';
 import EditPet from './Components/EditPet'; // Import the EditPet component
 import LostAndFoundHomepage from './Components/LostAndFoundHomepage'; 
+import PostLostPet from './Components/PostLostPet'; 
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -62,6 +63,7 @@ function App() {
         <Route path="/contact" element={<Contact />} /> {/* The Contact Page Route */}
         <Route path="/yourpets" element={isAuthenticated ? <YourPets /> : <Navigate to="/" replace />} />
         <Route path="/lost-and-found" element={<LostAndFoundHomepage />} />
+        <Route path="/post-lost-pet" element={<PostLostPet />} />
         {/* Route for editing pet */}
         <Route path="/edit-pet/:id" element={isAuthenticated ? <EditPet /> : <Navigate to="/" replace />} />
       </Routes>
