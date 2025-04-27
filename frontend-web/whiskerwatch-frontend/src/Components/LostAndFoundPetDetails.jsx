@@ -2,24 +2,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "../assets/LostAndFoundPetDetails.css";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import GoogleMapWrapper from "../Components/GoogleMapWrapper"; // Import the wrapper
 
 function LostAndFoundPetDetails() {
   const { id } = useParams();
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyAi6t6s9HB1NyToVrDhpvn3PHMSrpC_1as", // Replace with your real key
-  });
-
-  const mapContainerStyle = {
-    width: "100%",
-    height: "300px",
-    borderRadius: "12px",
-    marginTop: "10px",
-  };
 
   useEffect(() => {
     axios
@@ -52,11 +41,7 @@ function LostAndFoundPetDetails() {
         <div className="pet-details-card">
           <div className="pet-image-container">
             <img
-              src={
-                pet.image
-                  ? `http://localhost:8080/files/${pet.image}`
-                  : "/default-pet.jpg"
-              }
+              src={pet.image ? `http://localhost:8080/files/${pet.image}` : "/default-pet.jpg"}
               alt={pet.petName || "Pet Image"}
               className="pet-image"
             />
@@ -67,9 +52,7 @@ function LostAndFoundPetDetails() {
               <div className="detail-item">
                 <span className="detail-icon">🔍</span>
                 <span className="detail-label">Status:</span>
-                <span className={`detail-value status-${pet.status?.toLowerCase()}`}>
-                  {pet.status}
-                </span>
+                <span className={`detail-value status-${pet.status?.toLowerCase()}`}>{pet.status}</span>
               </div>
               <div className="detail-item">
                 <span className="detail-icon">🐾</span>
@@ -101,26 +84,20 @@ function LostAndFoundPetDetails() {
               )}
             </div>
 
-            {pet.latitude && pet.longitude && isLoaded && (
+            {pet.latitude && pet.longitude && (
               <div className="map-container">
                 <h3 className="map-title">Last Seen Location</h3>
-                <GoogleMap
-                  mapContainerStyle={mapContainerStyle}
-                  center={{ lat: pet.latitude, lng: pet.longitude }}
-                  zoom={14}
-                >
-                  <Marker position={{ lat: pet.latitude, lng: pet.longitude }} />
-                </GoogleMap>
+                <GoogleMapWrapper pet={pet} />  {/* Use the map wrapper here */}
               </div>
             )}
 
             {pet.reporter?.id && (
               <button
-              className="contact-button"
-              onClick={() => navigate(`/messages/${pet.reporter.id}`)}
-          >
-              Message Reporter
-          </button>
+                className="contact-button"
+                onClick={() => navigate(`/messages/${pet.reporter.id}`)}
+              >
+                Message Reporter
+              </button>
             )}
           </div>
         </div>

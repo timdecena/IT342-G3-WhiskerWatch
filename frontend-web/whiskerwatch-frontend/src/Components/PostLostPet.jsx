@@ -41,31 +41,40 @@ const PostLostPet = () => {
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
     setMarkerPosition({ lat, lng });
-
+  
     try {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyAi6t6s9HB1NyToVrDhpvn3PHMSrpC_1as`
       );
-
-      const addressComponents = response.data.results[0]?.address_components || [];
+  
+      const results = response.data.results;
+      if (!results || results.length === 0) {
+        setMessage('No address found for this location.');
+        return;
+      }
+  
+      const addressComponents = results[0].address_components || [];
       let country = '', city = '', barangay = '';
-
+  
       addressComponents.forEach(component => {
         if (component.types.includes('country')) country = component.long_name;
         if (component.types.includes('locality')) city = component.long_name;
         if (component.types.includes('sublocality_level_1')) barangay = component.long_name;
       });
-
+  
       setFormData(prev => ({
         ...prev,
         country,
         city,
         barangay
       }));
+  
     } catch (error) {
       setMessage('Error getting location details. Please try again.');
+      console.error(error); // Good practice: log the full error
     }
   }, []);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -217,18 +226,19 @@ const PostLostPet = () => {
           <div className="form-row">
             <div className="form-group map-container">
               <label>Select Location</label>
-              {!isLoaded ? (
-                <div>Loading map...</div>
-              ) : (
-                <GoogleMap
-                  mapContainerStyle={mapContainerStyle}
-                  zoom={12}
-                  center={center}
-                  onClick={onMapClick}
-                >
-                  {markerPosition && <Marker position={markerPosition} />}
-                </GoogleMap>
-              )}
+              {isLoaded && (
+  <GoogleMap
+    mapContainerStyle={mapContainerStyle}
+    zoom={12}
+    center={center}
+    onClick={onMapClick}
+  >
+    {markerPosition && <Marker position={markerPosition} />}
+  </GoogleMap>
+)}
+{!isLoaded && (
+  <div>Loading map...</div>
+)}
               <div className="location-details">
                 {formData.country && <p>Country: {formData.country}</p>}
                 {formData.city && <p>City: {formData.city}</p>}

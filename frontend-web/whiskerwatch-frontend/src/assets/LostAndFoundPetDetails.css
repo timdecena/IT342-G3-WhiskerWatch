@@ -25,6 +25,25 @@ body {
   line-height: 1.5;
 }
 
+.your-pet-card {
+  position: relative;
+  cursor: default;
+  opacity: 0.9;
+}
+
+.your-pet-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #333;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Layout System */
 .page-wrapper {
   width: 100%;
