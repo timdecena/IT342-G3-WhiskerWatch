@@ -1,8 +1,8 @@
-import Layout from "../Components/Layout";
-import { useState, useCallback } from 'react';
+// src/pages/PostLostPet.jsx
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
-import '../assets/PostPets.css';
+import '../assets/PostPets.css'; // Reuse the same styling
 
 const libraries = ['places'];
 const mapContainerStyle = {
@@ -14,27 +14,26 @@ const center = {
   lng: 120.9842
 };
 
-function PostPets() {
+const PostLostPet = () => {
   const [formData, setFormData] = useState({
-    petName: "",
-    species: "",
-    breed: "",
-    age: "",
-    status: "",
-    country: "",
-    city: "",
-    barangay: "",
+    petName: '',
+    species: '',
+    description: '',
+    status: 'LOST', // or FOUND
+    country: '',
+    city: '',
+    barangay: '',
     image: null
   });
+
   const [markerPosition, setMarkerPosition] = useState(null);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isMapLoading, setIsMapLoading] = useState(true);
   const [focusedField, setFocusedField] = useState(null);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyAi6t6s9HB1NyToVrDhpvn3PHMSrpC_1as",
+    googleMapsApiKey: "AIzaSyAi6t6s9HB1NyToVrDhpvn3PHMSrpC_1as", // Use ENV in production
     libraries
   });
 
@@ -105,12 +104,11 @@ function PostPets() {
       return;
     }
 
-    const petFormData = new FormData();
-    const petData = {
+    const lostPetFormData = new FormData();
+    const lostPetData = {
       petName: formData.petName,
       species: formData.species,
-      breed: formData.breed,
-      age: formData.age,
+      description: formData.description,
       status: formData.status,
       country: formData.country,
       city: formData.city,
@@ -119,13 +117,15 @@ function PostPets() {
       longitude: markerPosition.lng
     };
 
-    petFormData.append('pet', new Blob([JSON.stringify(petData)], { type: 'application/json' }));
-    petFormData.append('image', formData.image);
+    lostPetFormData.append('pet', new Blob([JSON.stringify(lostPetData)], { type: 'application/json' }));
+    if (formData.image) {
+      lostPetFormData.append('image', formData.image);
+    }
 
     try {
       await axios.post(
-        `http://localhost:8080/api/pets/add/${userId}`,
-        petFormData,
+        `http://localhost:8080/api/lost-and-found/add/${userId}`, // ✅ CORRECT PATH      
+        lostPetFormData,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -134,21 +134,20 @@ function PostPets() {
         }
       );
 
-      setMessage('Pet added successfully!');
+      setMessage('Lost/Found pet posted successfully!');
       setFormData({
-        petName: "",
-        species: "",
-        breed: "",
-        age: "",
-        status: "",
-        country: "",
-        city: "",
-        barangay: "",
+        petName: '',
+        species: '',
+        description: '',
+        status: 'LOST',
+        country: '',
+        city: '',
+        barangay: '',
         image: null
       });
       setMarkerPosition(null);
     } catch (error) {
-      setMessage(error.response?.data?.message || 'Failed to add pet. Please try again.');
+      setMessage(error.response?.data?.message || 'Failed to post. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -157,7 +156,7 @@ function PostPets() {
   return (
     <div className="post-pets-wrapper">
       <div className="post-pets-container">
-        <h2>Add a New Pet</h2>
+        <h2>Lost & Found Pet</h2>
         <form onSubmit={handleSubmit} className="post-pet-form-horizontal" encType="multipart/form-data">
           <div className="form-row">
             <div className={`form-group ${focusedField === 'petName' ? 'focused' : ''}`}>
@@ -173,15 +172,14 @@ function PostPets() {
               />
             </div>
             <div className={`form-group ${focusedField === 'species' ? 'focused' : ''}`}>
-              <label>Species</label>
-              <select
-                name="species"
-                value={formData.species}
-                onChange={handleChange}
-                onFocus={() => handleFocus('species')}
-                onBlur={handleBlur}
-                required
-              >
+                <label>Species</label>
+                  <select
+                   name="species"
+                    value={formData.species}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus('species')}
+                    onBlur={handleBlur}
+                    required>    
                 <option value="">Select species</option>
                 <option value="Dog">Dog</option>
                 <option value="Cat">Cat</option>
@@ -190,33 +188,17 @@ function PostPets() {
           </div>
 
           <div className="form-row">
-            <div className={`form-group ${focusedField === 'breed' ? 'focused' : ''}`}>
-              <label>Breed</label>
-              <input
-                type="text"
-                name="breed"
-                value={formData.breed}
+            <div className={`form-group ${focusedField === 'description' ? 'focused' : ''}`}>
+              <label>Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
                 onChange={handleChange}
-                onFocus={() => handleFocus('breed')}
+                onFocus={() => handleFocus('description')}
                 onBlur={handleBlur}
                 required
               />
             </div>
-            <div className={`form-group ${focusedField === 'age' ? 'focused' : ''}`}>
-              <label>Age</label>
-              <input
-                type="number"
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-                onFocus={() => handleFocus('age')}
-                onBlur={handleBlur}
-                required
-              />
-            </div>
-          </div>
-
-          <div className="form-row">
             <div className={`form-group ${focusedField === 'status' ? 'focused' : ''}`}>
               <label>Status</label>
               <select
@@ -225,20 +207,16 @@ function PostPets() {
                 onChange={handleChange}
                 onFocus={() => handleFocus('status')}
                 onBlur={handleBlur}
-                required
               >
-                <option value="">Select status</option>
-                <option value="Active">Active</option>
-                <option value="Injured">Injured</option>
-                <option value="Disabled">Disabled</option>
-                <option value="Chronic Condition">Chronic Condition</option>
+                <option value="LOST">Lost</option>
+                <option value="FOUND">Found</option>
               </select>
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group map-container">
-              <label>Select Pet Location</label>
+              <label>Select Location</label>
               {!isLoaded ? (
                 <div>Loading map...</div>
               ) : (
@@ -247,12 +225,10 @@ function PostPets() {
                   zoom={12}
                   center={center}
                   onClick={onMapClick}
-                  onLoad={() => setIsMapLoading(false)}
                 >
                   {markerPosition && <Marker position={markerPosition} />}
                 </GoogleMap>
               )}
-              {isMapLoading && <div className="map-loading">Loading map...</div>}
               <div className="location-details">
                 {formData.country && <p>Country: {formData.country}</p>}
                 {formData.city && <p>City: {formData.city}</p>}
@@ -269,7 +245,6 @@ function PostPets() {
                 name="image"
                 accept="image/*"
                 onChange={handleFileChange}
-                required
               />
             </div>
           </div>
@@ -279,7 +254,7 @@ function PostPets() {
             className={`submit-btn ${isLoading ? 'loading' : ''}`}
             disabled={isLoading}
           >
-            {isLoading ? '' : 'Add Pet'}
+            {isLoading ? '' : 'Post Lost/Found Pet'}
           </button>
         </form>
 
@@ -291,6 +266,6 @@ function PostPets() {
       </div>
     </div>
   );
-}
+};
 
-export default PostPets;
+export default PostLostPet;

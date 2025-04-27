@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import "../assets/homepage.css";
+import styles from "../assets/Homepage.module.css"; 
 import bannerPets from "../assets/cat-hero1.png";
 
 function Homepage({ setIsAuthenticated }) {
@@ -9,12 +9,20 @@ function Homepage({ setIsAuthenticated }) {
   const [pets, setPets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("All");
-  const petsSectionRef = useRef(null); // Create a reference for the pets section
+  const petsSectionRef = useRef(null);
+  const loggedInUserId = localStorage.getItem("userId");
 
   useEffect(() => {
+    const deletedPetIds = JSON.parse(localStorage.getItem("deletedPetIds") || "[]");
+
     axios
       .get("http://localhost:8080/api/pets")
-      .then((response) => setPets(response.data))
+      .then((response) => {
+        const visiblePets = response.data
+          .filter((pet) => !pet.isDeleted)
+          .filter((pet) => !deletedPetIds.includes(pet.id));
+        setPets(visiblePets);
+      })
       .catch((error) => console.error("Error fetching pets:", error));
   }, []);
 
@@ -22,16 +30,22 @@ function Homepage({ setIsAuthenticated }) {
     return species ? species.toLowerCase().replace(/s$/, "") : "";
   };
 
-  const filteredPets = pets.filter((pet) => {
-    const petName = pet.petName || "";
-    const petSpecies = normalizeSpecies(pet.species);
-    const selectedCategory = normalizeSpecies(category);
+  const filteredPets = pets
+    .filter((pet) => {
+      const petName = pet.petName || "";
+      const petSpecies = normalizeSpecies(pet.species);
+      const selectedCategory = normalizeSpecies(category);
 
-    return (
-      (selectedCategory === "all" || petSpecies === selectedCategory) &&
-      petName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+      return (
+        (selectedCategory === "all" || petSpecies === selectedCategory) &&
+        petName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    })
+    .sort((a, b) => {
+      const isOwnerA = String(a.owner?.id) === loggedInUserId;
+      const isOwnerB = String(b.owner?.id) === loggedInUserId;
+      return isOwnerA === isOwnerB ? 0 : isOwnerA ? -1 : 1;
+    });
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
@@ -63,11 +77,7 @@ function Homepage({ setIsAuthenticated }) {
                 <option value="All">All Pets</option>
                 <option value="Dogs">Dogs</option>
                 <option value="Cats">Cats</option>
-                
               </select>
-              <Link to="/post-pets" className="post-pet-btn1">
-          List a Pet for Adoption
-        </Link>
               <input
                 type="text"
                 placeholder="  Search pets..."
@@ -75,10 +85,11 @@ function Homepage({ setIsAuthenticated }) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              <Link to="/post-pets" className="post-pet-btn1">
+                List a Pet for Adoption
+              </Link>
             </div>
-
           </div>
-          
 
           <div className="hero-image">
             <img src={bannerPets} alt="Adopt pets" className="hero-image" />
@@ -92,42 +103,63 @@ function Homepage({ setIsAuthenticated }) {
 
           <div className="pet-grid">
             {filteredPets.length > 0 ? (
-              filteredPets.map((pet) => (
-                <Link
-                  to={`/pets/${pet.id}`}
-                  key={pet.id}
-                  className="pet-card-link"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <div className="pet-card">
-                    <div className="pet-image-container">
-                      <img
-                        src={pet.image || "/default-pet-image.jpg"}
-                        alt={pet.petName}
-                        className="pet-image"
-                      />
-                    </div>
+              filteredPets.map((pet) => {
+                const isOwner = String(pet.owner?.id) === loggedInUserId;
 
-                    <div className="pet-details">
-                      <h3>{pet.petName}</h3>
-                      <p>Breed: {pet.breed}</p>
-                      <p>Age: {pet.age} years</p>
-                      <p>Status: {pet.status}</p>
+                return isOwner ? (
+                  <div key={pet.id} className="pet-card your-pet-card">
+  <p className="your-pet-label">&nbsp; &nbsp; Your Pet</p>
+  <div className="pet-image-container">
+    <img
+      src={`http://localhost:8080/files/${pet.image}`}
+      alt={pet.petName}
+      className="pet-image"
+    />
+  </div>
+  <div className="pet-details">
+    <h3>{pet.petName}</h3>
+    <p><strong>Breed:</strong> {pet.breed}</p>
+    <p><strong>Age:</strong> {pet.age} years</p>
+    <p><strong>Status:</strong> {pet.status}</p>
+    <p><strong>Species:</strong> {pet.species}</p>
+    <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
+  </div>
+</div>
+                ) : (
+                  <Link
+                    to={`/pets/${pet.id}`}
+                    key={pet.id}
+                    className="pet-card-link"
+                  >
+                    <div className="pet-card">
+                      <div className="pet-image-container">
+                        <img
+                          src={`http://localhost:8080/files/${pet.image}`}
+                          alt={pet.petName}
+                          className="pet-image"
+                        />
+                      </div>
+                      <div className="pet-details">
+                        <h3>{pet.petName}</h3>
+                        <p><strong>Breed:</strong> {pet.breed}</p>
+                        <p><strong>Age:</strong> {pet.age} years</p>
+                        <p><strong>Status:</strong> {pet.status}</p>
+                        <p><strong>Species:</strong> {pet.species}</p>
+                        <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))
+                  </Link>
+                );
+              })
             ) : (
-              <p className="no-pets-message">
-                No pets available matching your criteria.
-              </p>
+              <p className="no-pets-message">No pets available matching your criteria.</p>
             )}
           </div>
         </section>
       </main>
 
       <div className="post-pet-link">
-        <Link to="/post-pets" className="post-pet-btn">
+        <Link to="/post-pets" className="post-pet-btn1">
           List a Pet for Adoption
         </Link>
       </div>

@@ -1,13 +1,24 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../assets/petdetails.css";
+import styles from "../assets/PetDetails.module.css"; // Import module CSS
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 function PetDetails() {
   const { id } = useParams();
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyAi6t6s9HB1NyToVrDhpvn3PHMSrpC_1as",
+  });
+
+  const mapContainerStyle = {
+    width: "100%",
+    height: "400px",
+    borderRadius: "16px",
+  };
 
   useEffect(() => {
     axios
@@ -24,82 +35,128 @@ function PetDetails() {
 
   if (loading) {
     return (
-      <div className="skeleton-wrapper">
-        <div className="skeleton-card" />
+      <div className={styles.skeletonWrapper}>
+        <div className={styles.skeletonCard} />
       </div>
     );
   }
 
   if (!pet) {
-    return <div className="pet-details-error">Pet not found or failed to load.</div>;
+    return <div>Pet not found or failed to load.</div>;
   }
 
   return (
-    <div className="page-wrapper">
-      <div className="pet-details-container">
-        <div className="pet-details-card">
-          <div className="pet-image-container">
-            <img
-              src={pet.image || "/default-pet.jpg"}
-              alt={pet.petName}
-              className="pet-image"
-            />
-          </div>
-          <div className="pet-info-container">
-            <h1 className="pet-name">{pet.petName}</h1>
-            <div className="pet-details-grid">
-              <div className="detail-item">
-                <span className="detail-icon">🐶</span>
-                <span className="detail-label">Breed:</span>
-                <span className="detail-value">{pet.breed}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-icon">🎂</span>
-                <span className="detail-label">Age:</span>
-                <span className="detail-value">{pet.age}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-icon">🧬</span>
-                <span className="detail-label">Species:</span>
-                <span className="detail-value">{pet.species}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-icon">💊</span>
-                <span className="detail-label">Status:</span>
-                <span className={`detail-value status-${pet.status.toLowerCase()}`}>
-                  {pet.status}
-                </span>
-              </div>
+    <div className={styles.pageWrapper}>
+      <div className={styles.petDetailsContainer}>
+        <div className={styles.petDetailsCard}>
+          <div className={styles.cardTop}>
+            <div className={styles.petImageContainer}>
+              <img
+                src={pet.image ? `http://localhost:8080/files/${pet.image}` : "/default-pet.jpg"}
+                alt={pet.petName || "Pet Image"}
+                className={styles.petImage}
+              />
             </div>
-            <button className="adopt-button" onClick={() => navigate(`/adopt/${id}`)}>
-              Submit Adoption Form
-            </button>
-          </div>
-        </div>
-      </div>
 
-      {/* FAQ Section */}
-      <div className="faq-section">
-        <h2 className="faq-heading">Frequently Asked Questions</h2>
-        <div className="faq-item">
-          <h3 className="faq-question">What is the adoption process like?</h3>
-          <p className="faq-answer">
-            After you fill out the adoption form, our team will review your application within 24–48 hours.
-            You’ll be contacted for a short interview before the adoption is finalized.
-          </p>
+            <div className={styles.petInfoContainer}>
+              <h1 className={styles.petName}>{pet.petName}</h1>
+              <div className={styles.petDetailsGrid}>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailIcon}>🐶</span>
+                  <span className={styles.detailLabel}>Breed:</span>
+                  <span className={styles.detailValue}>{pet.breed}</span>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailIcon}>🎂</span>
+                  <span className={styles.detailLabel}>Age:</span>
+                  <span className={styles.detailValue}>{pet.age}</span>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailIcon}>🧬</span>
+                  <span className={styles.detailLabel}>Species:</span>
+                  <span className={styles.detailValue}>{pet.species}</span>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailIcon}>💊</span>
+                  <span className={styles.detailLabel}>Status:</span>
+                  <span className={styles.detailValue}>{pet.status}</span>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailIcon}>📍</span>
+                  <span className={styles.detailLabel}>Location:</span>
+                  <span className={styles.detailValue}>
+                    {pet.barangay}, {pet.city}, {pet.country}
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.buttonGroup}>
+  <button
+    className={styles.adoptButton}
+    onClick={() => navigate(`/adopt/${id}`)}
+  >
+    Submit Adoption Form
+  </button>
+
+  {pet.owner?.id && (
+    <button
+      className={styles.messageButton}
+      onClick={() => navigate(`/messages/${pet.owner.id}`)}
+    >
+      Message Owner
+    </button>
+  )}
+</div>
+
+              
+            </div>
+          </div>
+
+          {pet.latitude && pet.longitude && isLoaded && (
+            <div className={styles.mapContainer}>
+              <h3 className={styles.mapTitle}>Exact Location</h3>
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                center={{ lat: pet.latitude, lng: pet.longitude }}
+                zoom={14}
+              >
+                <Marker position={{ lat: pet.latitude, lng: pet.longitude }} />
+              </GoogleMap>
+            </div>
+          )}
         </div>
-        <div className="faq-item">
-          <h3 className="faq-question">Are the pets vaccinated and neutered?</h3>
-          <p className="faq-answer">
-            Yes, all our pets are vaccinated, dewormed, and neutered before they are put up for adoption.
-          </p>
-        </div>
-        <div className="faq-item">
-          <h3 className="faq-question">Can I return a pet if it doesn't work out?</h3>
-          <p className="faq-answer">
-            Absolutely. We offer a 14-day return period and provide support to help you transition your pet back safely.
-          </p>
-        </div>
+
+        {/* FAQ Section */}
+        <div className={styles.faqSection}>
+  <h2 className={styles.faqHeading}>Frequently Asked Questions</h2>
+  <div className={styles.faqList}>
+    
+    <div className={styles.faqItem}>
+      <h3 className={styles.faqQuestion}>What is the adoption process like?</h3>
+      <p className={styles.faqAnswer}>
+        After submitting the adoption form, our team will review your application within 24–48 hours. 
+        We will then reach out to schedule a short interview before finalizing the adoption.
+      </p>
+    </div>
+
+    <div className={styles.faqItem}>
+      <h3 className={styles.faqQuestion}>Are the pets vaccinated and neutered?</h3>
+      <p className={styles.faqAnswer}>
+        Yes, all pets are fully vaccinated, dewormed, and neutered before they become available for adoption.
+      </p>
+    </div>
+
+    <div className={styles.faqItem}>
+      <h3 className={styles.faqQuestion}>Can I return a pet if it doesn't work out?</h3>
+      <p className={styles.faqAnswer}>
+        Absolutely. We offer a 14-day return window and provide assistance to ensure a smooth transition back to our care.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+
       </div>
     </div>
   );

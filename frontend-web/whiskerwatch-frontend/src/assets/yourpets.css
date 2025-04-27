@@ -1,0 +1,26 @@
+.pet-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+  }
+  
+  .edit-btn, .delete-btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .edit-btn {
+    background-color: #4caf50;
+    color: white;
+    margin-right: 0.5rem;
+    text-decoration: none;
+  }
+  
+  .delete-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  

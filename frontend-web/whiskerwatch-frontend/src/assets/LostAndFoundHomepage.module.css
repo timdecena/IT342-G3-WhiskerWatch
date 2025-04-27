@@ -5,9 +5,9 @@ body, html {
     font-family: 'Segoe UI', sans-serif;
     background-color: #f9fafb;
     color: #1f2937;
-    width: 100%; /* Ensure full width is used */
-    max-width: 100%; /* Avoid content being cut off */
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   
   /* Homepage Wrapper */
@@ -15,9 +15,9 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 90%; /* 90% of viewport width */
-    margin: 0 auto; /* Center the homepage */
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 90%;
+    margin: 0 auto;
+    overflow-x: hidden;
   }
   
   .your-pet-label {
@@ -37,31 +37,32 @@ body, html {
     display: flex;
     justify-content: center;
     background-color: #f1f5f9;
-    padding: 4rem 2rem; /* Reduce side padding */
+    padding: 4rem 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 50rem 2rem 4rem 2rem;
   }
   
   .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 100%; /* Allow content to use the full width */
+    max-width: 100%;
     width: 100%;
-    gap: 4rem; /* Reduced gap to make it more compact */
+    gap: 4rem;
     flex-wrap: wrap;
-    justify-content: center; /* Align content more centrally */
+    justify-content: center;
   }
   
   /* Hero Text */
   .hero-text {
     flex: 1;
-    padding-top: 65rem; /* Increased padding-top to push it further down */
-    padding-left: 2rem; /* Add left padding for alignment */
-    padding-right: 2rem; /* Add right padding for alignment */
+    padding-top: 65rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
   
   .main-title {
-    font-size: 3.5rem; /* Increase the size slightly for more impact */
+    font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1rem;
     line-height: 1.2;
@@ -94,20 +95,23 @@ body, html {
     border-radius: 1rem;
   }
   
-  /* Search Bar */
+  /* Search Container */
   .search-container {
     display: flex;
-    gap: 1.5rem; /* More gap between elements */
+    gap: 1.5rem;
     flex-wrap: wrap;
+    align-items: center;
   }
   
   .category-dropdown {
-    padding: 0.75rem 1rem; /* Adjust padding for larger space */
-    font-size: 1rem; /* Make font size consistent */
-    border-radius: 8px; /* Consistent border radius */
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
     border: 1px solid #d1d5db;
-    width: 180px; /* Larger width */
+    width: 180px;
     height: 50px;
+    background-color: white;
+    cursor: pointer;
   }
   
   .search-bar {
@@ -115,14 +119,28 @@ body, html {
     font-size: 1rem;
     border-radius: 8px;
     border: 1px solid #d1d5db;
-    width: 350px; /* Wider search bar */
+    width: 350px;
+    height: 50px;
+    transition: border-color 0.2s ease;
+  }
+  
+  .search-bar:focus {
+    outline: none;
+    border-color: #8b5cf6;
   }
   
   /* Main Section */
   .main-content {
-    max-width: 1200px; /* Increase max width */
+    max-width: 1200px;
     width: 100%;
-    padding: 4rem 3rem; /* Add more padding for larger content area */
+    padding: 4rem 3rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #827397; /* Same dark color as Homepage's "Available Pets" */
   }
   
   /* Pet Cards */
@@ -130,7 +148,6 @@ body, html {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    margin-top:30px;
   }
   
   .pet-card-link {
@@ -143,11 +160,12 @@ body, html {
     border-radius: 1.5rem;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     overflow: hidden;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
   
   .pet-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
   }
   
   .pet-image-container {
@@ -161,20 +179,27 @@ body, html {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .pet-card:hover .pet-image {
+    transform: scale(1.05);
   }
   
   .pet-details {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   
   .pet-details h3 {
     margin: 0 0 0.5rem;
     font-size: 1.4rem;
+    color: #1f2937;
   }
   
   .pet-details p {
     margin: 0.3rem 0;
     color: #6b7280;
+    font-size: 0.95rem;
   }
   
   /* Post Pet Button */
@@ -183,17 +208,25 @@ body, html {
     text-align: center;
   }
   
-  .post-pet-btn {
-    padding: 1rem 2rem; /* Slightly larger padding */
+  .post-pet-btn1 {
+    padding: 0.75rem 1.5rem;
     font-size: 1rem;
     background-color: #8b5cf6;
     color: white;
     border-radius: 8px;
     text-decoration: none;
     transition: background-color 0.2s ease;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
   }
   
-  .post-pet-btn:hover {
+  .post-pet-btn1:hover {
     background-color: #7c3aed;
   }
   
@@ -203,6 +236,7 @@ body, html {
     color: #6b7280;
     margin-top: 2rem;
     font-size: 1.1rem;
+    grid-column: 1 / -1;
   }
   
   /* Responsive */
@@ -212,23 +246,45 @@ body, html {
       text-align: center;
     }
   
+    .hero-text {
+      padding-top: 2rem;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  
     .hero-image {
-      flex: 1;
-      display: flex;
+      padding-top: 5rem;
+      padding-right: 0;
+    }
+  
+    .search-container {
       justify-content: center;
-      align-items: center;
-      padding-top: 100rem; /* Increased padding-top to move the image down */
+    }
+  
+    .main-title {
+      font-size: 2.5rem;
     }
   }
   
-  .post-pet-btn1 {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    background-color: #8b5cf6;
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-    margin-top: 0rem;
-  }
+  @media (max-width: 768px) {
+    .search-container {
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+    }
   
+    .category-dropdown,
+    .search-bar,
+    .post-pet-btn1 {
+      width: 100%;
+    }
+  
+    .main-title {
+      font-size: 2rem;
+    }
+  
+    .hero-text {
+      padding-top: 1rem;
+    }
+    
+  }
