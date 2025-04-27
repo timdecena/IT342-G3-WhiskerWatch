@@ -10,6 +10,7 @@ function LostAndFoundHomepage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("All");
   const petsSectionRef = useRef(null);
+  const loggedInUserId = localStorage.getItem("userId"); // Added loggedInUserId
 
   useEffect(() => {
     fetchPets();
@@ -107,13 +108,12 @@ function LostAndFoundHomepage() {
 
           <div className={styles["pet-grid"]}>
             {filteredLostPets.length > 0 ? (
-              filteredLostPets.map((pet) => (
-                <Link
-                  to={`/lost-and-found/${pet.id}`}
-                  key={pet.id}
-                  className={styles["pet-card-link"]}
-                >
-                  <div className={styles["pet-card"]}>
+              filteredLostPets.map((pet) => {
+                const isOwner = String(pet.reporter?.id) === loggedInUserId;
+
+                return isOwner ? (
+                  <div key={pet.id} className={`${styles["pet-card"]} ${styles["your-pet-card"]}`}>
+                    <p className={styles["your-pet-label"]}>&nbsp; &nbsp; Yours</p>
                     <div className={styles["pet-image-container"]}>
                       {pet.image ? (
                         <img
@@ -131,8 +131,33 @@ function LostAndFoundHomepage() {
                       <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
                     </div>
                   </div>
-                </Link>
-              ))
+                ) : (
+                  <Link
+                    to={`/lost-and-found/${pet.id}`}
+                    key={pet.id}
+                    className={styles["pet-card-link"]}
+                  >
+                    <div className={styles["pet-card"]}>
+                      <div className={styles["pet-image-container"]}>
+                        {pet.image ? (
+                          <img
+                            src={`http://localhost:8080/files/${pet.image}`}
+                            alt={pet.petName}
+                            className={styles["pet-image"]}
+                          />
+                        ) : (
+                          <div className={styles["pet-image"]}>No Image</div>
+                        )}
+                      </div>
+                      <div className={styles["pet-details"]}>
+                        <h3>{pet.petName}</h3>
+                        <p><strong>Species:</strong> {pet.species || "Unknown"}</p>
+                        <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })
             ) : (
               <p className={styles["no-pets-message"]}>No lost pets found.</p>
             )}
@@ -142,13 +167,12 @@ function LostAndFoundHomepage() {
 
           <div className={styles["pet-grid"]}>
             {filteredFoundPets.length > 0 ? (
-              filteredFoundPets.map((pet) => (
-                <Link
-                  to={`/lost-and-found/${pet.id}`}
-                  key={pet.id}
-                  className={styles["pet-card-link"]}
-                >
-                  <div className={styles["pet-card"]}>
+              filteredFoundPets.map((pet) => {
+                const isOwner = String(pet.reporter?.id) === loggedInUserId;
+
+                return isOwner ? (
+                  <div key={pet.id} className={`${styles["pet-card"]} ${styles["your-pet-card"]}`}>
+                    <p className={styles["your-pet-label"]}>&nbsp; &nbsp; Yours</p>
                     <div className={styles["pet-image-container"]}>
                       {pet.image ? (
                         <img
@@ -166,8 +190,33 @@ function LostAndFoundHomepage() {
                       <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
                     </div>
                   </div>
-                </Link>
-              ))
+                ) : (
+                  <Link
+                    to={`/lost-and-found/${pet.id}`}
+                    key={pet.id}
+                    className={styles["pet-card-link"]}
+                  >
+                    <div className={styles["pet-card"]}>
+                      <div className={styles["pet-image-container"]}>
+                        {pet.image ? (
+                          <img
+                            src={`http://localhost:8080/files/${pet.image}`}
+                            alt={pet.petName}
+                            className={styles["pet-image"]}
+                          />
+                        ) : (
+                          <div className={styles["pet-image"]}>No Image</div>
+                        )}
+                      </div>
+                      <div className={styles["pet-details"]}>
+                        <h3>{pet.petName}</h3>
+                        <p><strong>Species:</strong> {pet.species || "Unknown"}</p>
+                        <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })
             ) : (
               <p className={styles["no-pets-message"]}>No found pets listed yet.</p>
             )}
