@@ -31,34 +31,57 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-        String header = request.getHeader("Authorization");
+protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+        throws ServletException, IOException {
 
-        if (header == null || !header.startsWith("Bearer ")) {
-            chain.doFilter(request, response);
-            return;
-        }
+    String path = request.getRequestURI();
 
-        String token = header.substring(7);
-        try {
-            Long userId = jwtUtil.extractUserId(token);  // Extract the user ID (not email) from the token
-            Optional<UserEntity> userOpt = userRepository.findById(userId);
-
-            if (userOpt.isPresent() && jwtUtil.validateToken(token)) {
-                UserEntity user = userOpt.get();
-                
-                UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(user, null, 
-                        Collections.singletonList(() -> "ROLE_USER"));  // <- Give a dummy role
-
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
-        } catch (ExpiredJwtException | SignatureException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
-
+    // List of endpoints that do NOT require JWT validation
+    if (isPublicPath(path)) {
         chain.doFilter(request, response);
+        return;
     }
+
+    String header = request.getHeader("Authorization");
+
+    if (header == null || !header.startsWith("Bearer ")) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return;
+    }
+
+    String token = header.substring(7);
+    try {
+        Long userId = jwtUtil.extractUserId(token);
+        Optional<UserEntity> userOpt = userRepository.findById(userId);
+
+        if (userOpt.isPresent() && jwtUtil.validateToken(token)) {
+            UserEntity user = userOpt.get();
+            UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(user, null, 
+                    Collections.singletonList(() -> "ROLE_USER"));
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+        }
+    } catch (ExpiredJwtException | SignatureException e) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return;
+    }
+
+    chain.doFilter(request, response);
+}
+
+private boolean isPublicPath(String path) {
+    return path.equals("/") ||
+           path.startsWith("/api/auth/login") ||
+           path.startsWith("/api/users/createUser") ||
+           path.startsWith("/uploads/") ||
+           path.startsWith("/files/") ||
+           path.startsWith("/api/pets/") ||
+           path.startsWith("/api/adoptions/") ||
+           path.startsWith("/api/favorites/") ||
+           path.startsWith("/api/lost-and-found/") ||
+           path.startsWith("/api/users/getUserById/") ||
+           path.startsWith("/v3/api-docs") ||
+           path.startsWith("/swagger-ui") ||
+           path.equals("/swagger-ui.html");
+}
 }

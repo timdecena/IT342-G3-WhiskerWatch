@@ -35,8 +35,14 @@ public class SecurityConfig {
                         .requestMatchers("/api/favorites/**").permitAll() // Allow favorites-related requests
                         .requestMatchers("/api/lost-and-found/**").permitAll() // correct with hyphens
                         .requestMatchers("/api/users/getUserById/**").permitAll()
+                        .requestMatchers(
+                    "/",                     // Allow root
+                    "/v3/api-docs/**",       // Allow Swagger API docs
+                    "/swagger-ui/**",        // Allow Swagger UI
+                    "/swagger-ui.html"       // Allow Swagger HTML page
+                ).permitAll()
                         .requestMatchers("/api/messages/**").authenticated()
-
+                        
                         .anyRequest().authenticated() // Ensure other endpoints require authentication
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -53,7 +59,9 @@ public class SecurityConfig {
                 "http://localhost:5173", // For frontend (if you're running a local React app)
                 "http://localhost:5174",
                 "http://localhost:3000", // For frontend (if you're running a local React app)
-                "http://10.0.2.2:8080" // Add Android emulator access
+                "http://10.0.2.2:8080", // Add Android emulator access
+                "https://springbootwhiskerwatch-env.eba-5ek5qkcj.ap-southeast-1.elasticbeanstalk.com" // <-- ADD THIS
+
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
