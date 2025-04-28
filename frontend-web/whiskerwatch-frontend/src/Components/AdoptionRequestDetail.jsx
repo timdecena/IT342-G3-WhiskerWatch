@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "../assets/adoptionRequestDetail.css";
+import "../assets/AdoptionRequestDetail.css";
 
 function AdoptionRequestDetail() {
   const { requestId } = useParams();

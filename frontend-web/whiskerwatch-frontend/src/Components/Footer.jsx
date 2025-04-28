@@ -1,4 +1,4 @@
-import '../assets/footer.css'; // Import its own CSS
+import '../assets/Footer.css'; // Import its own CSS
 
 function Footer() {
   return (

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FiMenu, FiX, FiBell } from "react-icons/fi";
-import "../assets/header.css";
+import "../assets/Header.css";
 
 function Header({ isAuthenticated, setIsAuthenticated }) {
   const navigate = useNavigate();
