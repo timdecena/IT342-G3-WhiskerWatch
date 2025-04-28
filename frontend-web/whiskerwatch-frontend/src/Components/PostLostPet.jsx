@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
-import '../assets/PostPets.css'; // Reuse the same styling
+import '../assets/postlostpet.css'; // Reuse the same styling
 
 const libraries = ['places'];
 const mapContainerStyle = {
