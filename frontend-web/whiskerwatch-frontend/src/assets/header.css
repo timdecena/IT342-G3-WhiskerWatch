@@ -1,248 +1,249 @@
 /* Full-width Header */
 .header {
-  background-color: #ffffff;
-  border-bottom: 1px solid #ddd;
-  width: 100%; /* Adjust width to 100% */
-  height: 80px; /* Keep the header height constant */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Container for content */
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1900px;
-  padding: 0 20px;
-}
-
-/* Logo */
-.logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1877f2;
-  text-decoration: none;
-}
-
-/* Nav links */
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-/* Requests dropdown container */
-.requests-dropdown {
-  position: relative;
-}
-
-/* Requests dropdown content with scroll */
-.requests-dropdown-content {
-  position: absolute;
-  top: 40px; /* Position the dropdown below the button */
-  right: 0;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  z-index: 100;
-  max-height: 300px; /* Set a max height */
-  overflow-y: auto; /* Enable scrolling if the content overflows */
-}
-
-
-.request-item {
-  display: flex;
-  flex-direction: column; /* Arrange name and status vertically */
-  padding: 10px;
-  cursor: pointer;
-  border-bottom: 1px solid #ddd;
-}
-
-.request-item:hover {
-  background-color: #f0f2f5;
-}
-
-.request-item .name {
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.request-item .status {
-  font-size: 0.9rem;
-  margin-top: 5px;
-}
-
-/* Request item colors based on status */
-.request-item.approved {
-  background-color: #d4edda; /* Greenish background */
-  color: #155724; /* Dark green text */
-}
-
-.request-item.rejected {
-  background-color: #f8d7da; /* Reddish background */
-  color: #721c24; /* Dark red text */
-}
-
-.pending-badge {
-  background-color: #f0f2f5;
-  padding: 3px 6px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-}
-
-/* Remove button (X) */
-.remove-btn {
-  background: transparent;
-  border: none;
-  color: #aaa;
-  cursor: pointer;
-  font-size: 0.9rem; /* Adjust font size */
-  transition: color 0.3s ease;
-}
-
-.remove-btn:hover {
-  color: #e53935; /* Red color on hover */
-}
-
-/* Align View Details button and X button */
-.request-actions {
-  display: flex;
-  justify-content: flex-start; /* Align buttons from left */
-  align-items: center;
-  gap: 8px; /* Space between buttons */
-}
-
-.request-actions button {
-  padding: 5px 10px;
-  background-color: #8b5cf6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.request-actions button:hover {
-  background-color: #7a4fe1;
-}
-
-.remove-btn {
-  font-size: 1rem; /* Keep this consistent with the button */
-  padding: 0; /* Remove padding to make it smaller */
-}
-
-/* Nav link styling */
-.nav-links a {
-  font-size: 1rem;
-  text-decoration: none;
-  color: #1c1e21;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background 0.2s ease;
-}
-
-.nav-links a:hover {
-  background-color: #f0f2f5;
-}
-
-/* Auth buttons */
-.login-btn,
-.logout-btn {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.login-btn {
-  background-color: #1877f2;
-  color: #fff;
-}
-
-.login-btn:hover {
-  background-color: #155fc1;
-}
-
-.logout-btn {
-  background-color: #e53935;
-  color: #fff;
-}
-
-.logout-btn:hover {
-  background-color: #c62828;
-}
-
-/* Mobile Menu Icon */
-.menu-icon {
-  display: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-/* Mobile styles */
-@media (max-width: 768px) {
-  .menu-icon {
-    display: block;
-  }
-
-  .nav-links {
-    position: absolute;
-    top: 60px;
-    right: 0;
-    flex-direction: column;
-    background: white;
-    width: 100%;
-    gap: 0;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    display: none;
-    white-space: nowrap;
-    word-break: normal;
-  }
-
-  .nav-links.open {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    width: 100%; /* Adjust width to 100% */
+    height: 80px; /* Keep the header height constant */
     display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
-
-  .nav-links a,
+  
+  /* Container for content */
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1900px;
+    padding: 0 20px;
+  }
+  
+  /* Logo */
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1877f2;
+    text-decoration: none;
+  }
+  
+  /* Nav links */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  /* Requests dropdown container */
+  .requests-dropdown {
+    position: relative;
+  }
+  
+  /* Requests dropdown content with scroll */
+  .requests-dropdown-content {
+    position: absolute;
+    top: 40px; /* Position the dropdown below the button */
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    z-index: 100;
+    max-height: 300px; /* Set a max height */
+    overflow-y: auto; /* Enable scrolling if the content overflows */
+  }
+  
+  
+  .request-item {
+    display: flex;
+    flex-direction: column; /* Arrange name and status vertically */
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .request-item:hover {
+    background-color: #f0f2f5;
+  }
+  
+  .request-item .name {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .request-item .status {
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+  
+  /* Request item colors based on status */
+  .request-item.approved {
+    background-color: #d4edda; /* Greenish background */
+    color: #155724; /* Dark green text */
+  }
+  
+  .request-item.rejected {
+    background-color: #f8d7da; /* Reddish background */
+    color: #721c24; /* Dark red text */
+  }
+  
+  .pending-badge {
+    background-color: #f0f2f5;
+    padding: 3px 6px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+  }
+  
+  /* Remove button (X) */
+  .remove-btn {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 0.9rem; /* Adjust font size */
+    transition: color 0.3s ease;
+  }
+  
+  .remove-btn:hover {
+    color: #e53935; /* Red color on hover */
+  }
+  
+  /* Align View Details button and X button */
+  .request-actions {
+    display: flex;
+    justify-content: flex-start; /* Align buttons from left */
+    align-items: center;
+    gap: 8px; /* Space between buttons */
+  }
+  
+  .request-actions button {
+    padding: 5px 10px;
+    background-color: #8b5cf6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .request-actions button:hover {
+    background-color: #7a4fe1;
+  }
+  
+  .remove-btn {
+    font-size: 1rem; /* Keep this consistent with the button */
+    padding: 0; /* Remove padding to make it smaller */
+  }
+  
+  /* Nav link styling */
+  .nav-links a {
+    font-size: 1rem;
+    text-decoration: none;
+    color: #1c1e21;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+  }
+  
+  .nav-links a:hover {
+    background-color: #f0f2f5;
+  }
+  
+  /* Auth buttons */
   .login-btn,
   .logout-btn {
-    width: 100%;
-    text-align: left;
-    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
   }
-}
-
-/* Push content below the header */
-body {
-  padding-top: 80px; /* Adjust padding to match the height of the header */
-}
-
-/* Clear Old Notifications Button */
-.clear-notifications-btn {
-  background-color: #e53935;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.clear-notifications-btn:hover {
-  background-color: #c62828;
-}
+  
+  .login-btn {
+    background-color: #1877f2;
+    color: #fff;
+  }
+  
+  .login-btn:hover {
+    background-color: #155fc1;
+  }
+  
+  .logout-btn {
+    background-color: #e53935;
+    color: #fff;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c62828;
+  }
+  
+  /* Mobile Menu Icon */
+  .menu-icon {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .menu-icon {
+      display: block;
+    }
+  
+    .nav-links {
+      position: absolute;
+      top: 60px;
+      right: 0;
+      flex-direction: column;
+      background: white;
+      width: 100%;
+      gap: 0;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      display: none;
+      white-space: nowrap;
+      word-break: normal;
+    }
+  
+    .nav-links.open {
+      display: flex;
+    }
+  
+    .nav-links a,
+    .login-btn,
+    .logout-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 20px;
+    }
+  }
+  
+  /* Push content below the header */
+  body {
+    padding-top: 80px; /* Adjust padding to match the height of the header */
+  }
+  
+  /* Clear Old Notifications Button */
+  .clear-notifications-btn {
+    background-color: #e53935;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .clear-notifications-btn:hover {
+    background-color: #c62828;
+  }
+  
