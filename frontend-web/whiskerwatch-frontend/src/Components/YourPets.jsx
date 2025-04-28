@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "../assets/Homepage.css"; // Reuse Homepage styles
+import "../assets/homepage.css"; // Reuse Homepage styles
 import "../assets/yourpets.css"; // Optional: override if needed
 
 const YourPets = () => {
