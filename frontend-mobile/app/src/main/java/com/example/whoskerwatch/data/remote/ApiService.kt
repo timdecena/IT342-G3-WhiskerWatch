@@ -13,6 +13,11 @@ import retrofit2.http.*
 
 interface ApiService {
 
+
+    @GET("pets/{name}")
+    suspend fun getPetByName(@Path("name") name: String): PetEntity
+    @GET("pets/{id}")
+    suspend fun getPetById(@Path("id") id: String): PetEntity
     // Fetch all pets - NO TOKEN NEEDED
     @GET("/api/pets")
     suspend fun getPets(): List<PetEntity>

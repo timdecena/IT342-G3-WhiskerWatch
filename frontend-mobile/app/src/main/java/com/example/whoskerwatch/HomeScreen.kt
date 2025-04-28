@@ -169,11 +169,9 @@ fun HomeScreen(navController: NavController) {
 }
 
 @Composable
-fun PetCardDynamic(pet: PetEntity, modifier: Modifier = Modifier, navController: NavController) {
-    // Use petName as primary, fall back to name if petName is not available
-    val petName = pet.petName ?: pet.name ?: "Unknown Pet"
+fun PetCardDynamic(pet: PetEntity, navController: NavController, modifier: Modifier = Modifier) {
+    val petName = pet.petName.ifEmpty { pet.name }
 
-    // Process the image URL to ensure it's a complete URL
     val petImageUrl = when {
         pet.imageUrl == null -> ""
         pet.imageUrl.startsWith("http") -> pet.imageUrl
@@ -181,15 +179,13 @@ fun PetCardDynamic(pet: PetEntity, modifier: Modifier = Modifier, navController:
         else -> "http://10.0.2.2:8080/${pet.imageUrl}"
     }
 
-    // Add logging to debug image URL
-    Log.d("PetCard", "Pet: $petName, Original URL: ${pet.imageUrl}, Processed URL: $petImageUrl")
+    Log.d("PetCard", "Pet: $petName, Image URL: $petImageUrl")
 
     Card(
         modifier = modifier
-            .height(180.dp)  // Fixed height for better proportions
+            .height(180.dp)
             .clickable {
-                val encodedName = Uri.encode(petName)
-                navController.navigate("petDetail/$encodedName")
+                navController.navigate("petDetail/${pet.petName}")
             },
         shape = RoundedCornerShape(12.dp)
     ) {
@@ -202,15 +198,8 @@ fun PetCardDynamic(pet: PetEntity, modifier: Modifier = Modifier, navController:
                         .background(Color.LightGray),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Wrap the image in a Box to handle loading/error states visually
                     Image(
-                        painter = rememberAsyncImagePainter(
-                            model = petImageUrl,
-                            onError = {
-                                // Log error to help debug image loading issues
-                                Log.e("PetCard", "Error loading image: $petImageUrl", it.result.throwable)
-                            }
-                        ),
+                        painter = rememberAsyncImagePainter(model = petImageUrl),
                         contentDescription = petName,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
@@ -224,7 +213,7 @@ fun PetCardDynamic(pet: PetEntity, modifier: Modifier = Modifier, navController:
                         .background(Color.Gray),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
+                    androidx.compose.material3.Icon(
                         imageVector = Icons.Default.Pets,
                         contentDescription = "No Image",
                         tint = Color.White,
@@ -235,7 +224,6 @@ fun PetCardDynamic(pet: PetEntity, modifier: Modifier = Modifier, navController:
             Text(
                 text = petName,
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(8.dp)
                     .align(Alignment.CenterHorizontally)
@@ -243,6 +231,7 @@ fun PetCardDynamic(pet: PetEntity, modifier: Modifier = Modifier, navController:
         }
     }
 }
+
 
 @Composable
 fun SearchBar(modifier: Modifier = Modifier) {
