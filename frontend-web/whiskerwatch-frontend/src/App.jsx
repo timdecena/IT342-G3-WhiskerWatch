@@ -9,7 +9,7 @@ import PetDetails from "./Components/PetDetails";
 import AdoptionForm from "./Components/AdoptionForm";
 import AdoptionRequestDetail from "./Components/AdoptionRequestDetail";
 import About from './Components/About1'; // Import the About page component
-import Contact from './Components/Contact'; // Import the Contact page component
+import Contact from './Components/Contact1'; // Import the Contact page component
 import YourPets from './Components/YourPets';
 import EditPet from './Components/EditPet'; // Import the EditPet component
 import LostAndFoundHomepage from './Components/LostAndFoundHomepage'; 
