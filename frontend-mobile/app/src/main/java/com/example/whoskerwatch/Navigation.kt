@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.whoskerwatch.ui.LoginScreen
 import com.example.whoskerwatch.ui.RegisterScreen
+import com.example.whoskerwatch.ui.screens.PetDetailScreen
 
 
 @Composable
