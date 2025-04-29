@@ -11,7 +11,7 @@ function AdoptionRequestDetail() {
   // Fetch request details on load
   const fetchRequestDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/adoptions/${requestId}`);
+      const response = await fetch(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/adoptions/${requestId}`);
       if (!response.ok) throw new Error("Failed to fetch request details");
 
       const data = await response.json();
@@ -35,7 +35,7 @@ function AdoptionRequestDetail() {
 
       // Send the request to the back-end
       const response = await fetch(
-        `http://localhost:8080/api/adoptions/update-status/${requestId}/${userId}?status=${status}`,
+        `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/adoptions/update-status/${requestId}/${userId}?status=${status}`,
         {
           method: "PUT",
           headers: {

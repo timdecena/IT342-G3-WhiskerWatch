@@ -124,7 +124,7 @@ const PostLostPet = () => {
 
     try {
       await axios.post(
-        `http://localhost:8080/api/lost-and-found/add/${userId}`, // ✅ CORRECT PATH      
+        `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/lost-and-found/add/${userId}`, // ✅ CORRECT PATH      
         lostPetFormData,
         {
           headers: {
@@ -172,14 +172,14 @@ const PostLostPet = () => {
               />
             </div>
             <div className={`form-group ${focusedField === 'species' ? 'focused' : ''}`}>
-                <label>Species</label>
-                  <select
-                   name="species"
-                    value={formData.species}
-                    onChange={handleChange}
-                    onFocus={() => handleFocus('species')}
-                    onBlur={handleBlur}
-                    required>    
+              <label>Species</label>
+              <select
+                name="species"
+                value={formData.species}
+                onChange={handleChange}
+                onFocus={() => handleFocus('species')}
+                onBlur={handleBlur}
+                required>
                 <option value="">Select species</option>
                 <option value="Dog">Dog</option>
                 <option value="Cat">Cat</option>

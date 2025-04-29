@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import styles from "../assets/Homepage.module.css"; 
+import styles from "../assets/Homepage.module.css";
 import bannerPets from "../assets/cat-hero1.png";
 
 function Homepage({ setIsAuthenticated }) {
@@ -16,7 +16,7 @@ function Homepage({ setIsAuthenticated }) {
     const deletedPetIds = JSON.parse(localStorage.getItem("deletedPetIds") || "[]");
 
     axios
-      .get("http://localhost:8080/api/pets")
+      .get("http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets")
       .then((response) => {
         const visiblePets = response.data
           .filter((pet) => !pet.isDeleted)
@@ -108,23 +108,23 @@ function Homepage({ setIsAuthenticated }) {
 
                 return isOwner ? (
                   <div key={pet.id} className="pet-card your-pet-card">
-  <p className="your-pet-label">&nbsp; &nbsp; Your Pet</p>
-  <div className="pet-image-container">
-    <img
-      src={`http://localhost:8080/files/${pet.image}`}
-      alt={pet.petName}
-      className="pet-image"
-    />
-  </div>
-  <div className="pet-details">
-    <h3>{pet.petName}</h3>
-    <p><strong>Breed:</strong> {pet.breed}</p>
-    <p><strong>Age:</strong> {pet.age} years</p>
-    <p><strong>Status:</strong> {pet.status}</p>
-    <p><strong>Species:</strong> {pet.species}</p>
-    <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
-  </div>
-</div>
+                    <p className="your-pet-label">&nbsp; &nbsp; Your Pet</p>
+                    <div className="pet-image-container">
+                      <img
+                        src={`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/files/${pet.image}`}
+                        alt={pet.petName}
+                        className="pet-image"
+                      />
+                    </div>
+                    <div className="pet-details">
+                      <h3>{pet.petName}</h3>
+                      <p><strong>Breed:</strong> {pet.breed}</p>
+                      <p><strong>Age:</strong> {pet.age} years</p>
+                      <p><strong>Status:</strong> {pet.status}</p>
+                      <p><strong>Species:</strong> {pet.species}</p>
+                      <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
+                    </div>
+                  </div>
                 ) : (
                   <Link
                     to={`/pets/${pet.id}`}
@@ -134,7 +134,7 @@ function Homepage({ setIsAuthenticated }) {
                     <div className="pet-card">
                       <div className="pet-image-container">
                         <img
-                          src={`http://localhost:8080/files/${pet.image}`}
+                          src={`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/files/${pet.image}`}
                           alt={pet.petName}
                           className="pet-image"
                         />

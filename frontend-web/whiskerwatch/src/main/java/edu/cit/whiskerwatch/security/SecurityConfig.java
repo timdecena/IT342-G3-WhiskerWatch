@@ -46,7 +46,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(
             "http://localhost:5173",
             "http://localhost:3000",
-            "http://10.0.2.2:8080"
+            "http://10.0.2.2:8080",
+            "http://ec2-35-168-15-40.compute-1.amazonaws.com"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));

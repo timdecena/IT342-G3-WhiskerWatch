@@ -21,7 +21,7 @@ const YourPets = () => {
           return;
         }
 
-        const res = await axios.get(`http://localhost:8080/api/pets/owner/${userId}`);
+        const res = await axios.get(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets/owner/${userId}`);
         setPets(res.data);
       } catch (err) {
         console.error("Failed to fetch pets:", err);
@@ -86,7 +86,7 @@ const YourPets = () => {
             <div key={pet.id} className="pet-card">
               <div className="pet-image-container">
                 <img
-                  src={`http://localhost:8080/files/${pet.image}`}
+                  src={`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/files/${pet.image}`}
                   alt={pet.petName}
                   className="pet-image"
                 />

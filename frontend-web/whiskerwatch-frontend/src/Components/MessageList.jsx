@@ -14,18 +14,18 @@ function MessageList() {
             try {
                 const token = localStorage.getItem('token');
                 const userId = localStorage.getItem('userId');
-                
+
                 if (!token || !userId) {
                     throw new Error('Authentication required');
                 }
 
-                const response = await axios.get('http://localhost:8080/api/messages', {
+                const response = await axios.get('http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/messages', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
-                
+
                 if (response.data && Array.isArray(response.data)) {
                     setMessages(response.data);
                 } else {
@@ -48,8 +48,8 @@ function MessageList() {
 
     // Group messages by the other user
     const groupedMessages = messages.reduce((groups, message) => {
-        const otherUser = message.sender.id.toString() === localStorage.getItem('userId') 
-            ? message.recipient 
+        const otherUser = message.sender.id.toString() === localStorage.getItem('userId')
+            ? message.recipient
             : message.sender;
 
         if (!groups[otherUser.id]) {
@@ -76,26 +76,26 @@ function MessageList() {
                 Object.keys(groupedMessages).map((userId) => {
                     const userMessages = groupedMessages[userId];
                     const latestMessage = userMessages[userMessages.length - 1];
-                    const otherUser = latestMessage.sender.id.toString() === localStorage.getItem('userId') 
-                        ? latestMessage.recipient 
+                    const otherUser = latestMessage.sender.id.toString() === localStorage.getItem('userId')
+                        ? latestMessage.recipient
                         : latestMessage.sender;
-                    
+
                     return (
                         <div key={userId} className="message-conversation">
-                            <h3 
-                                onClick={() => handleConversationClick(otherUser.id)} 
+                            <h3
+                                onClick={() => handleConversationClick(otherUser.id)}
                                 className="conversation-header"
                             >
                                 {otherUser.firstName} {otherUser.lastName}
                             </h3>
                             <ul className="message-list">
-                                <li 
+                                <li
                                     className={`message-item ${!latestMessage.read ? 'unread' : ''}`}
                                     onClick={() => handleConversationClick(otherUser.id)}  // Ensure clicking the message also navigates
                                 >
                                     <div className="message-header">
                                         <span className="sender-name">
-                                            {latestMessage.sender.id.toString() === localStorage.getItem('userId') 
+                                            {latestMessage.sender.id.toString() === localStorage.getItem('userId')
                                                 ? `To: ${otherUser.firstName} ${otherUser.lastName}`
                                                 : `From: ${otherUser.firstName} ${otherUser.lastName}`
                                             }
@@ -105,8 +105,8 @@ function MessageList() {
                                         </span>
                                     </div>
                                     <p className="message-preview">
-                                        {latestMessage.content.length > 50 
-                                            ? `${latestMessage.content.substring(0, 50)}...` 
+                                        {latestMessage.content.length > 50
+                                            ? `${latestMessage.content.substring(0, 50)}...`
                                             : latestMessage.content}
                                     </p>
                                 </li>

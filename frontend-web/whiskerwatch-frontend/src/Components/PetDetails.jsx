@@ -22,7 +22,7 @@ function PetDetails() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/pets/${id}`)
+      .get(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets/${id}`)
       .then((res) => {
         setPet(res.data);
         setLoading(false);
@@ -52,7 +52,7 @@ function PetDetails() {
           <div className={styles.cardTop}>
             <div className={styles.petImageContainer}>
               <img
-                src={pet.image ? `http://localhost:8080/files/${pet.image}` : "/default-pet.jpg"}
+                src={pet.image ? `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/files/${pet.image}` : "/default-pet.jpg"}
                 alt={pet.petName || "Pet Image"}
                 className={styles.petImage}
               />
@@ -91,24 +91,24 @@ function PetDetails() {
               </div>
 
               <div className={styles.buttonGroup}>
-  <button
-    className={styles.adoptButton}
-    onClick={() => navigate(`/adopt/${id}`)}
-  >
-    Submit Adoption Form
-  </button>
+                <button
+                  className={styles.adoptButton}
+                  onClick={() => navigate(`/adopt/${id}`)}
+                >
+                  Submit Adoption Form
+                </button>
 
-  {pet.owner?.id && (
-    <button
-      className={styles.messageButton}
-      onClick={() => navigate(`/messages/${pet.owner.id}`)}
-    >
-      Message Owner
-    </button>
-  )}
-</div>
+                {pet.owner?.id && (
+                  <button
+                    className={styles.messageButton}
+                    onClick={() => navigate(`/messages/${pet.owner.id}`)}
+                  >
+                    Message Owner
+                  </button>
+                )}
+              </div>
 
-              
+
             </div>
           </div>
 
@@ -128,33 +128,33 @@ function PetDetails() {
 
         {/* FAQ Section */}
         <div className={styles.faqSection}>
-  <h2 className={styles.faqHeading}>Frequently Asked Questions</h2>
-  <div className={styles.faqList}>
-    
-    <div className={styles.faqItem}>
-      <h3 className={styles.faqQuestion}>What is the adoption process like?</h3>
-      <p className={styles.faqAnswer}>
-        After submitting the adoption form, our team will review your application within 24–48 hours. 
-        We will then reach out to schedule a short interview before finalizing the adoption.
-      </p>
-    </div>
+          <h2 className={styles.faqHeading}>Frequently Asked Questions</h2>
+          <div className={styles.faqList}>
 
-    <div className={styles.faqItem}>
-      <h3 className={styles.faqQuestion}>Are the pets vaccinated and neutered?</h3>
-      <p className={styles.faqAnswer}>
-        Yes, all pets are fully vaccinated, dewormed, and neutered before they become available for adoption.
-      </p>
-    </div>
+            <div className={styles.faqItem}>
+              <h3 className={styles.faqQuestion}>What is the adoption process like?</h3>
+              <p className={styles.faqAnswer}>
+                After submitting the adoption form, our team will review your application within 24–48 hours.
+                We will then reach out to schedule a short interview before finalizing the adoption.
+              </p>
+            </div>
 
-    <div className={styles.faqItem}>
-      <h3 className={styles.faqQuestion}>Can I return a pet if it doesn't work out?</h3>
-      <p className={styles.faqAnswer}>
-        Absolutely. We offer a 14-day return window and provide assistance to ensure a smooth transition back to our care.
-      </p>
-    </div>
+            <div className={styles.faqItem}>
+              <h3 className={styles.faqQuestion}>Are the pets vaccinated and neutered?</h3>
+              <p className={styles.faqAnswer}>
+                Yes, all pets are fully vaccinated, dewormed, and neutered before they become available for adoption.
+              </p>
+            </div>
 
-  </div>
-</div>
+            <div className={styles.faqItem}>
+              <h3 className={styles.faqQuestion}>Can I return a pet if it doesn't work out?</h3>
+              <p className={styles.faqAnswer}>
+                Absolutely. We offer a 14-day return window and provide assistance to ensure a smooth transition back to our care.
+              </p>
+            </div>
+
+          </div>
+        </div>
 
 
       </div>

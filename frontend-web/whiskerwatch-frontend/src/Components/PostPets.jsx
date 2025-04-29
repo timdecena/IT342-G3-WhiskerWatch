@@ -124,7 +124,7 @@ function PostPets() {
 
     try {
       await axios.post(
-        `http://localhost:8080/api/pets/add/${userId}`,
+        `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets/add/${userId}`,
         petFormData,
         {
           headers: {

@@ -17,7 +17,7 @@ function LostAndFoundHomepage() {
 
   const fetchPets = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/lost-and-found");
+      const response = await axios.get("http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/lost-and-found");
       setPets(response.data);
     } catch (error) {
       console.error("Error fetching lost and found pets:", error);
@@ -117,7 +117,7 @@ function LostAndFoundHomepage() {
                     <div className={styles["pet-image-container"]}>
                       {pet.image ? (
                         <img
-                          src={`http://localhost:8080/files/${pet.image}`}
+                          src={`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/files/${pet.image}`}
                           alt={pet.petName}
                           className={styles["pet-image"]}
                         />
@@ -152,7 +152,7 @@ function LostAndFoundHomepage() {
                     <div className={styles["pet-image-container"]}>
                       {pet.image ? (
                         <img
-                          src={`http://localhost:8080/files/${pet.image}`}
+                          src={`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/files/${pet.image}`}
                           alt={pet.petName}
                           className={styles["pet-image"]}
                         />

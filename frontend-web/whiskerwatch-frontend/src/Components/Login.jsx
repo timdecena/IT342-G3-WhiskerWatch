@@ -8,18 +8,18 @@ function Login({ setIsAuthenticated }) {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/login', {
+    const response = await fetch('http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
-  
+
     if (response.ok) {
       const data = await response.json();
       console.log("API Response:", data);  // Debugging API response
-  
+
       // Check if the response contains necessary fields
-      if (data.firstName && data.lastName && data.userId) { 
+      if (data.firstName && data.lastName && data.userId) {
         localStorage.setItem('firstName', data.firstName);
         localStorage.setItem('lastName', data.lastName);
         localStorage.setItem('userId', data.userId);  // Store userId in localStorage
@@ -27,7 +27,7 @@ function Login({ setIsAuthenticated }) {
       } else {
         console.error("Missing firstName, lastName, or userId in response.");
       }
-  
+
       setIsAuthenticated(true);
       navigate('/homepage');
     } else {
@@ -38,17 +38,17 @@ function Login({ setIsAuthenticated }) {
   return (
     <div>
       <h1>Login</h1>
-      <input 
-        type="email" 
-        placeholder="Email" 
-        value={email} 
-        onChange={(e) => setEmail(e.target.value)} 
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
-      <input 
-        type="password" 
-        placeholder="Password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={handleLogin}>Sign In</button>
       <p>Don't have an account? <a href="/register">Sign up</a></p>

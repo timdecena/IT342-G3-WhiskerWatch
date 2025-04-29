@@ -23,7 +23,7 @@ function LostAndFoundPetDetails() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/lost-and-found/${id}`)
+      .get(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/lost-and-found/${id}`)
       .then((res) => {
         setPet(res.data);
         setLoading(false);
@@ -54,7 +54,7 @@ function LostAndFoundPetDetails() {
             <img
               src={
                 pet.image
-                  ? `http://localhost:8080/files/${pet.image}`
+                  ? `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/files/${pet.image}`
                   : "/default-pet.jpg"
               }
               alt={pet.petName || "Pet Image"}
@@ -116,11 +116,11 @@ function LostAndFoundPetDetails() {
 
             {pet.reporter?.id && (
               <button
-              className="contact-button"
-              onClick={() => navigate(`/messages/${pet.reporter.id}`)}
-          >
-              Message Reporter
-          </button>
+                className="contact-button"
+                onClick={() => navigate(`/messages/${pet.reporter.id}`)}
+              >
+                Message Reporter
+              </button>
             )}
           </div>
         </div>

@@ -25,7 +25,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
   const fetchAdoptionRequests = async () => {
     try {
       setLoadingRequests(true);
-      const response = await fetch("http://localhost:8080/api/adoptions");
+      const response = await fetch("http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/adoptions");
       if (!response.ok) throw new Error("Failed to fetch requests");
 
       const data = await response.json();
@@ -51,7 +51,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
       navigate("/");
     }
   };
-  
+
 
   // Toggle the requests dropdown
   const toggleRequests = () => {
@@ -70,7 +70,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
     const oldRequests = adoptionRequests.filter(
       request => request.status === "Approved" || request.status === "Rejected"
     );
-    
+
     const oldRequestIds = oldRequests.map(request => request.id);
     setRemovedRequests([...removedRequests, ...oldRequestIds]);
 
@@ -98,12 +98,12 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
           <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
 
           {/* New Lost and Found Link */}
-          
+
 
           {isAuthenticated && (
             <div className="requests-dropdown">
-              <button 
-                className="requests-btn" 
+              <button
+                className="requests-btn"
                 onClick={toggleRequests}
                 disabled={loadingRequests}
               >
@@ -122,7 +122,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
               {requestsOpen && (
                 <div className="requests-dropdown-content">
                   {/* Clear Old Notifications Button */}
-                  <button 
+                  <button
                     className="clear-notifications-btn"
                     onClick={handleClearOldNotifications}
                     disabled={loadingRequests}
@@ -136,8 +136,8 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
                     <div className="request-item">No adoption requests</div>
                   ) : (
                     adoptionRequests.map((request) => (
-                      <div 
-                        key={request.id} 
+                      <div
+                        key={request.id}
                         className={`request-item ${request.status.toLowerCase()}`}
                       >
                         <strong>{request.pet?.petName || "Unknown Pet"}</strong>
@@ -148,8 +148,8 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
 
                         {/* Remove button for approved or rejected requests */}
                         {(request.status === "Approved" || request.status === "Rejected") && (
-                          <button 
-                            className="remove-btn" 
+                          <button
+                            className="remove-btn"
                             onClick={() => handleRemoveRequest(request.id)}
                           >
                             <FiX />
@@ -157,7 +157,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
                         )}
 
                         <div className="request-actions">
-                          <button 
+                          <button
                             onClick={() => navigate(`/adoption-request/${request.id}`)}
                           >
                             View Details

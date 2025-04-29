@@ -16,12 +16,12 @@ function MessageConversation() {
         const fetchConversation = async () => {
             try {
                 const [conversationRes, userRes] = await Promise.all([
-                    axios.get(`http://localhost:8080/api/messages/conversation/${userId}`, {
+                    axios.get(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/messages/conversation/${userId}`, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`
                         }
                     }),
-                    axios.get(`http://localhost:8080/api/users/getUserById/${userId}`, {
+                    axios.get(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/users/getUserById/${userId}`, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`
                         }
@@ -38,8 +38,8 @@ function MessageConversation() {
                 );
                 if (unreadMessages.length > 0) {
                     await Promise.all(
-                        unreadMessages.map(m => 
-                            axios.put(`http://localhost:8080/api/messages/${m.id}/read`, {}, {
+                        unreadMessages.map(m =>
+                            axios.put(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/messages/${m.id}/read`, {}, {
                                 headers: {
                                     Authorization: `Bearer ${localStorage.getItem('token')}`
                                 }
@@ -69,7 +69,7 @@ function MessageConversation() {
 
         try {
             const response = await axios.post(
-                `http://localhost:8080/api/messages/send/${userId}`,
+                `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/messages/send/${userId}`,
                 newMessage,
                 {
                     headers: {
@@ -107,8 +107,8 @@ function MessageConversation() {
 
             <div className="messages-container">
                 {messages.map((message) => (
-                    <div 
-                        key={message.id} 
+                    <div
+                        key={message.id}
                         className={`message ${message.sender.id.toString() === userId ? 'received' : 'sent'}`}
                     >
                         <div className="message-content">{message.content}</div>

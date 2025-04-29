@@ -4,8 +4,11 @@ import edu.cit.whiskerwatch.entity.PetEntity;
 import edu.cit.whiskerwatch.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,8 +53,7 @@ public class PetController {
             return ResponseEntity.internalServerError().body(response);
         }
     }
-
-    @PostMapping("/add-with-image/{ownerId}")
+    @PostMapping(value = "/add-with-image/{ownerId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> addPetWithImage(
             @RequestParam("petName") String petName,
             @RequestParam("type") String type,
