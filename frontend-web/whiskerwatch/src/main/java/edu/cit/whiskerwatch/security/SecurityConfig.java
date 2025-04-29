@@ -60,7 +60,8 @@ public class SecurityConfig {
                 "http://localhost:5174",
                 "http://localhost:3000", // For frontend (if you're running a local React app)
                 "http://10.0.2.2:8080", // Add Android emulator access
-                "https://springbootwhiskerwatch-env.eba-5ek5qkcj.ap-southeast-1.elasticbeanstalk.com" // <-- ADD THIS
+                "https://springbootwhiskerwatch-env.eba-5ek5qkcj.ap-southeast-1.elasticbeanstalk.com",
+                "https://mergingbranchdeployment.dn4x8ys7sq47c.amplifyapp.com/"
 
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
