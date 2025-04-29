@@ -10,7 +10,7 @@ function Register() {
     const navigate = useNavigate();
   
     const handleRegister = async () => {
-        const response = await fetch('api/users/createUser', {
+        const response = await fetch('/api/users/createUser', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ firstName, lastName, email, password })
