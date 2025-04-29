@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,7 +28,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for API calls
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login", "/api/users/createUser").permitAll() // Allow login & user
-                                                                                                 // registration
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()                                                                        // registration
                         .requestMatchers("/uploads/**").permitAll() // Allow access to static files
                         .requestMatchers("/files/**").permitAll() // Allow access to static files
                         .requestMatchers("/api/pets/**").permitAll() // Allow access to pets API
@@ -60,12 +61,12 @@ public class SecurityConfig {
                 "http://localhost:5174",
                 "http://localhost:3000", // For frontend (if you're running a local React app)
                 "http://10.0.2.2:8080", // Add Android emulator access
-                "https://springbootwhiskerwatch-env.eba-5ek5qkcj.ap-southeast-1.elasticbeanstalk.com",
-                "https://mergingbranchdeployment.dn4x8ys7sq47c.amplifyapp.com/"
+                "http://ec2-52-77-254-124.ap-southeast-1.compute.amazonaws.com"
+
 
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowCredentials(true); // Allow credentials like JWT tokens
 
