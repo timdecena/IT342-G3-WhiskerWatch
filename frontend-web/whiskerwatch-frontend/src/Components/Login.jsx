@@ -13,45 +13,69 @@ function Login({ setIsAuthenticated }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
-  
+
     if (response.ok) {
       const data = await response.json();
-      console.log("API Response:", data);  // Debugging API response
-  
-      // Check if the response contains necessary fields
-      if (data.firstName && data.lastName && data.userId) { 
+      if (data.firstName && data.lastName && data.userId) {
         localStorage.setItem('firstName', data.firstName);
         localStorage.setItem('lastName', data.lastName);
-        localStorage.setItem('userId', data.userId);  // Store userId in localStorage
-        localStorage.setItem('token', data.token); // Store token in localStorage
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('token', data.token);
+        setIsAuthenticated(true);
+        navigate('/homepage');
       } else {
-        console.error("Missing firstName, lastName, or userId in response.");
+        console.error("Missing user data in response.");
       }
-  
-      setIsAuthenticated(true);
-      navigate('/homepage');
     } else {
-      alert('Login failed');
+      alert('Login failed. Please check your credentials.');
     }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <input 
-        type="email" 
-        placeholder="Email" 
-        value={email} 
-        onChange={(e) => setEmail(e.target.value)} 
-      />
-      <input 
-        type="password" 
-        placeholder="Password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
-      />
-      <button onClick={handleLogin}>Sign In</button>
-      <p>Don't have an account? <a href="/register">Sign up</a></p>
+    <div className="login-page">
+      <div className="login-left">
+        <div className="brand-name">WhiskerWatch</div>
+        <h1 className="login-title">Welcome Back</h1>
+        <p className="login-subtext">Log in to manage your pets, track adoptions, report lost or found pets, and connect with others.</p>
+
+        <div className="login-form">
+          <input
+            type="email"
+            placeholder="Email"
+            className="login-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="login-input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="login-btn" onClick={handleLogin}>Sign In</button>
+          <p className="signup-link">
+            Don’t have an account? <a href="/register">Sign up</a>
+          </p>
+        </div>
+      </div>
+
+      <div className="login-right">
+        <div className="hero-message">
+          <h2>What is <span className="highlight">WhiskerWatch</span>?</h2>
+          <p>
+            WhiskerWatch is a modern pet adoption system that helps connect people with animals in need. 
+            Whether you’re looking to adopt, rehome, or report a lost or found pet, 
+            WhiskerWatch makes it seamless with real-time listings, adoption forms, and messaging tools to connect with fellow users.
+          </p>
+          <ul>
+            <li>🐾 Post pets for adoption</li>
+            <li>🔍 Track and manage adoption forms</li>
+            <li>📍 Report lost or found pets in your community</li>
+            <li>💬 Message other users and build connections</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
