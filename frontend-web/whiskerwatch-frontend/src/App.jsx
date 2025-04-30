@@ -8,8 +8,8 @@ import Header from './Components/Header'; // Ensure Header is imported if not al
 import PetDetails from "./Components/PetDetails";
 import AdoptionForm from "./Components/AdoptionForm";
 import AdoptionRequestDetail from "./Components/AdoptionRequestDetail";
-import about from './Components/about'; // Import the About page component
-import contact from './Components/contact'; // Import the Contact page component
+import About from './Components/About'; // Import the About page component
+import Contact from './Components/Contact'; // Import the Contact page component
 import YourPets from './Components/YourPets';
 import EditPet from './Components/EditPet'; // Import the EditPet component
 import LostAndFoundHomepage from './Components/LostAndFoundHomepage'; 
