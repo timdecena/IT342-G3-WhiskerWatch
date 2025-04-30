@@ -37,7 +37,7 @@ function LostAndFoundHomepage() {
   };
 
   const filterPetsByStatus = (status) => {
-    return pets
+    const filtered = pets
       .filter((pet) => pet.status.toUpperCase() === status)
       .filter((pet) => {
         const petName = pet.petName || "";
@@ -49,6 +49,12 @@ function LostAndFoundHomepage() {
           petName.toLowerCase().includes(searchTerm.toLowerCase())
         );
       });
+
+    return filtered.sort((a, b) => {
+      const isOwnerA = String(a.reporter?.id) === loggedInUserId;
+      const isOwnerB = String(b.reporter?.id) === loggedInUserId;
+      return isOwnerA === isOwnerB ? 0 : isOwnerA ? -1 : 1;
+    });
   };
 
   const renderPetCard = (pet) => {
