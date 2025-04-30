@@ -12,14 +12,19 @@ const UserProfile = () => {
   });
 
   const [message, setMessage] = useState('');
-  const userId = localStorage.getItem('userId'); // Assumes ID is stored on login
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     if (userId) {
-      axios.get(`/api/users/getUserById/${userId}`)
+      axios.get(`http://localhost:8080/api/users/getUserById/${userId}`)
         .then((response) => {
-          const data = response.data;
-          setUser({ ...data, password: '' }); // clear password for security
+          setUser({
+            id: response.data.id,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            email: response.data.email,
+            password: ''
+          });
         })
         .catch((error) => {
           console.error('Error fetching user:', error);
@@ -30,28 +35,32 @@ const UserProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setUser(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user.id) {
+      setMessage('User ID not loaded. Please refresh.');
+      return;
+    }
 
     try {
-      const response = await axios.put(`/api/users/updateUser/${user.id}`, user);
-      setMessage('Profile updated successfully!');
+      const response = await axios.put(
+        `http://localhost:8080/api/users/updateUser/${user.id}`,
+        user
+      );
+      setMessage('✅ Profile updated successfully!');
       setUser({ ...response.data, password: '' });
     } catch (error) {
       console.error('Error updating profile:', error);
-      setMessage('Failed to update profile.');
+      setMessage('❌ Failed to update profile.');
     }
   };
 
   return (
     <div className={styles.profileContainer}>
-      <h2 className={styles.title}>Update Profile</h2>
+      <h2 className={styles.title}>Update Your Profile</h2>
       {message && <p className={styles.message}>{message}</p>}
       <form className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.label}>
@@ -65,6 +74,7 @@ const UserProfile = () => {
             required
           />
         </label>
+
         <label className={styles.label}>
           Last Name:
           <input
@@ -76,6 +86,7 @@ const UserProfile = () => {
             required
           />
         </label>
+
         <label className={styles.label}>
           Email:
           <input
@@ -87,18 +98,20 @@ const UserProfile = () => {
             required
           />
         </label>
+
         <label className={styles.label}>
-          Password:
+          New Password:
           <input
             type="password"
             name="password"
             value={user.password}
             onChange={handleChange}
             className={styles.input}
-            placeholder="Enter new password"
+            placeholder="Leave blank to keep current"
           />
         </label>
-        <button type="submit" className={styles.button}>Update Profile</button>
+
+        <button type="submit" className={styles.updateBtn}>Update Profile</button>
       </form>
     </div>
   );
