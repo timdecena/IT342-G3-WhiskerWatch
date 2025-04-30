@@ -10,7 +10,7 @@ const UserProfile = () => {
     email: '',
     password: ''
   });
-
+  const token = localStorage.getItem('token');
   const [message, setMessage] = useState('');
   const userId = localStorage.getItem('userId');
 
@@ -44,11 +44,16 @@ const UserProfile = () => {
       setMessage('User ID not loaded. Please refresh.');
       return;
     }
-
+  
     try {
       const response = await axios.put(
         `http://localhost:8080/api/users/updateUser/${user.id}`,
-        user
+        user,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
       );
       setMessage('✅ Profile updated successfully!');
       setUser({ ...response.data, password: '' });
@@ -57,6 +62,7 @@ const UserProfile = () => {
       setMessage('❌ Failed to update profile.');
     }
   };
+  
 
   return (
     <div className={styles.profileContainer}>
