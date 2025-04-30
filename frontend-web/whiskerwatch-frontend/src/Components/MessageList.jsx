@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../assets/MessageList.css';
+import BASE_URL from '../Components/Config'; 
 
 function MessageList() {
     const [messages, setMessages] = useState([]);
@@ -19,7 +20,7 @@ function MessageList() {
                     throw new Error('Authentication required');
                 }
 
-                const response = await axios.get('http://localhost:8080/api/messages', {
+                const response = await axios.get(`${BASE_URL}/api/messages`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'

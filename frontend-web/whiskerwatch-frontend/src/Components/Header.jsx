@@ -25,7 +25,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
   const fetchAdoptionRequests = async () => {
     try {
       setLoadingRequests(true);
-      const response = await fetch("http://localhost:8080/api/adoptions");
+      const response = await fetch(`${BASE_URL}/api/adoptions`);
       if (!response.ok) throw new Error("Failed to fetch requests");
 
       const data = await response.json();

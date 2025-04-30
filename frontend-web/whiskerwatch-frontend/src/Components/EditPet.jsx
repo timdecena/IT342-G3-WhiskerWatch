@@ -51,7 +51,7 @@ function EditPet() {
           return;
         }
 
-        const response = await axios.get(`http://localhost:8080/api/pets/${id}`, {
+        const response = await axios.get(`${BASE_URL}/api/pets/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -71,7 +71,7 @@ function EditPet() {
         });
 
         if (pet.image) {
-          setCurrentImage(`http://localhost:8080/uploads/${pet.image}`);
+          setCurrentImage(`${BASE_URL}/uploads/${pet.image}`);
         }
 
         if (pet.latitude && pet.longitude) {
@@ -168,7 +168,7 @@ function EditPet() {
       };
 
       await axios.put(
-        `http://localhost:8080/api/pets/${id}`,
+        `${BASE_URL}/api/pets/${id}`,
         petData,
         {
           headers: {
@@ -184,7 +184,7 @@ function EditPet() {
         imageFormData.append('image', formData.image);
 
         await axios.post(
-          `http://localhost:8080/api/pets/${id}/image`,
+          `${BASE_URL}/api/pets/${id}/image`,
           imageFormData,
           {
             headers: {

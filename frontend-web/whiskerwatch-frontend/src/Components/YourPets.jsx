@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../assets/homepage.css";
 import "../assets/yourpets.css";
-
+import BASE_URL from '../Components/Config'; 
 const YourPets = () => {
   const [allPets, setAllPets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,8 +22,8 @@ const YourPets = () => {
         }
 
         const [adoptionRes, lostFoundRes] = await Promise.all([
-          axios.get(`http://localhost:8080/api/pets/owner/${userId}`),
-          axios.get(`http://localhost:8080/api/lost-and-found/reporter/${userId}`)
+          axios.get(`${BASE_URL}/api/pets/owner/${userId}`),
+          axios.get(`${BASE_URL}/api/lost-and-found/reporter/${userId}`)
         ]);
 
         const adoptionPets = adoptionRes.data.map(pet => ({
@@ -102,7 +102,7 @@ const YourPets = () => {
               <div className="pet-image-container">
                 {pet.image ? (
                   <img
-                    src={`http://localhost:8080/files/${pet.image}`}
+                    src={`${BASE_URL}/files/${pet.image}`}
                     alt={pet.petName}
                     className="pet-image"
                   />

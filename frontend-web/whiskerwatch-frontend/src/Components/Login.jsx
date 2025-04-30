@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../assets/Login.css';
+import BASE_URL from '../Components/Config'; 
 
 function Login({ setIsAuthenticated }) {
   const [email, setEmail] = useState('');
@@ -8,7 +9,7 @@ function Login({ setIsAuthenticated }) {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/login', {
+    const response = await fetch(`${BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })

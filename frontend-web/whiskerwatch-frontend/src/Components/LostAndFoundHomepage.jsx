@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import styles from "../assets/LostAndFoundHomepage.module.css";
 import bannerPets from "../assets/cat-hero1.png";
+import BASE_URL from '../Components/Config'; 
 
 function LostAndFoundHomepage() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function LostAndFoundHomepage() {
 
   const fetchPets = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/lost-and-found");
+      const response = await axios.get(`${BASE_URL}/api/lost-and-found`);
       setPets(response.data);
     } catch (error) {
       console.error("Error fetching lost and found pets:", error);
@@ -70,7 +71,7 @@ function LostAndFoundHomepage() {
         <div className={styles["pet-image-container"]}>
           {pet.image ? (
             <img
-              src={`http://localhost:8080/files/${pet.image}`}
+              src={`${BASE_URL}/files/${pet.image}`}
               alt={pet.petName}
               className={styles["pet-image"]}
             />

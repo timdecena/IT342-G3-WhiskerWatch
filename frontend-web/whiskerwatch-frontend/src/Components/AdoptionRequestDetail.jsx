@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../assets/AdoptionRequestDetail.css";
+import BASE_URL from '../Components/Config'; 
 
 function AdoptionRequestDetail() {
   const { requestId } = useParams();
@@ -11,7 +12,7 @@ function AdoptionRequestDetail() {
   // Fetch request details on load
   const fetchRequestDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/adoptions/${requestId}`);
+      const response = await fetch(`${BASE_URL}/api/adoptions/${requestId}`);
       if (!response.ok) throw new Error("Failed to fetch request details");
 
       const data = await response.json();
@@ -35,7 +36,7 @@ function AdoptionRequestDetail() {
 
       // Send the request to the back-end
       const response = await fetch(
-        `http://localhost:8080/api/adoptions/update-status/${requestId}/${userId}?status=${status}`,
+        `${BASE_URL}/api/adoptions/update-status/${requestId}/${userId}?status=${status}`,
         {
           method: "PUT",
           headers: {

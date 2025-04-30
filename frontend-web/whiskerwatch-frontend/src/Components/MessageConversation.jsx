@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../assets/MessageConversation.css";
+import BASE_URL from '../Components/Config'; 
 
 function MessageConversation() {
     const { userId } = useParams();
@@ -16,12 +17,12 @@ function MessageConversation() {
         const fetchConversation = async () => {
             try {
                 const [conversationRes, userRes] = await Promise.all([
-                    axios.get(`http://localhost:8080/api/messages/conversation/${userId}`, {
+                    axios.get(`${BASE_URL}/api/messages/conversation/${userId}`, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`
                         }
                     }),
-                    axios.get(`http://localhost:8080/api/users/getUserById/${userId}`, {
+                    axios.get(`${BASE_URL}/api/users/getUserById/${userId}`, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`
                         }
@@ -39,7 +40,7 @@ function MessageConversation() {
                 if (unreadMessages.length > 0) {
                     await Promise.all(
                         unreadMessages.map(m => 
-                            axios.put(`http://localhost:8080/api/messages/${m.id}/read`, {}, {
+                            axios.put(`${BASE_URL}/api/messages/${m.id}/read`, {}, {
                                 headers: {
                                     Authorization: `Bearer ${localStorage.getItem('token')}`
                                 }
@@ -69,7 +70,7 @@ function MessageConversation() {
 
         try {
             const response = await axios.post(
-                `http://localhost:8080/api/messages/send/${userId}`,
+                `${BASE_URL}//api/messages/send/${userId}`,
                 newMessage,
                 {
                     headers: {

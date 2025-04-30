@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "../assets/PetDetails.module.css"; // Import module CSS
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import BASE_URL from '../Components/Config'; 
 
 function PetDetails() {
   const { id } = useParams();
@@ -52,7 +53,7 @@ function PetDetails() {
           <div className={styles.cardTop}>
             <div className={styles.petImageContainer}>
               <img
-                src={pet.image ? `http://localhost:8080/files/${pet.image}` : "/default-pet.jpg"}
+                src={pet.image ? `${BASE_URL}/files/${pet.image}` : "/default-pet.jpg"}
                 alt={pet.petName || "Pet Image"}
                 className={styles.petImage}
               />

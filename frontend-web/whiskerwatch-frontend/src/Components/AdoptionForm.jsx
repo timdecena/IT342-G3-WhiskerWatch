@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../assets/AdoptionForm.css";
+import BASE_URL from '../Components/Config'; 
 
 function AdoptionForm() {
   const { petId } = useParams();
@@ -36,7 +37,7 @@ function AdoptionForm() {
 
   useEffect(() => {
     // Fetch pet details by petId
-    axios.get(`http://localhost:8080/api/pets/${petId}`)
+    axios.get(`${BASE_URL}/api/pets/${petId}`)
       .then(res => setPet(res.data))
       .catch(err => console.error("Failed to fetch pet:", err));
   }, [petId]);
@@ -50,7 +51,7 @@ function AdoptionForm() {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/adoptions/request/${petId}/${adopterId}`,
+        `${BASE_URL}/api/adoptions/request/${petId}/${adopterId}`,
         form, {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import '../assets/PostPets.css';
-
+import BASE_URL from '../Components/Config'; 
 const libraries = ['places'];
 const mapContainerStyle = {
   width: '100%',
@@ -124,7 +124,7 @@ function PostPets() {
 
     try {
       await axios.post(
-        `http://localhost:8080/api/pets/add/${userId}`,
+        `${BASE_URL}/api/pets/add/${userId}`,
         petFormData,
         {
           headers: {

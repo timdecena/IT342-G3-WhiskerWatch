@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import styles from "../assets/Homepage.module.css"; 
 import bannerPets from "../assets/cat-hero1.png";
+import BASE_URL from '../Components/Config'; 
 
 function Homepage({ setIsAuthenticated }) {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ function Homepage({ setIsAuthenticated }) {
     const deletedPetIds = JSON.parse(localStorage.getItem("deletedPetIds") || "[]");
 
     axios
-      .get("http://localhost:8080/api/pets")
+      .get(`${BASE_URL}/api/pets`)
       .then((response) => {
         const visiblePets = response.data
           .filter((pet) => !pet.isDeleted)
@@ -111,7 +112,7 @@ function Homepage({ setIsAuthenticated }) {
   <p className="your-pet-label">&nbsp; &nbsp; Your Pet</p>
   <div className="pet-image-container">
     <img
-      src={`http://localhost:8080/files/${pet.image}`}
+      src={`${BASE_URL}/files/${pet.image}`}
       alt={pet.petName}
       className="pet-image"
     />
@@ -134,7 +135,7 @@ function Homepage({ setIsAuthenticated }) {
                     <div className="pet-card">
                       <div className="pet-image-container">
                         <img
-                          src={`http://localhost:8080/files/${pet.image}`}
+                          src={`${BASE_URL}/files/${pet.image}`}
                           alt={pet.petName}
                           className="pet-image"
                         />

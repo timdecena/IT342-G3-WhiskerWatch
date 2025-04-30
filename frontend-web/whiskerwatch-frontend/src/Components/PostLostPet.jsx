@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import '../assets/PostPets.css'; // Reuse the same styling
-
+import BASE_URL from '../Components/Config'; 
 const libraries = ['places'];
 const mapContainerStyle = {
   width: '100%',
@@ -124,7 +124,7 @@ const PostLostPet = () => {
 
     try {
       await axios.post(
-        `http://localhost:8080/api/lost-and-found/add/${userId}`, // ✅ CORRECT PATH      
+        `${BASE_URL}/api/lost-and-found/add/${userId}`, // ✅ CORRECT PATH      
         lostPetFormData,
         {
           headers: {

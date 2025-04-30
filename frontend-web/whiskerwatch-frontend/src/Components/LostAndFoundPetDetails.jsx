@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "../assets/LostAndFoundPetDetails.css";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import BASE_URL from '../Components/Config'; 
 
 function LostAndFoundPetDetails() {
   const { id } = useParams();
@@ -23,7 +24,7 @@ function LostAndFoundPetDetails() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/lost-and-found/${id}`)
+      .get(`${BASE_URL}/api/lost-and-found/${id}`)
       .then((res) => {
         setPet(res.data);
         setLoading(false);
@@ -54,7 +55,7 @@ function LostAndFoundPetDetails() {
             <img
               src={
                 pet.image
-                  ? `http://localhost:8080/files/${pet.image}`
+                  ? `${BASE_URL}/files/${pet.image}`
                   : "/default-pet.jpg"
               }
               alt={pet.petName || "Pet Image"}
