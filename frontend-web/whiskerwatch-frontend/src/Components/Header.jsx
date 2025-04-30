@@ -94,7 +94,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
 
         <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
           <Link to="/homepage" onClick={() => setMenuOpen(false)} style={isActive('/homepage')}>Home</Link>
-          <Link to="/messages" onClick={() => setMenuOpen(false)} style={isActive('/messages')}>User Profile</Link>
+          <Link to="/user-profile" onClick={() => setMenuOpen(false)} style={isActive('/user-profile')}>User Profile</Link>
           <Link to="/messages" onClick={() => setMenuOpen(false)} style={isActive('/messages')}>Messages</Link>
           <Link to="/lost-and-found" onClick={() => setMenuOpen(false)} style={isActive('/lost-and-found')}>Lost and Found</Link>
           <Link to="/yourpets" onClick={() => setMenuOpen(false)} style={isActive('/yourpets')}>Your Listings</Link>

@@ -17,6 +17,7 @@ import PostLostPet from './Components/PostLostPet';
 import LostAndFoundPetDetails from './Components/LostAndFoundPetDetails';
 import MessageConversation from './Components/MessageConversation';
 import MessageList from './Components/MessageList';
+import UserProfile from './Components/UserProfile';
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
         // In your main router configuration
         <Route path="/messages" element={<MessageList />} />
         <Route path="/messages/:userId" element={<MessageConversation />} />
+        <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/lost-and-found/:id" element={<LostAndFoundPetDetails />} />
         <Route path="/edit-pet/:id" element={isAuthenticated ? <EditPet /> : <Navigate to="/" replace />} />
       </Routes>
