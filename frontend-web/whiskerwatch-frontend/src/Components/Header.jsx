@@ -1,10 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FiMenu, FiX, FiBell } from "react-icons/fi";
 import "../assets/header.css";
 
 function Header({ isAuthenticated, setIsAuthenticated }) {
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current location (path)
   const [menuOpen, setMenuOpen] = useState(false);
   const [requestsOpen, setRequestsOpen] = useState(false);
   const [adoptionRequests, setAdoptionRequests] = useState([]);
@@ -51,7 +52,6 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
       navigate("/");
     }
   };
-  
 
   // Toggle the requests dropdown
   const toggleRequests = () => {
@@ -70,7 +70,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
     const oldRequests = adoptionRequests.filter(
       request => request.status === "Approved" || request.status === "Rejected"
     );
-    
+
     const oldRequestIds = oldRequests.map(request => request.id);
     setRemovedRequests([...removedRequests, ...oldRequestIds]);
 
@@ -78,10 +78,13 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
     setAdoptionRequests(adoptionRequests.filter(request => !oldRequestIds.includes(request.id)));
   };
 
+  // Function to check if a link is active
+  const isActive = (path) => location.pathname === path ? { color: "#8b5cf6" } : {};
+
   return (
     <header className="header">
       <div className="container">
-        <Link to="/homepage" className="logo">
+        <Link to="/homepage" className="logo" style={isActive('/homepage')}>
           <span style={{ color: "#8b5cf6" }}>WhiskerWatch</span>
         </Link>
 
@@ -90,16 +93,15 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
         </div>
 
         <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
-          <Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link to="/messages" onClick={() => setMenuOpen(false)}>Messages</Link>
-          <Link to="/lost-and-found" onClick={() => setMenuOpen(false)}>Lost and Found</Link>
-          <Link to="/yourpets" onClick={() => setMenuOpen(false)}>Your Listings</Link>
-          <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
-          <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+          <Link to="/homepage" onClick={() => setMenuOpen(false)} style={isActive('/homepage')}>Home</Link>
+          <Link to="/messages" onClick={() => setMenuOpen(false)} style={isActive('/messages')}>User Profile</Link>
+          <Link to="/messages" onClick={() => setMenuOpen(false)} style={isActive('/messages')}>Messages</Link>
+          <Link to="/lost-and-found" onClick={() => setMenuOpen(false)} style={isActive('/lost-and-found')}>Lost and Found</Link>
+          <Link to="/yourpets" onClick={() => setMenuOpen(false)} style={isActive('/yourpets')}>Your Listings</Link>
+          <Link to="/about" onClick={() => setMenuOpen(false)} style={isActive('/about')}>About</Link>
+          <Link to="/contact" onClick={() => setMenuOpen(false)} style={isActive('/contact')}>Contact</Link>
 
           {/* New Lost and Found Link */}
-          
-
           {isAuthenticated && (
             <div className="requests-dropdown">
               <button 
@@ -176,7 +178,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
               Logout
             </button>
           ) : (
-            <Link to="/" className="login-btn" onClick={() => setMenuOpen(false)}>
+            <Link to="/" className="login-btn" onClick={() => setMenuOpen(false)} style={isActive('/')}>
               Sign In
             </Link>
           )}
