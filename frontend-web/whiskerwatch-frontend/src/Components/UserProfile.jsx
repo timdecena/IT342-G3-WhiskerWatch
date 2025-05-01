@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from '../assets/UserProfile.module.css';
+import BASE_URL from '../Components/Config'; 
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -16,7 +17,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:8080/api/users/getUserById/${userId}`)
+      axios.get(`${BASE_URL}/api/users/getUserById/${userId}`)
         .then((response) => {
           setUser({
             id: response.data.id,
@@ -47,7 +48,7 @@ const UserProfile = () => {
   
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/users/updateUser/${user.id}`,
+        `${BASE_URL}/api/users/updateUser/${user.id}`,
         user,
         {
           headers: {

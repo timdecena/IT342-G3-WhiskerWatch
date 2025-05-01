@@ -23,7 +23,7 @@ function PetDetails() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/pets/${id}`)
+      .get(`${BASE_URL}/api/pets/${id}`)
       .then((res) => {
         setPet(res.data);
         setLoading(false);
