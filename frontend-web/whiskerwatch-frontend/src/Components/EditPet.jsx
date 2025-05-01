@@ -4,6 +4,7 @@ import axios from 'axios';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import '../assets/PostPets.css';
 import Layout from "../Components/Layout";
+import BASE_URL from '../Components/Config'; 
 
 const libraries = ['places'];
 const mapContainerStyle = {

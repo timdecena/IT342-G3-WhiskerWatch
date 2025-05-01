@@ -53,7 +53,8 @@ public class SecurityConfig {
                 "http://localhost:5173", // For frontend (if you're running a local React app)
                 "http://localhost:5174",
                 "http://localhost:3000", // For frontend (if you're running a local React app)
-                "http://10.0.2.2:8080" // Add Android emulator access
+                "http://10.0.2.2:8080", // Add Android emulator access
+                "http://ec2-35-168-15-40.compute-1.amazonaws.com" // -Copied from deployed main branch
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));

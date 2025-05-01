@@ -18,6 +18,7 @@ import LostAndFoundPetDetails from './Components/LostAndFoundPetDetails';
 import MessageConversation from './Components/MessageConversation';
 import MessageList from './Components/MessageList';
 import UserProfile from './Components/UserProfile';
+import Profile from './Components/Profile';
 
 
 function App() {
@@ -42,6 +43,10 @@ function App() {
       
       <Routes>
         {/* Redirect to homepage if logged in */}
+        <Route 
+          path="/profile" 
+          element={isAuthenticated ? <Profile /> : <Navigate to="/" replace />} 
+        />
         <Route 
           path="/" 
           element={isAuthenticated ? <Navigate to="/homepage" replace /> : <Login setIsAuthenticated={setIsAuthenticated} />} 
@@ -74,6 +79,7 @@ function App() {
         <Route path="/messages" element={<MessageList />} />
         <Route path="/messages/:userId" element={<MessageConversation />} />
         <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/lost-and-found/:id" element={<LostAndFoundPetDetails />} />
         <Route path="/edit-pet/:id" element={isAuthenticated ? <EditPet /> : <Navigate to="/" replace />} />
       </Routes>
