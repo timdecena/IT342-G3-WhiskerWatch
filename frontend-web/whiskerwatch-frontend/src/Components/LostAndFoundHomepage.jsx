@@ -81,8 +81,11 @@ function LostAndFoundHomepage() {
         </div>
         <div className={styles["pet-details"]}>
           <h3>{pet.petName}</h3>
-          <p><strong>Species:</strong> {pet.species || "Unknown"}</p>
-          <p><strong>Location:</strong> {locationText}</p>
+          <p><strong>Description:</strong> {pet.description}</p>
+          <p><strong>Status:</strong> {pet.status}</p>
+          <p><strong>Species:</strong> {pet.species}</p>
+          <p><strong>Date Reported:</strong> {pet.reportedDate}</p>
+          <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
         </div>
       </div>
     );

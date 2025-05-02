@@ -96,7 +96,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
           <Link to="/lost-and-found" onClick={() => setMenuOpen(false)}>Lost and Found</Link>
           <Link to="/yourpets" onClick={() => setMenuOpen(false)}>Your Listings</Link>
           <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
-          <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+          <Link to="/developers" onClick={() => setMenuOpen(false)}>Developers</Link>
           <Link to="/profile" onClick={() => setMenuOpen(false)}>Profile</Link>
 
           {/* New Lost and Found Link */}

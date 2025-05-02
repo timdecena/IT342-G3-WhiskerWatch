@@ -1,9 +1,29 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../assets/LostAndFoundPetDetails.css";
+import { 
+  Box, 
+  Button, 
+  Card, 
+  Chip, 
+  CardMedia, 
+  Grid, 
+  IconButton, 
+  Stack, 
+  Skeleton,
+  Typography 
+} from "@mui/material";
+import { 
+  Pets, 
+  CalendarToday, 
+  LocationOn, 
+  Description, 
+  QuestionAnswer, 
+  ArrowBack,
+  Share
+} from "@mui/icons-material";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import BASE_URL from '../Components/Config'; 
+import BASE_URL from '../Components/Config';
 
 function LostAndFoundPetDetails() {
   const { id } = useParams();
@@ -12,14 +32,13 @@ function LostAndFoundPetDetails() {
   const navigate = useNavigate();
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyAi6t6s9HB1NyToVrDhpvn3PHMSrpC_1as", // Replace with your real key
+    googleMapsApiKey: "AIzaSyAi6t6s9HB1NyToVrDhpvn3PHMSrpC_1as",
   });
 
   const mapContainerStyle = {
     width: "100%",
     height: "300px",
     borderRadius: "12px",
-    marginTop: "10px",
   };
 
   useEffect(() => {
@@ -37,118 +56,201 @@ function LostAndFoundPetDetails() {
 
   if (loading) {
     return (
-      <div className="skeleton-wrapper">
-        <div className="skeleton-card" />
-      </div>
+      <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
+        <Skeleton variant="rectangular" height={280} sx={{ 
+          borderRadius: '50%', 
+          width: 280, 
+          mx: 'auto',
+          mb: 4 
+        }} />
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={8}>
+            <Skeleton variant="rectangular" height={400} sx={{ borderRadius: 4 }} />
+          </Grid>
+        </Grid>
+      </Box>
     );
   }
 
   if (!pet) {
-    return <div className="pet-details-error">Pet not found or failed to load.</div>;
+    return (
+      <Box sx={{ textAlign: 'center', p: 4 }}>
+        <Typography variant="h6" color="text.secondary">
+          Pet not found
+        </Typography>
+      </Box>
+    );
   }
 
   return (
-    <div className="page-wrapper">
-      <div className="pet-details-container">
-        <div className="pet-details-card">
-          <div className="pet-image-container">
-            <img
-              src={
-                pet.image
-                  ? `${BASE_URL}/files/${pet.image}`
-                  : "/default-pet.jpg"
-              }
-              alt={pet.petName || "Pet Image"}
-              className="pet-image"
+    <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
+      <IconButton onClick={() => navigate(-1)} sx={{ mb: 2 }}>
+        <ArrowBack />
+      </IconButton>
+
+      <Grid container spacing={4}>
+        {/* Left Column - Circular Image */}
+        <Grid item xs={12} md={4}>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            position: 'relative',
+            height: 'fit-content'
+          }}>
+            <CardMedia
+              component="img"
+              image={pet.image ? `${BASE_URL}/files/${pet.image}` : "/default-pet.jpg"}
+              alt={pet.petName}
+              sx={{
+                width: 280,
+                height: 280,
+                borderRadius: '50%',
+                border: '4px solid #fff',
+                boxShadow: 3,
+                objectFit: 'cover',
+                margin: 'auto'
+              }}
             />
-          </div>
-          <div className="pet-info-container">
-            <h1 className="pet-name">{pet.petName}</h1>
-            <div className="pet-details-grid">
-              <div className="detail-item">
-                <span className="detail-icon">🔍</span>
-                <span className="detail-label">Status:</span>
-                <span className={`detail-value status-${pet.status?.toLowerCase()}`}>
-                  {pet.status}
-                </span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-icon">🐾</span>
-                <span className="detail-label">Species:</span>
-                <span className="detail-value">{pet.species || "Unknown"}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-icon">📅</span>
-                <span className="detail-label">Reported:</span>
-                <span className="detail-value">
-                  {pet.reportedDate ? new Date(pet.reportedDate).toLocaleDateString() : "Unknown"}
-                </span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-icon">📍</span>
-                <span className="detail-label">Location:</span>
-                <div className="detail-value location-details">
-                  {pet.barangay && <span>{pet.barangay}, </span>}
-                  {pet.city && <span>{pet.city}, </span>}
-                  {pet.country && <span>{pet.country}</span>}
-                </div>
-              </div>
+          </Box>
+        </Grid>
+
+        {/* Right Column - Content */}
+        <Grid item xs={12} md={8}>
+          <Card elevation={0} sx={{
+            border: '1px solid',
+            borderColor: 'divider',
+            borderRadius: 4,
+            p: 3,
+            height: '100%'
+          }}>
+            <Stack spacing={3}>
+              {/* Header Section */}
+              <Box>
+                <Typography variant="h4" fontWeight={700} gutterBottom>
+                  {pet.petName}
+                </Typography>
+                <Chip
+                  label={pet.status}
+                  color={pet.status === "LOST" ? 'error' : 'success'}
+                  sx={{ fontWeight: 600, mb: 2 }}
+                />
+              </Box>
+
+              {/* Basic Info Grid */}
+              <Grid container spacing={2}>
+                <Grid item xs={6} md={4}>
+                  <DetailItem 
+                    icon={<Pets />} 
+                    label="Species" 
+                    value={pet.species || "Unknown"} 
+                  />
+                </Grid>
+                <Grid item xs={6} md={4}>
+                  <DetailItem 
+                    icon={<CalendarToday />} 
+                    label="Reported" 
+                    value={pet.reportedDate ? new Date(pet.reportedDate).toLocaleDateString() : "Unknown"} 
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <DetailItem 
+                    icon={<LocationOn />} 
+                    label="Location" 
+                    value={[pet.barangay, pet.city, pet.country].filter(Boolean).join(', ')} 
+                  />
+                </Grid>
+              </Grid>
+
+              {/* Additional Details */}
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Typography variant="body1" gutterBottom>
+                    <strong>Breed:</strong> {pet.breed}
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body1" gutterBottom>
+                    <strong> Status:</strong> {pet.status}
+                  </Typography>
+
+                </Grid>
+              </Grid>
+
+              {/* Description */}
               {pet.description && (
-                <div className="detail-item full-width">
-                  <span className="detail-icon">📝</span>
-                  <span className="detail-label">Description:</span>
-                  <span className="detail-value">{pet.description}</span>
-                </div>
+                <Box>
+                  <Typography variant="h6" gutterBottom>
+                    Description
+                  </Typography>
+                  <Typography variant="body1" paragraph>
+                    {pet.description}
+                  </Typography>
+                </Box>
               )}
-            </div>
 
-            {pet.latitude && pet.longitude && isLoaded && (
-              <div className="map-container">
-                <h3 className="map-title">Last Seen Location</h3>
-                <GoogleMap
-                  mapContainerStyle={mapContainerStyle}
-                  center={{ lat: pet.latitude, lng: pet.longitude }}
-                  zoom={14}
-                >
-                  <Marker position={{ lat: pet.latitude, lng: pet.longitude }} />
-                </GoogleMap>
-              </div>
-            )}
+              {/* Action Buttons */}
+              <Grid container spacing={2} sx={{ mt: 'auto' }}>
+                <Grid item xs={12} md={6}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    startIcon={<QuestionAnswer />}
+                    sx={{ fontWeight: 700 }}
+                    onClick={() => navigate(`/messages/${pet.reporter?.id}`)}
+                  >
+                    Contact Reporter
+                  </Button>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    size="large"
+                    startIcon={<Share />}
+                    sx={{ fontWeight: 700 }}
+                  >
+                    Share Post
+                  </Button>
+                </Grid>
+              </Grid>
 
-            {pet.reporter?.id && (
-              <button
-              className="contact-button"
-              onClick={() => navigate(`/messages/${pet.reporter.id}`)}
-          >
-              Message Reporter
-          </button>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div className="faq-section">
-        <h2 className="faq-heading">What to Do</h2>
-        <div className="faq-item">
-          <h3 className="faq-question">
-            {pet.status === "LOST" ? "Have you seen this pet?" : "Is this your pet?"}
-          </h3>
-          <p className="faq-answer">
-            {pet.status === "LOST"
-              ? "If you've seen this pet, please contact the reporter with any information that might help reunite them."
-              : "If this pet belongs to you, please contact the reporter to arrange for reunion."}
-          </p>
-        </div>
-        <div className="faq-item">
-          <h3 className="faq-question">How can I help?</h3>
-          <p className="faq-answer">
-            Share this post on social media to increase visibility. The more people who see this,
-            the better chance of {pet.status === "LOST" ? "finding" : "reuniting"} this pet.
-          </p>
-        </div>
-      </div>
-    </div>
+              {/* Map Section */}
+              {pet.latitude && pet.longitude && isLoaded && (
+                <Box sx={{ mt: 3 }}>
+                  <Typography variant="h6" gutterBottom>
+                    Last Seen Location
+                  </Typography>
+                  <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    center={{ lat: pet.latitude, lng: pet.longitude }}
+                    zoom={14}
+                  >
+                    <Marker position={{ lat: pet.latitude, lng: pet.longitude }} />
+                  </GoogleMap>
+                </Box>
+              )}
+            </Stack>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
+
+// Reusable DetailItem Component
+const DetailItem = ({ icon, label, value }) => (
+  <Stack direction="row" spacing={1.5} alignItems="center">
+    <Box sx={{ color: 'primary.main' }}>{icon}</Box>
+    <Box>
+      <Typography variant="caption" color="text.secondary">
+        {label}
+      </Typography>
+      <Typography variant="body1" fontWeight={500}>
+        {value}
+      </Typography>
+    </Box>
+  </Stack>
+);
 
 export default LostAndFoundPetDetails;

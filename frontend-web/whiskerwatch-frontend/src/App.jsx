@@ -19,6 +19,7 @@ import MessageConversation from './Components/MessageConversation';
 import MessageList from './Components/MessageList';
 import UserProfile from './Components/UserProfile';
 import Profile from './Components/Profile';
+import Developers from './Components/Developers';
 
 
 function App() {
@@ -65,7 +66,7 @@ function App() {
           path="/post-pets" 
           element={isAuthenticated ? <PostPets /> : <Navigate to="/" replace />} 
         />
-
+        <Route path="/developers" element={<Developers />} />
         <Route path="/pets/:id" element={<PetDetails />} />
         <Route path="/adopt/:petId" element={<AdoptionForm />} />
         <Route path="/adoption-request/:requestId" element={<AdoptionRequestDetail />} />
