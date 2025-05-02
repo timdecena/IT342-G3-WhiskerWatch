@@ -106,7 +106,7 @@ function Developers() {
             '&:hover': { backgroundColor: '#1565c0' },
           }}
         >
-          ← Back to Login
+          ← Back 
         </Button>
       </Box>
     </Container>
