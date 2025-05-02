@@ -4,10 +4,8 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import edu.cit.whiskerwatch.dto.AuthRequest;
 import edu.cit.whiskerwatch.dto.AuthResponse;
@@ -20,28 +18,29 @@ import edu.cit.whiskerwatch.security.JwtUtil;
 public class AuthController {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder; // Inject instead of creating new
 
-    public AuthController(UserRepository userRepository, JwtUtil jwtUtil) {
+    public AuthController(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
-    
+
     @PostMapping("/login")
-public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-    Optional<UserEntity> userOpt = userRepository.findByEmail(request.getEmail());
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        Optional<UserEntity> userOpt = userRepository.findByEmail(request.getEmail());
 
-    if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
-        UserEntity user = userOpt.get();
-        
-        // Pass the user ID (Long) instead of the email (String) to generate the token
-        String token = jwtUtil.generateToken(user.getId());  // Pass user.getId() which is Long
+        if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
+            UserEntity user = userOpt.get();
 
-        AuthResponse response = new AuthResponse(user.getEmail(), user.getId(), token, user.getFirstName(),
-        user.getLastName());
-        return ResponseEntity.ok(response);
+            // Generate the token after successful validation
+            String token = jwtUtil.generateToken(user.getId());
+
+            AuthResponse response = new AuthResponse(user.getEmail(), user.getId(), token, user.getFirstName(),
+                    user.getLastName());
+            return ResponseEntity.ok(response);
+        }
+
+        return ResponseEntity.status(401).body(null);
     }
-
-    return ResponseEntity.status(401).body(null);
-}
 }

@@ -12,7 +12,6 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
@@ -59,11 +58,13 @@ public class UserEntity {
     }
 
     public void setPassword(String password) {
-        this.password = passwordEncoder.encode(password);
+        this.password = password; // No encoding here
     }
 
     public boolean checkPassword(String rawPassword) {
-        return passwordEncoder.matches(rawPassword, this.password);
+        // This method should not be used — login is handled in AuthController using
+        // injected PasswordEncoder
+        throw new UnsupportedOperationException("Use AuthController for password checks.");
     }
 
 }

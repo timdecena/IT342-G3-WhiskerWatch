@@ -39,6 +39,9 @@ const UserProfile = () => {
     setUser(prev => ({ ...prev, [name]: value }));
   };
 
+
+
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user.id) {
@@ -46,10 +49,16 @@ const UserProfile = () => {
       return;
     }
   
+    // Create a payload without password if it's empty
+    const payload = { ...user };
+    if (!payload.password) {
+      delete payload.password;
+    }
+  
     try {
       const response = await axios.put(
         `${BASE_URL}/api/users/updateUser/${user.id}`,
-        user,
+        payload, // Send payload instead of user
         {
           headers: {
             Authorization: `Bearer ${token}`,
