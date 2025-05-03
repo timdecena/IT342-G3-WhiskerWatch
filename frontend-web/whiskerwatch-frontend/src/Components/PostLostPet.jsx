@@ -10,8 +10,8 @@ const mapContainerStyle = {
   height: '400px'
 };
 const center = {
-  lat: 14.5995,
-  lng: 120.9842
+  lat: 10.3157,
+  lng: 123.8854
 };
 
 const PostLostPet = () => {
