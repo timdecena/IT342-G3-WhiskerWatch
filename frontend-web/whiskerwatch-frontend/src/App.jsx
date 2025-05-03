@@ -9,7 +9,6 @@ import PetDetails from "./Components/PetDetails";
 import AdoptionForm from "./Components/AdoptionForm";
 import AdoptionRequestDetail from "./Components/AdoptionRequestDetail";
 import About from './Components/about'; // Import the About page component
-import Contact from './Components/contact'; // Import the Contact page component
 import YourPets from './Components/YourPets';
 import EditPet from './Components/EditPet'; // Import the EditPet component
 import LostAndFoundHomepage from './Components/LostAndFoundHomepage'; 
@@ -71,7 +70,6 @@ function App() {
         <Route path="/adopt/:petId" element={<AdoptionForm />} />
         <Route path="/adoption-request/:requestId" element={<AdoptionRequestDetail />} />
         <Route path="/about" element={<About />} /> {/* The About Page Route */}
-        <Route path="/contact" element={<Contact />} /> {/* The Contact Page Route */}
         <Route path="/yourpets" element={isAuthenticated ? <YourPets /> : <Navigate to="/" replace />} />
         <Route path="/lost-and-found" element={<LostAndFoundHomepage />} />
         <Route path="/post-lost-pet" element={<PostLostPet />} />
