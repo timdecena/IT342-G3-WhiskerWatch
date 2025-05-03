@@ -1,6 +1,5 @@
 package edu.cit.whiskerwatch.service;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +19,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    
-
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
@@ -31,24 +28,23 @@ public class UserService {
     }
 
     public UserEntity createUser(UserEntity user) {
+        // Encode password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     public Optional<UserEntity> updateUser(Long id, UserEntity updatedUser) {
-        return userRepository.findById(id).map(user -> {
-            if (updatedUser.getFirstName() != null) {
-                user.setFirstName(updatedUser.getFirstName());
-            }
-            if (updatedUser.getLastName() != null) {
-                user.setLastName(updatedUser.getLastName());
-            }
-            if (updatedUser.getEmail() != null) {
-                user.setEmail(updatedUser.getEmail());
-            }
+        return userRepository.findById(id).map(existingUser -> {
+            existingUser.setFirstName(updatedUser.getFirstName());
+            existingUser.setLastName(updatedUser.getLastName());
+            existingUser.setEmail(updatedUser.getEmail());
+
             if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
-                user.setPassword(passwordEncoder.encode(updatedUser.getPassword())); // Ensure password is hashed
+                String encodedPassword = passwordEncoder.encode(updatedUser.getPassword());
+                existingUser.setPassword(encodedPassword);
             }
-            return userRepository.save(user);
+
+            return userRepository.save(existingUser);
         });
     }
 

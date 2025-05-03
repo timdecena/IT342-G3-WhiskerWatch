@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "../assets/Homepage.css"; // Reuse Homepage styles
-import "../assets/yourpets.css"; // Optional: override if needed
-
+import "../assets/homepage.css";
+import "../assets/yourpets.css";
+import BASE_URL from '../Components/Config'; 
 const YourPets = () => {
-  const [pets, setPets] = useState([]);
+  const [allPets, setAllPets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("All");
   const [deletedPetIds, setDeletedPetIds] = useState(
@@ -13,7 +13,7 @@ const YourPets = () => {
   );
 
   useEffect(() => {
-    const fetchUserPets = async () => {
+    const fetchAllUserPets = async () => {
       try {
         const userId = localStorage.getItem("userId");
         if (!userId) {
@@ -21,14 +21,30 @@ const YourPets = () => {
           return;
         }
 
-        const res = await axios.get(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets/owner/${userId}`);
-        setPets(res.data);
+        const [adoptionRes, lostFoundRes] = await Promise.all([
+          axios.get(`${BASE_URL}/api/pets/owner/${userId}`),
+          axios.get(`${BASE_URL}/api/lost-and-found/reporter/${userId}`)
+        ]);
+
+        const adoptionPets = adoptionRes.data.map(pet => ({
+          ...pet,
+          source: "Adoption"
+        }));
+
+        const lostFoundPets = lostFoundRes.data.map(pet => ({
+          ...pet,
+          source: "LostFound"
+        }));
+
+        console.log("LOST & FOUND pets fetched:", lostFoundPets);
+
+        setAllPets([...adoptionPets, ...lostFoundPets]);
       } catch (err) {
         console.error("Failed to fetch pets:", err);
       }
     };
 
-    fetchUserPets();
+    fetchAllUserPets();
   }, []);
 
   const normalizeSpecies = (species) =>
@@ -43,13 +59,12 @@ const YourPets = () => {
     }
   };
 
-  const filteredPets = pets
+  const filteredPets = allPets
     .filter((pet) => !deletedPetIds.includes(pet.id))
     .filter((pet) => {
       const petName = pet.petName || "";
       const petSpecies = normalizeSpecies(pet.species);
       const selectedCategory = normalizeSpecies(category);
-
       return (
         (selectedCategory === "all" || petSpecies === selectedCategory) &&
         petName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -83,24 +98,39 @@ const YourPets = () => {
       <div className="pet-grid">
         {filteredPets.length > 0 ? (
           filteredPets.map((pet) => (
-            <div key={pet.id} className="pet-card">
+            <div key={`${pet.source}-${pet.id}`} className="pet-card">
               <div className="pet-image-container">
-                <img
-                  src={`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/files/${pet.image}`}
-                  alt={pet.petName}
-                  className="pet-image"
-                />
+                {pet.image ? (
+                  <img
+                    src={`${BASE_URL}/files/${pet.image}`}
+                    alt={pet.petName}
+                    className="pet-image"
+                  />
+                ) : (
+                  <div className="pet-image">No Image</div>
+                )}
               </div>
               <div className="pet-details">
                 <h3>{pet.petName}</h3>
-                <p><strong>Breed:</strong> {pet.breed}</p>
-                <p><strong>Age:</strong> {pet.age} years</p>
+                {pet.breed && <p><strong>Breed:</strong> {pet.breed}</p>}
+                {pet.age && <p><strong>Age:</strong> {pet.age} years</p>}
                 <p><strong>Status:</strong> {pet.status}</p>
                 <p><strong>Species:</strong> {pet.species}</p>
-                <p><strong>Location:</strong> {pet.location || `${pet.country || ''}, ${pet.city || ''}, ${pet.barangay || ''}`}</p>
+                <p><strong>Location:</strong> {
+                  pet.location
+                    ? pet.location
+                    : [pet.barangay, pet.city, pet.country].filter(Boolean).join(', ')
+                }</p>
+                <p><strong>Listed For:</strong> {
+                  pet.source === "Adoption" ? "Adoption" : pet.status
+                }</p>
               </div>
               <div className="pet-actions">
-                <Link to={`/edit-pet/${pet.id}`} className="edit-btn">Edit</Link>
+                {pet.source === "Adoption" ? (
+                  <Link to={`/edit-pet/${pet.id}`} className="edit-btn">Edit</Link>
+                ) : (
+                  <Link to={`/lost-and-found/${pet.id}`} className="edit-btn">View</Link>
+                )}
                 <button onClick={() => handleDelete(pet.id)} className="delete-btn">Delete</button>
               </div>
             </div>
@@ -112,6 +142,5 @@ const YourPets = () => {
     </div>
   );
 };
-
 
 export default YourPets;

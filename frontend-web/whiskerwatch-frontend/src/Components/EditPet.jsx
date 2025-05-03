@@ -4,6 +4,7 @@ import axios from 'axios';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import '../assets/PostPets.css';
 import Layout from "../Components/Layout";
+import BASE_URL from '../Components/Config'; 
 
 const libraries = ['places'];
 const mapContainerStyle = {
@@ -51,7 +52,7 @@ function EditPet() {
           return;
         }
 
-        const response = await axios.get(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets/${id}`, {
+        const response = await axios.get(`${BASE_URL}/api/pets/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -71,7 +72,7 @@ function EditPet() {
         });
 
         if (pet.image) {
-          setCurrentImage(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/uploads/${pet.image}`);
+          setCurrentImage(`${BASE_URL}/uploads/${pet.image}`);
         }
 
         if (pet.latitude && pet.longitude) {
@@ -168,7 +169,7 @@ function EditPet() {
       };
 
       await axios.put(
-        `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets/${id}`,
+        `${BASE_URL}/api/pets/${id}`,
         petData,
         {
           headers: {
@@ -184,7 +185,7 @@ function EditPet() {
         imageFormData.append('image', formData.image);
 
         await axios.post(
-          `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets/${id}/image`,
+          `${BASE_URL}/api/pets/${id}/image`,
           imageFormData,
           {
             headers: {

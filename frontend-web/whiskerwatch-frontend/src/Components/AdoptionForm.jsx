@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../assets/AdoptionForm.css";
+import BASE_URL from '../Components/Config'; 
 
 function AdoptionForm() {
   const { petId } = useParams();
@@ -19,7 +20,7 @@ function AdoptionForm() {
   // Decode the JWT token to get adopter's info (adopter ID should be a number)
   const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT
   const adopterId = decodedToken.sub; // Assuming 'sub' contains the user ID (Long)
-
+  
   if (!adopterId) {
     alert("User ID is missing in the token.");
     navigate("/login");
@@ -36,7 +37,7 @@ function AdoptionForm() {
 
   useEffect(() => {
     // Fetch pet details by petId
-    axios.get(`http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets/${petId}`)
+    axios.get(`${BASE_URL}/api/pets/${petId}`)
       .then(res => setPet(res.data))
       .catch(err => console.error("Failed to fetch pet:", err));
   }, [petId]);
@@ -50,12 +51,12 @@ function AdoptionForm() {
 
     try {
       const response = await axios.post(
-        `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/adoptions/request/${petId}/${adopterId}`,
+        `${BASE_URL}/api/adoptions/request/${petId}/${adopterId}`,
         form, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
         }
-      }
       );
       alert("Adoption request submitted successfully!");
       navigate("/"); // Navigate back to homepage or adoption confirmation page

@@ -1,4 +1,247 @@
-/* Login.css */
-.login-container {
-    composes: container;
+.login-page {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+  overflow: auto;
+}
+
+.login-left, .login-right {
+  flex: 1;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-left {
+  background-color: #ffffff;
+  box-shadow: 8px 0 16px rgba(0, 0, 0, 0.03);
+}
+
+.login-right {
+  background-color: #f1f5f9;
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.brand-name {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #8b5cf6;
+  margin-bottom: 1rem;
+}
+
+.login-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.login-subtext {
+  font-size: 1rem;
+  color: #4b5563;
+  margin-bottom: 2rem;
+  max-width: 400px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 400px;
+}
+
+.login-input {
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.login-input:focus {
+  border-color: #8b5cf6;
+  outline: none;
+}
+
+button.login-btn {
+  background-color: #8b5cf6;
+  color: white;
+  padding: 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button.login-btn:hover {
+  background-color: #7c3aed;
+}
+
+.signup-link {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.signup-link a {
+  color: #8b5cf6;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hero-message h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.highlight {
+  color: #8b5cf6;
+  font-weight: 700;
+}
+
+.hero-message p {
+  font-size: 1rem;
+  color: #374151;
+  margin-bottom: 1rem;
+  max-width: 500px;
+}
+
+.hero-message .features {
+  list-style: none;
+  padding-left: 0;
+}
+
+.hero-message li {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  color: #1f2937;
+}
+
+/* Testimonials */
+.testimonial-section {
+  margin-top: 2rem;
+  font-style: italic;
+  color: #4b5563;
+}
+
+.testimonial-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.testimonial-author {
+  font-weight: bold;
+  color: #8b5cf6;
+}
+
+/* Call to Action */
+.cta-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+  text-align: center;
+}
+
+.cta-box h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.cta-box p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
+
+.cta-btn {
+  background-color: #8b5cf6;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: #7c3aed;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .login-page {
+    flex-direction: column;
   }
+
+  .login-left, .login-right {
+    padding: 2rem;
+  }
+
+  .hero-message,
+  .testimonial-section,
+  .cta-box {
+    margin-top: 2rem;
+  }
+}
+
+.developers-section {
+  margin-top: 3rem;
+}
+
+.developers-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.developers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.developer-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.dev-photo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+}
+
+.developer-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #111827;
+}
+
+.developer-card p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.developer-card a {
+  font-size: 0.85rem;
+  color: #8b5cf6;
+  text-decoration: none;
+  font-weight: 500;
+}
+

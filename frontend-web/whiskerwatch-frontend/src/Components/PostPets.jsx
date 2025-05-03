@@ -3,15 +3,15 @@ import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import '../assets/PostPets.css';
-
+import BASE_URL from '../Components/Config'; 
 const libraries = ['places'];
 const mapContainerStyle = {
   width: '100%',
   height: '400px'
 };
 const center = {
-  lat: 14.5995,
-  lng: 120.9842
+  lat: 10.3157,
+  lng: 123.8854
 };
 
 function PostPets() {
@@ -124,7 +124,7 @@ function PostPets() {
 
     try {
       await axios.post(
-        `http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/pets/add/${userId}`,
+        `${BASE_URL}/api/pets/add/${userId}`,
         petFormData,
         {
           headers: {

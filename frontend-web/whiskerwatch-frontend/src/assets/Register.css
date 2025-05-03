@@ -1,4 +1,137 @@
-/* Register.css */
-.register-container {
-    composes: container;
+.register-page {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+.register-left, .register-right {
+  flex: 1;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.register-left {
+  background-color: #ffffff;
+  box-shadow: 8px 0 16px rgba(0, 0, 0, 0.03);
+}
+
+.register-right {
+  background-color: #f1f5f9;
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.brand-name {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #8b5cf6;
+  margin-bottom: 1rem;
+}
+
+.register-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.register-subtext {
+  font-size: 1rem;
+  color: #4b5563;
+  margin-bottom: 2rem;
+  max-width: 400px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 400px;
+}
+
+.register-input {
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.register-input:focus {
+  border-color: #8b5cf6;
+  outline: none;
+}
+
+.register-btn {
+  background-color: #8b5cf6;
+  color: white;
+  padding: 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.register-btn:hover {
+  background-color: #7c3aed;
+}
+
+.login-link {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.login-link a {
+  color: #8b5cf6;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hero-register-message h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.highlight {
+  color: #8b5cf6;
+  font-weight: 700;
+}
+
+.hero-register-message p {
+  font-size: 1rem;
+  color: #374151;
+  margin-bottom: 1rem;
+  max-width: 500px;
+}
+
+.hero-register-message ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.hero-register-message li {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  color: #1f2937;
+}
+
+@media (max-width: 1024px) {
+  .register-page {
+    flex-direction: column;
   }
+
+  .register-left, .register-right {
+    padding: 2rem;
+  }
+
+  .hero-register-message {
+    padding-top: 2rem;
+  }
+}

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FiMenu, FiX, FiBell } from "react-icons/fi";
 import "../assets/header.css";
+import BASE_URL from '../Components/Config'; 
 
 function Header({ isAuthenticated, setIsAuthenticated }) {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
   const fetchAdoptionRequests = async () => {
     try {
       setLoadingRequests(true);
-      const response = await fetch("http://ec2-35-168-15-40.compute-1.amazonaws.com:8080/api/adoptions");
+      const response = await fetch(`${BASE_URL}/api/adoptions`);
       if (!response.ok) throw new Error("Failed to fetch requests");
 
       const data = await response.json();
@@ -51,7 +52,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
       navigate("/");
     }
   };
-
+  
 
   // Toggle the requests dropdown
   const toggleRequests = () => {
@@ -70,7 +71,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
     const oldRequests = adoptionRequests.filter(
       request => request.status === "Approved" || request.status === "Rejected"
     );
-
+    
     const oldRequestIds = oldRequests.map(request => request.id);
     setRemovedRequests([...removedRequests, ...oldRequestIds]);
 
@@ -95,15 +96,16 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
           <Link to="/lost-and-found" onClick={() => setMenuOpen(false)}>Lost and Found</Link>
           <Link to="/yourpets" onClick={() => setMenuOpen(false)}>Your Listings</Link>
           <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
-          <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+          <Link to="/developers" onClick={() => setMenuOpen(false)}>Developers</Link>
+          <Link to="/profile" onClick={() => setMenuOpen(false)}>Profile</Link>
 
           {/* New Lost and Found Link */}
-
+          
 
           {isAuthenticated && (
             <div className="requests-dropdown">
-              <button
-                className="requests-btn"
+              <button 
+                className="requests-btn" 
                 onClick={toggleRequests}
                 disabled={loadingRequests}
               >
@@ -122,7 +124,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
               {requestsOpen && (
                 <div className="requests-dropdown-content">
                   {/* Clear Old Notifications Button */}
-                  <button
+                  <button 
                     className="clear-notifications-btn"
                     onClick={handleClearOldNotifications}
                     disabled={loadingRequests}
@@ -136,8 +138,8 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
                     <div className="request-item">No adoption requests</div>
                   ) : (
                     adoptionRequests.map((request) => (
-                      <div
-                        key={request.id}
+                      <div 
+                        key={request.id} 
                         className={`request-item ${request.status.toLowerCase()}`}
                       >
                         <strong>{request.pet?.petName || "Unknown Pet"}</strong>
@@ -148,8 +150,8 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
 
                         {/* Remove button for approved or rejected requests */}
                         {(request.status === "Approved" || request.status === "Rejected") && (
-                          <button
-                            className="remove-btn"
+                          <button 
+                            className="remove-btn" 
                             onClick={() => handleRemoveRequest(request.id)}
                           >
                             <FiX />
@@ -157,7 +159,7 @@ function Header({ isAuthenticated, setIsAuthenticated }) {
                         )}
 
                         <div className="request-actions">
-                          <button
+                          <button 
                             onClick={() => navigate(`/adoption-request/${request.id}`)}
                           >
                             View Details

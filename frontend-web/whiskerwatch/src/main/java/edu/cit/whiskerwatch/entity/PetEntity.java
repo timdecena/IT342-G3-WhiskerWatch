@@ -1,6 +1,15 @@
 package edu.cit.whiskerwatch.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pets")
@@ -11,29 +20,43 @@ public class PetEntity {
     private Long id;
 
     private String petName;
-    private String type;  // Type of animal (dog, cat, etc.)
+    private String type;
     private String species;
     private String breed;
     private int age;
-    private String status; // Available / Adopted
-    
-    private String image; // Add an image field
+    private String status;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @Column(name = "image")
+    private String image; // Change from byte[] to String
+    @Column
+    private String country;
+    @Column
+    private String barangay;
+    @Column
+    private String city;
+
+    @Column
+    private Double latitude;
+    @Column
+    private Double longitude;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = true)
     private UserEntity owner;
 
     // Constructors
-    public PetEntity() {}
+    public PetEntity() {
+    }
 
-    public PetEntity(String petName, String type, String species, String breed, int age, String status, String image, UserEntity owner) {
+    public PetEntity(String petName, String type, String species, String breed, int age, String status, String image,
+            UserEntity owner) {
         this.petName = petName;
         this.type = type;
         this.species = species;
         this.breed = breed;
         this.age = age;
         this.status = status;
-        this.image = image;
+        this.image = image; // Change to accept a String (filename)
         this.owner = owner;
     }
 
@@ -94,6 +117,14 @@ public class PetEntity {
         this.status = status;
     }
 
+    public String getImage() {
+        return image; // Return the image filename as a String
+    }
+
+    public void setImage(String image) {
+        this.image = image; // Set the image filename
+    }
+
     public UserEntity getOwner() {
         return owner;
     }
@@ -102,12 +133,42 @@ public class PetEntity {
         this.owner = owner;
     }
 
-    // Getter and Setter for image
-    public String getImage() {
-        return image;
+    public String getBarangay() {
+        return barangay;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setBarangay(String barangay) {
+        this.barangay = barangay;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+    public String getCountry() {
+        return country;
+    }
+    
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }
