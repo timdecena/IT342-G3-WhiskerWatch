@@ -142,12 +142,24 @@ function PetDetails() {
               <Grid container spacing={2}>
                 <Grid item xs={6} sm={3}>
                   {/* Details Grid */}
-            <Grid container spacing={2}>
-              <DetailItem icon={<Pets />} label="Breed" value={pet.breed} />
-              <DetailItem icon={<Cake />} label="Age" value={pet.age} />
-              <DetailItem icon={<Science />} label="Species" value={pet.species} />
-              <DetailItem icon={<LocalHospital />} label="Health Status" value="Vaccinated" />
-            </Grid>
+                  <Grid container spacing={2}>
+  <DetailItem icon={<Pets />} label="Pet Name" value={pet.petName} />
+  <DetailItem icon={<Pets />} label="Type" value={pet.type} />
+  <DetailItem icon={<Science />} label="Species" value={pet.species} />
+  <DetailItem icon={<Pets />} label="Breed" value={pet.breed} />
+  <DetailItem icon={<Cake />} label="Age" value={pet.age} />
+  <DetailItem icon={<Pets />} label="Status" value={pet.status} />
+
+  {/* Image preview */}
+
+
+  {/* Owner info (customize based on what you have available) */}
+  <DetailItem
+    icon={<Pets />}
+    label="Owner"
+    value={`${pet.owner.firstName} ${pet.owner.lastName}`}
+  />
+</Grid>
                 </Grid>
               </Grid>
 

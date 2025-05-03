@@ -1,29 +1,30 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { 
-  Box, 
-  Button, 
-  Card, 
-  Chip, 
-  CardMedia, 
-  Grid, 
-  IconButton, 
-  Stack, 
+import {
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  Chip,
+  Grid,
+  IconButton,
   Skeleton,
-  Typography 
+  Stack,
+  Typography,
 } from "@mui/material";
-import { 
-  Pets, 
-  CalendarToday, 
-  LocationOn, 
-  Description, 
-  QuestionAnswer, 
+import {
+  Pets,
+  CalendarToday,
+  LocationOn,
+  Description,
+  QuestionAnswer,
   ArrowBack,
-  Share
+  Science,
+  Share,
 } from "@mui/icons-material";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import BASE_URL from '../Components/Config';
+import BASE_URL from "../Components/Config";
 
 function LostAndFoundPetDetails() {
   const { id } = useParams();
@@ -56,25 +57,21 @@ function LostAndFoundPetDetails() {
 
   if (loading) {
     return (
-      <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
-        <Skeleton variant="rectangular" height={280} sx={{ 
-          borderRadius: '50%', 
-          width: 280, 
-          mx: 'auto',
-          mb: 4 
-        }} />
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={8}>
-            <Skeleton variant="rectangular" height={400} sx={{ borderRadius: 4 }} />
-          </Grid>
-        </Grid>
+      <Box sx={{ maxWidth: 1200, mx: "auto", p: 3 }}>
+        <Skeleton
+          variant="circular"
+          width={280}
+          height={280}
+          sx={{ mx: "auto", mb: 4 }}
+        />
+        <Skeleton variant="rectangular" height={400} sx={{ borderRadius: 4 }} />
       </Box>
     );
   }
 
   if (!pet) {
     return (
-      <Box sx={{ textAlign: 'center', p: 4 }}>
+      <Box sx={{ textAlign: "center", p: 4 }}>
         <Typography variant="h6" color="text.secondary">
           Pet not found
         </Typography>
@@ -83,96 +80,88 @@ function LostAndFoundPetDetails() {
   }
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", p: 3 }}>
       <IconButton onClick={() => navigate(-1)} sx={{ mb: 2 }}>
         <ArrowBack />
       </IconButton>
 
       <Grid container spacing={4}>
-        {/* Left Column - Circular Image */}
-        <Grid item xs={12} md={4}>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            position: 'relative',
-            height: 'fit-content'
-          }}>
+        {/* Left - Circular Image */}
+        <Grid item xs={12} md={4} sx={{ display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{
+              width: 280,
+              height: 280,
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "4px solid #fff",
+              boxShadow: 3,
+            }}
+          >
             <CardMedia
               component="img"
               image={pet.image ? `${BASE_URL}/files/${pet.image}` : "/default-pet.jpg"}
               alt={pet.petName}
               sx={{
-                width: 280,
-                height: 280,
-                borderRadius: '50%',
-                border: '4px solid #fff',
-                boxShadow: 3,
-                objectFit: 'cover',
-                margin: 'auto'
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
               }}
             />
           </Box>
         </Grid>
 
-        {/* Right Column - Content */}
+        {/* Right - Pet Info */}
         <Grid item xs={12} md={8}>
-          <Card elevation={0} sx={{
-            border: '1px solid',
-            borderColor: 'divider',
-            borderRadius: 4,
-            p: 3,
-            height: '100%'
-          }}>
-            <Stack spacing={3}>
-              {/* Header Section */}
+          <Card elevation={0} sx={{ p: 3, borderRadius: 4, border: "1px solid", borderColor: "divider" }}>
+            <Stack spacing={1}>
+              {/* Pet Name + Status */}
               <Box>
-                <Typography variant="h4" fontWeight={700} gutterBottom>
+                <Typography variant="h4" fontWeight={100} gutterBottom>
                   {pet.petName}
                 </Typography>
                 <Chip
                   label={pet.status}
-                  color={pet.status === "LOST" ? 'error' : 'success'}
-                  sx={{ fontWeight: 600, mb: 2 }}
+                  color={pet.status === "LOST" ? "error" : "success"}
+                  sx={{ fontWeight: 100 }}
                 />
               </Box>
 
-              {/* Basic Info Grid */}
-              <Grid container spacing={2}>
-                <Grid item xs={6} md={4}>
-                  <DetailItem 
-                    icon={<Pets />} 
-                    label="Species" 
-                    value={pet.species || "Unknown"} 
+              {/* Details Grid */}
+              <Grid container spacing={1}>
+                <Grid item xs={4} md={2}>
+                  <DetailItem icon={<Pets />} label="Pet Name" value={pet.petName || "Unknown"} />
+                </Grid>
+                <Grid item xs={4} md={2}>
+                  <DetailItem icon={<Science />} label="Species" value={pet.species || "Unknown"} />
+                </Grid>
+                <Grid item xs={6} md={2}>
+                  <DetailItem
+                    icon={<LocationOn />}
+                    label="Location"
+                    value={[pet.barangay, pet.city, pet.country].filter(Boolean).join(", ") || "Unknown"}
                   />
                 </Grid>
                 <Grid item xs={6} md={4}>
-                  <DetailItem 
-                    icon={<CalendarToday />} 
-                    label="Reported" 
-                    value={pet.reportedDate ? new Date(pet.reportedDate).toLocaleDateString() : "Unknown"} 
+                  <DetailItem icon={<Pets />} label="Status" value={pet.status || "Unknown"} />
+                </Grid>
+                <Grid item xs={6} md={4}>
+                  <DetailItem
+                    icon={<CalendarToday />}
+                    label="Coordinates"
+                    value={
+                      pet.latitude && pet.longitude
+                        ? `${pet.latitude.toFixed(5)}, ${pet.longitude.toFixed(5)}`
+                        : "Unavailable"
+                    }
                   />
                 </Grid>
-                <Grid item xs={12} md={4}>
-                  <DetailItem 
-                    icon={<LocationOn />} 
-                    label="Location" 
-                    value={[pet.barangay, pet.city, pet.country].filter(Boolean).join(', ')} 
+                <Grid item xs={12}>
+                  <DetailItem
+                    icon={<Description />}
+                    label="Description"
+                    value={pet.description || "No description provided"}
                   />
-                </Grid>
-              </Grid>
-
-              {/* Additional Details */}
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Typography variant="body1" gutterBottom>
-                    <strong>Breed:</strong> {pet.breed}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body1" gutterBottom>
-                    <strong> Status:</strong> {pet.status}
-                  </Typography>
-
                 </Grid>
               </Grid>
 
@@ -188,8 +177,8 @@ function LostAndFoundPetDetails() {
                 </Box>
               )}
 
-              {/* Action Buttons */}
-              <Grid container spacing={2} sx={{ mt: 'auto' }}>
+              {/* Buttons */}
+              <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <Button
                     fullWidth
@@ -215,7 +204,7 @@ function LostAndFoundPetDetails() {
                 </Grid>
               </Grid>
 
-              {/* Map Section */}
+              {/* Map */}
               {pet.latitude && pet.longitude && isLoaded && (
                 <Box sx={{ mt: 3 }}>
                   <Typography variant="h6" gutterBottom>
@@ -238,10 +227,10 @@ function LostAndFoundPetDetails() {
   );
 }
 
-// Reusable DetailItem Component
+// Detail item component
 const DetailItem = ({ icon, label, value }) => (
   <Stack direction="row" spacing={1.5} alignItems="center">
-    <Box sx={{ color: 'primary.main' }}>{icon}</Box>
+    <Box sx={{ color: "primary.main" }}>{icon}</Box>
     <Box>
       <Typography variant="caption" color="text.secondary">
         {label}

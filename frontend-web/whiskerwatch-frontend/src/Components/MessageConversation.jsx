@@ -70,7 +70,7 @@ function MessageConversation() {
 
         try {
             const response = await axios.post(
-                `${BASE_URL}//api/messages/send/${userId}`,
+                `${BASE_URL}/api/messages/send/${userId}`,
                 newMessage,
                 {
                     headers: {
