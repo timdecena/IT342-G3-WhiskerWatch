@@ -19,11 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import android.net.Uri
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.whoskerwatch.data.model.PetEntity
 import com.example.whoskerwatch.data.remote.ApiService
 import kotlinx.coroutines.launch
@@ -57,7 +58,6 @@ fun HomeScreen(navController: NavController) {
             }
         }
     ) { innerPadding ->
-        // Replace Column with LazyColumn for scrollability
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -160,7 +160,6 @@ fun HomeScreen(navController: NavController) {
                 }
             }
 
-            // Add bottom spacing to prevent content from being hidden behind FAB
             item {
                 Spacer(modifier = Modifier.height(80.dp))
             }
@@ -172,48 +171,41 @@ fun HomeScreen(navController: NavController) {
 fun PetCardDynamic(pet: PetEntity, navController: NavController, modifier: Modifier = Modifier) {
     val petName = pet.petName.ifEmpty { pet.name }
 
-    val petImageUrl = when {
-        pet.imageUrl == null -> ""
-        pet.imageUrl.startsWith("http") -> pet.imageUrl
-        pet.imageUrl.startsWith("/") -> "http://10.0.2.2:8080${pet.imageUrl}"
-        else -> "http://10.0.2.2:8080/${pet.imageUrl}"
-    }
+    val petImageUrl = "http://10.0.2.2:8080/api/pets/image/${pet.id}"
 
     Log.d("PetCard", "Pet: $petName, Image URL: $petImageUrl")
 
     Card(
         modifier = modifier
-            .height(180.dp)
+            .height(200.dp)
             .clickable {
-                navController.navigate("petDetail/${pet.petName}")
+                navController.navigate("petDetail/${pet.id}")
             },
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {
-            if (petImageUrl.isNotEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .background(Color.LightGray),
-                    contentAlignment = Alignment.Center
-                ) {
+            Box(
+                modifier = Modifier
+                    .height(140.dp)
+                    .fillMaxWidth()
+                    .background(Color.LightGray),
+                contentAlignment = Alignment.Center
+            ) {
+                if (petImageUrl.isNotBlank()) {
                     Image(
-                        painter = rememberAsyncImagePainter(model = petImageUrl),
+                        painter = rememberAsyncImagePainter(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(petImageUrl)
+                                .crossfade(true)
+                                .build()
+                        ),
                         contentDescription = petName,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
                     )
-                }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .background(Color.Gray),
-                    contentAlignment = Alignment.Center
-                ) {
-                    androidx.compose.material3.Icon(
+                } else {
+                    Icon(
                         imageVector = Icons.Default.Pets,
                         contentDescription = "No Image",
                         tint = Color.White,
@@ -221,6 +213,7 @@ fun PetCardDynamic(pet: PetEntity, navController: NavController, modifier: Modif
                     )
                 }
             }
+
             Text(
                 text = petName,
                 style = MaterialTheme.typography.bodyLarge,
@@ -231,7 +224,6 @@ fun PetCardDynamic(pet: PetEntity, navController: NavController, modifier: Modif
         }
     }
 }
-
 
 @Composable
 fun SearchBar(modifier: Modifier = Modifier) {
@@ -313,7 +305,7 @@ suspend fun fetchPets(
 
         val service = retrofit.create(ApiService::class.java)
 
-        val pets = service.getPets()  // This is already a List<PetEntity>
+        val pets = service.getPets()
         onSuccess(pets)
     } catch (e: Exception) {
         onError("Exception: ${e.localizedMessage ?: "Unknown error"}")

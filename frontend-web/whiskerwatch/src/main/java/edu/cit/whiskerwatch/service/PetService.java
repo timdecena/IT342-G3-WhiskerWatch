@@ -7,12 +7,10 @@ import edu.cit.whiskerwatch.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.transaction.annotation.Transactional; // Import this
 import java.io.IOException;
-import java.nio.file.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PetService {
@@ -61,16 +59,12 @@ public class PetService {
         });
     }
 
+    @Transactional // Added Transactional annotation
     public PetEntity addPetWithImage(String petName, String type, String species, String breed,
-                                   int age, String status, MultipartFile imageFile, Long ownerId) 
-                                   throws IOException {
+                                     int age, String status, MultipartFile imageFile, Long ownerId)
+            throws IOException {
         UserEntity owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new RuntimeException("Owner not found with id: " + ownerId));
-
-        String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-        Path imagePath = Paths.get("uploads", fileName);
-        Files.createDirectories(imagePath.getParent());
-        Files.copy(imageFile.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
 
         PetEntity pet = new PetEntity();
         pet.setPetName(petName);
@@ -79,9 +73,54 @@ public class PetService {
         pet.setBreed(breed);
         pet.setAge(age);
         pet.setStatus(status);
-        pet.setImage("/uploads/" + fileName);
+        pet.setImageData(imageFile.getBytes());
         pet.setOwner(owner);
 
         return petRepository.save(pet);
     }
+
+    @Transactional // Added Transactional annotation
+    public PetEntity updatePetWithImage(Long id, String petName, String type, String species, String breed,
+                                         String status, int age, MultipartFile imageFile) throws IOException {
+        return petRepository.findById(id).map(pet -> {
+            try {
+                pet.setPetName(petName);
+                pet.setType(type);
+                pet.setSpecies(species);
+                pet.setBreed(breed);
+                pet.setAge(age);
+                pet.setStatus(status);
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    pet.setImageData(imageFile.getBytes());
+                }
+                return petRepository.save(pet);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to update image", e);
+            }
+        }).orElseThrow(() -> new RuntimeException("Pet not found with id: " + id));
+    }
+
+    @Transactional // Added Transactional annotation
+    public byte[] getImageById(Long id) {
+        System.out.println("Searching for image of pet with ID: " + id); // Debug log
+    
+        Optional<PetEntity> petOptional = petRepository.findById(id);
+    
+        if (petOptional.isPresent()) {
+            PetEntity pet = petOptional.get();
+            byte[] image = pet.getImage();
+    
+            if (image != null) {
+                System.out.println("Image found for pet ID: " + id); // Debug log
+                return image;
+            } else {
+                System.err.println("Pet found but image is null for pet ID: " + id); // Debug log
+                throw new RuntimeException("Image is null");
+            }
+        } else {
+            System.err.println("No pet found with ID: " + id); // Debug log
+            throw new RuntimeException("Pet not found");
+        }
+    }
 }
+

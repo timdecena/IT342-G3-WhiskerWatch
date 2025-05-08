@@ -3,18 +3,30 @@ package edu.cit.whiskerwatch.controller;
 import edu.cit.whiskerwatch.entity.PetEntity;
 import edu.cit.whiskerwatch.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.http.MediaType;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pets")
 public class PetController {
-
+    private URI getLocation(Long id) {
+    return ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(id)
+            .toUri();
+}
     @Autowired
     private PetService petService;
 
@@ -43,7 +55,7 @@ public class PetController {
             response.put("success", true);
             response.put("message", "Pet saved successfully");
             response.put("pet", savedPet);
-            return ResponseEntity.ok(response);
+            return ResponseEntity.created(getLocation(savedPet.getId())).body(response);
         } catch (Exception e) {
             response.put("success", false);
             response.put("message", "Failed to save pet: " + e.getMessage());
@@ -61,18 +73,14 @@ public class PetController {
             @RequestParam("status") String status,
             @RequestParam("image") MultipartFile imageFile,
             @PathVariable Long ownerId) {
-        
+
         Map<String, Object> response = new HashMap<>();
-        
         try {
-            PetEntity savedPet = petService.addPetWithImage(
-                    petName, type, species, breed, age, status, imageFile, ownerId);
-            
+            PetEntity savedPet = petService.addPetWithImage(petName, type, species, breed, age, status, imageFile, ownerId);
             response.put("success", true);
             response.put("message", "Pet saved successfully");
             response.put("pet", savedPet);
-            
-            return ResponseEntity.ok(response);
+            return ResponseEntity.created(getLocation(savedPet.getId())).body(response);
         } catch (Exception e) {
             response.put("success", false);
             response.put("message", "Failed to save pet: " + e.getMessage());
@@ -90,4 +98,26 @@ public class PetController {
         petService.deletePet(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/image/{id}")
+    public ResponseEntity<byte[]> getPetImage(@PathVariable Long id) {
+        System.out.println("Received request to get image for pet ID: " + id); // Debug log
+    
+        try {
+            byte[] imageData = petService.getImageById(id);
+            System.out.println("Image data successfully retrieved for pet ID: " + id); // Debug log
+    
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+    
+            return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            System.err.println("Error retrieving image for pet ID " + id + ": " + e.getMessage());
+            e.printStackTrace();
+    
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
 }
+

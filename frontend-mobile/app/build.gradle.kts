@@ -25,6 +25,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -77,5 +78,7 @@ dependencies {
     implementation ("androidx.compose.material:material:1.5.1")
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.1")
     implementation ("androidx.navigation:navigation-compose:2.7.3")
+
+    implementation ("io.coil-kt:coil-compose:2.4.0")
 
 }

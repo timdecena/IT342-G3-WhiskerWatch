@@ -11,29 +11,32 @@ public class PetEntity {
     private Long id;
 
     private String petName;
-    private String type;  // Type of animal (dog, cat, etc.)
+    private String type;   // Type of animal (dog, cat, etc.)
     private String species;
     private String breed;
     private int age;
     private String status; // Available / Adopted
-    
-    private String image; // Add an image field
+
+    @Lob
+    @Column(name = "image_data", columnDefinition = "LONGBLOB")
+    private byte[] imageData; // Ensure this is mapped correctly
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = true)
     private UserEntity owner;
 
     // Constructors
-    public PetEntity() {}
+    public PetEntity() {
+    }
 
-    public PetEntity(String petName, String type, String species, String breed, int age, String status, String image, UserEntity owner) {
+    public PetEntity(String petName, String type, String species, String breed, int age, String status, byte[] imageData, UserEntity owner) {
         this.petName = petName;
         this.type = type;
         this.species = species;
         this.breed = breed;
         this.age = age;
         this.status = status;
-        this.image = image;
+        this.imageData = imageData;
         this.owner = owner;
     }
 
@@ -94,6 +97,14 @@ public class PetEntity {
         this.status = status;
     }
 
+    public byte[] getImage() {
+        return imageData;
+    }
+
+    public void setImage(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
     public UserEntity getOwner() {
         return owner;
     }
@@ -102,12 +113,11 @@ public class PetEntity {
         this.owner = owner;
     }
 
-    // Getter and Setter for image
-    public String getImage() {
-        return image;
+    public byte[] getImageData() {
+        return imageData;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 }
